@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospitaled - Home</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <div class="emergency-bar">
+        For emergency concerns, please call our ER at 000-000-0000 or mobile at 000-000-0000
+    </div>
+
+    <header>
+        <div class="logo">Hospitaled</div>
+        <button class="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="hamburger-icon">☰</span>
+       </button>
+        <div id="nav-container"></div>
+    </header>
+
+    <section class="main-hero">
+        <div class="hero-text">
+            <h1 class="hero1Texth1">Your Health, Our Priority.</h1>
+            <p class="hero1Subtextp">We unite innovation and empathy to redefine healthcare — blending modern medical expertise with heartfelt human connection to help you heal, recover, and thrive.</p>
+        </div>
+        <div class="carousel-container">
+            <div class="carousel" id="carousel">
+                <div class="carousel-item active">
+                    <img src="https://via.placeholder.com/420x350?text=Slide+1" alt="Slide 1">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://via.placeholder.com/420x350?text=Slide+2" alt="Slide 2">
+                </div>
+                <div class="carousel-item">
+                    <img src="https://via.placeholder.com/420x350?text=Slide+3" alt="Slide 3">
+                </div>
+            </div>
+            <button class="hero-nav prev" onclick="moveSlide(-1)">❮</button>
+            <button class="hero-nav next" onclick="moveSlide(1)">❯</button>
+        </div>
+    </section>
+
+  <section class="main-hero2">
+    <div class="hero-section2">
+        <h1 class="hero2Texth1">WELCOME TO HOSPITALED</h1>
+        <h2 class="hero2Texth2">A Great Place to Receive Care</h2>
+        <div class="subtext2">
+ <p class="subtext">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque placerat scelerisque tortor ornare. 
+            Convallis felis vitae tortor augue. Velit nascetur proin massa in. Consequat faucibus porttitor enim et.</p>
+        </div>
+       
+        <a href="#" class="hero2button">See More</a>
+        <div class="image-section">
+            <img src="./images/doc.jpg" alt="Hospital Staff">
+        </div>
+    </div>
+  </section>
+ 
+  <section class="service-hero">
+     <section class="header">
+        <h1 class="text">Provide our <span>Best Services</span></h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque placerat scelerisque tortor omare omare. Convallis felis vitae tortor augue. Velit nascetur proin massa in. Consequat faucibus porttitor enim et.</p>
+    </section>
+    <section class="cards">
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+    </section>
+    <button class="button">View all Services &gt;</button>
+
+  </section>
+
+
+
+
+  <section class="news-hero">
+         <section class="header">
+
+        <h1>Latest <span>Updates and News</span></h1>
+        </section>
+        <div class="carousel" id="carousel">
+            <div class="event-card">
+                <div class="placeholder">Event 1</div>
+                <div class="event-card-content">
+                    <h3>Online Mother's Breastfeeding Class: From Overwhelmed...</h3>
+                    <p>Oct 07, 2025</p>
+                    </div>
+                </div>
+                <div class="event-card">
+                    <div class="placeholder">Event 2</div>
+                    <div class="event-card-content">
+                        <h3>Palliative Lay Forum: Achieving the Miracle...</h3>
+                        <p>Oct 04, 2025</p>
+                </div>
+            </div>
+            <div class="event-card">
+                <div class="placeholder">Event 3</div>
+                <div class="event-card-content">
+                    <h3>CARMI Reunion 2025: Growing Forward: 15 Years...</h3>
+                    <p>Oct 18, 2025</p>
+                </div>
+            </div>
+            <div class="event-card">
+                <div class="placeholder">Event 4</div>
+                <div class="event-card-content">
+                    <h3>Brain Connects 2025</h3>
+                    <p>Oct 06-12, 2025</p>
+                </div>
+            </div>
+        </div>
+        <div class="nav-buttons" id="navButtons">
+            <button></button>
+            <button></button>
+            <button></button>
+        </div>
+    </section>
+
+    <footer>
+        <div id="footer-container"></div>
+    </footer>
+
+    <script src="./js/main.js"></script>
+
+</body>
+</html>

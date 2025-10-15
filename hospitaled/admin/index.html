@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+	<link rel="stylesheet" href="./css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+	<title>AdminSite</title>
+</head>
+<body>
+	
+	<!-- SIDEBAR -->
+	<section id="sidebar">
+    <a href="#" class="brand"><i class='bx bx-plus icon'></i>hospitaled</a>
+
+    <ul class="side-menu">
+        <p>CMS Controls</p>
+        <p class="text2">Admin Functions</p>
+        <li>
+            <a href="#" class="active"><i class='bx bxs-dashboard icon'></i> Dashboard</a>
+        </li>
+        <li>
+            <a href="#"><i class='bx bxs-edit icon'></i> Content Creation <i class='bx bx-chevron-right icon-right'></i></a>
+            <ul class="side-dropdown">
+                <li><a href="#"><i class='bx bxs-megaphone icon'></i> Announcements</a></li>
+                <li><a href="#"><i class='bx bxs-news icon'></i> News</a></li>
+                <li><a href="#"><i class='bx bxs-briefcase icon'></i> Events & Careers</a></li>
+                <li><a href="#"><i class='bx bxs-heart icon'></i> Health Tips</a></li>
+            </ul>
+        </li>
+        <li>
+            <a href="#"><i class='bx bxs-user-pin icon'></i> Doctor & Departments</a>
+        </li>
+        <li>
+            <a href="#"><i class='bx bxs-camera icon'></i> Media Library</a>
+        </li>
+        <li>
+            <a href="#"><i class='bx bxs-building-house icon'></i> About Hospital</a>
+        </li>
+        <li>
+            <a href="#"><i class='bx bxs-bar-chart-alt-2 icon'></i> Analytics & Reports</a>
+        </li>
+        <li>
+            <a href="#"><i class='bx bxs-envelope icon'></i> Messaging</a>
+        </li>
+        <li>
+            <a href="#"><i class='bx bxs-cog icon'></i> Settings</a>
+        </li>
+    </ul>
+
+  
+</section>
+
+
+
+	<!-- NAVBAR -->
+	<section id="content">
+		<!-- NAVBAR -->
+		<nav>
+			<i class='bx bx-menu toggle-sidebar' ></i>
+			<h1>Welcome, Admin Lorem! </h1>
+			
+			
+		
+		</nav>
+		<!-- NAVBAR -->
+
+		<!-- MAIN -->
+		<main>
+			<h1 class="title">Dashboard</h1>
+			<ul class="breadcrumbs">
+				<li><a href="#">Home</a></li>
+				<li class="divider">/</li>
+				<li><a href="#" class="active">Dashboard</a></li>
+			</ul>
+			<div class="info-data">
+				
+				<div class="card">
+					<div class="head">
+						<div>
+							<h2>23456</h2>
+                            </div>
+							<p>Website Views</p>
+						
+					</div>
+					<span class="progress" data-value="60%"></span>
+				</div>
+				<div class="card">
+					<div class="head">
+						<div>
+							<h2>344</h2>
+                            </div>
+							<p>Published Content</p>
+						
+					</div>
+					<span class="progress" data-value="30%"></span>
+				</div>
+				<div class="card">
+					<div class="head">
+						<div>
+							<h2>123</h2>
+                            </div>
+							<p>Drafts Content</p>
+						
+					</div>
+					<span class="progress" data-value="80%"></span>
+				</div>
+			</div>
+			<div class="data">
+				<div class="content-data">
+					<div class="head">
+						<h3>Website Visits</h3>
+						<div class="menu">
+							    <i class='bx bx-fullscreen icon'></i>
+
+							<ul class="menu-link">
+								<li><a href="#">Edit</a></li>
+								<li><a href="#">Save</a></li>
+								<li><a href="#">Remove</a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="chart">
+						<div id="chart"></div>
+					</div>
+				</div>
+				<div class="content-data">
+					<div class="head">
+						<h3>Published and Drafts Content</h3>
+						<div class="menu">
+                            <i class='bx bx-fullscreen icon'></i>
+							<ul class="menu-link">
+								<li><a href="#">Edit</a></li>
+								<li><a href="#">Save</a></li>
+								<li><a href="#">Remove</a></li>
+							</ul>
+						</div>
+					</div>
+					</div>	
+			</div>
+		</main>
+		<!-- MAIN -->
+	</section>
+	<!-- NAVBAR -->
+
+	<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+	<script src="./js/main.js"></script>
+</body>
+</html>
