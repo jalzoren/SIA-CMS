@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hospitaled - Registration</title>
+    <link rel="stylesheet" href="../admin/css/login.css" />
+  </head>
+  <body>
+    <section class="container">
+      <div class="left">
+        <div class="branding">
+          <img src="/pictures/logo.clear.png" alt="PLP Logo" class="logo" />
+          <h1 class="title">Hospitaled</h1>
+          <h2 class="subtitle">Health Medical Center</h2>
+          <div class="time-text" id="time-text"></div>
+        </div>
+      </div>
+
+      <div class="right">
+        <div class="login-box">
+          <h1>Registration</h1>
+          <form>
+            <!-- Name Input -->
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" placeholder="Enter Full Name" required />
+
+            <!-- Email Input -->
+            <label for="email">Email:</label>
+            <input type="email" id="email" placeholder="Enter Email Address" required />
+
+            <!-- Password Input -->
+            <label for="password">Password:</label>
+            <input type="password" id="password" placeholder="Enter Password" required />
+
+            <!-- Confirm Password Input -->
+            <label for="confirm-password">Confirm Password:</label>
+            <input type="password" id="confirm-password" placeholder="Re-enter Password" required />
+
+            <!-- Show Password -->
+            <label class="checkbox-container">
+              Show Password
+              <input type="checkbox" id="show-password" />
+              <span class="checkmark"></span>
+            </label>
+
+            <!-- Login Button -->
+            <a href="/forms/dashboard.html" class="transition-link">
+              <button type="button">REGISTER</button>
+            </a>
+
+            <p class="forgot-password">Already have an account? <a href="login.html">Log In</a></p>
+          </form>
+        </div>
+      </div>
+
+      <div class="design">
+        <img src="/pictures/design.png" class="design1" />
+        <img src="/pictures/design.png" class="design2" />
+      </div>
+    </section>
+
+    <script src="/js/time.js"></script>
+
+    <footer>
+      <p>
+        For emergency concerns, please call our ER at 000-000-0000 or mobile at
+        000-000-0000
+      </p>
+    </footer>
+
+    <!-- Show password toggle -->
+    <script>
+      const showPasswordCheckbox = document.getElementById("show-password");
+      const passwordInput = document.getElementById("password");
+      const confirmPasswordInput = document.getElementById("confirm-password");
+
+      showPasswordCheckbox.addEventListener("change", () => {
+        const type = showPasswordCheckbox.checked ? "text" : "password";
+        passwordInput.type = type;
+        confirmPasswordInput.type = type;
+      });
+    </script>
+  </body>
+</html>
