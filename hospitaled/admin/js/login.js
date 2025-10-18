@@ -35,7 +35,7 @@ loginForm.addEventListener("submit", async (e) => {
         timer: 1500,
         showConfirmButton: false,
       }).then(() => {
-        window.location.href = "../admin/dashboard.html"; // redirect after success
+        window.location.href = "../admin/index.html"; // redirect after success
       });
     } else {
       Swal.fire({
