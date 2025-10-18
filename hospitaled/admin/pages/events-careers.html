@@ -3,30 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <link
       href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="/hospitaled/admin/css/events.css" />
+    <link rel="stylesheet" href="/hospitaled/admin/css/global.css" />
 
-    <!-- Summernote CSS -->
+    <!-- ✅ Summernote CSS -->
     <link
-      href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-lite.min.css"
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" href="/hospitaled/admin/css/announcements.css" />
-    <link rel="stylesheet" href="/hospitaled/admin/css/global.css" />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-    <title>Hospitaled - Announcement</title>
+    <title>Hospitaled - Events and Careers</title>
   </head>
   <body>
     <!-- SIDEBAR -->
     <section id="sidebar">
-      <a href="./index.html" class="brand"
-        ><i class="bx bx-plus icon"></i>hospitaled</a
-      >
+      <a href="./index.html" class="brand">
+        <i class="bx bx-plus icon"></i>hospitaled
+      </a>
+
       <ul class="side-menu">
         <li>
           <a href="/hospitaled/admin/index.html"
@@ -34,7 +34,7 @@
           >
         </li>
         <li>
-          <a href="/hospitaled/admin/pages/announcements.html" class="active"
+          <a href="/hospitaled/admin/pages/announcements.html"
             ><i class="bx bxs-megaphone icon"></i> Announcements</a
           >
         </li>
@@ -44,7 +44,7 @@
           >
         </li>
         <li>
-          <a href="/hospitaled/admin/pages/events-careers.html"
+          <a href="/hospitaled/admin/pages/events-careers.html" class="active"
             ><i class="bx bxs-briefcase icon"></i> Events & Careers</a
           >
         </li>
@@ -86,25 +86,26 @@
       </ul>
     </section>
 
-    <!-- MAIN CONTENT -->
+    <!-- NAVBAR -->
     <section id="content">
       <nav>
         <i class="bx bx-menu toggle-sidebar"></i>
         <h1>Welcome, Admin Lorem!</h1>
       </nav>
 
+      <!-- MAIN -->
       <main>
-        <h1 class="title">Announcements</h1>
+        <h1 class="title">Events and Careers</h1>
         <ul class="breadcrumbs">
-          <li><a href="#">Announcements</a></li>
+          <li><a href="#">Events and Careers</a></li>
           <li class="divider">/</li>
           <li><a href="#" class="active">Dashboard</a></li>
         </ul>
 
-        <!-- Header Card -->
         <div class="card announcement-card">
           <div class="head">
-            <p class="announcement-title">Create an Announcement Post</p>
+            <p class="announcement-title">Create an Event or Career Post</p>
+
             <div class="announcement-actions">
               <button class="btn draft">Save as Draft</button>
               <button class="btn schedule">
@@ -115,9 +116,23 @@
           </div>
         </div>
 
-        <!-- Form Card -->
         <div class="card big-card">
           <form class="announcement-form">
+            <div class="form-group post-type-group">
+              <label class="post-type-label">Post Type</label>
+              <div class="post-type-options">
+                <label class="radio-option">
+                  <input type="radio" name="post-type" value="event" checked />
+                  <span>Event Post</span>
+                </label>
+                <label class="radio-option">
+                  <input type="radio" name="post-type" value="career" />
+                  <span>Career Post</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- 3 Columns -->
             <div class="form-row">
               <div class="form-group">
                 <label for="short-title">Short Title</label>
@@ -147,7 +162,7 @@
               </div>
             </div>
 
-            <!-- Description -->
+            <!-- ✅ Summernote Description -->
             <div class="form-group">
               <label for="summernote">Description Box</label>
               <textarea id="summernote"></textarea>
@@ -157,7 +172,7 @@
       </main>
     </section>
 
-    <!-- SCRIPTS -->
+    <!-- JS -->
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="/hospitaled/admin/js/main.js"></script>
 
@@ -169,7 +184,7 @@
         $("#summernote").summernote({
           placeholder: "Write your announcement description here...",
           tabsize: 2,
-          height: 300, 
+          height: 300, // fixed height
           toolbar: [
             ["style", ["style"]],
             ["font", ["bold", "italic", "underline", "clear"]],
@@ -179,6 +194,8 @@
           ],
         });
       });
+
+      // Media Upload Functionality
     </script>
   </body>
 </html>
