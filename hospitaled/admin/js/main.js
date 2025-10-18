@@ -1,197 +1,114 @@
-// SIDEBAR DROPDOWN
-const allDropdown = document.querySelectorAll('#sidebar .side-dropdown');
-const sidebar = document.getElementById('sidebar');
+$(document).ready(function() {
+    var $sidebar = $('#sidebar');
+    var $toggle = $('.toggle-sidebar'); // brand link as toggle
+    var $menuLabels = $sidebar.find('p'); // <p> labels
+    var $dropdowns = $sidebar.find('.side-dropdown');
+    var $activeLink = $sidebar.find('a.active');
 
-allDropdown.forEach(item=> {
-	const a = item.parentElement.querySelector('a:first-child');
-	a.addEventListener('click', function (e) {
-		e.preventDefault();
+    function updateMenuLabels() {
+        if ($sidebar.hasClass('hide')) {
+            $menuLabels.hide();
+        } else {
+            $menuLabels.show();
+        }
+    }
 
-		if(!this.classList.contains('active')) {
-			allDropdown.forEach(i=> {
-				const aLink = i.parentElement.querySelector('a:first-child');
+    $toggle.on('click', function(e) {
+        e.preventDefault();
+        $sidebar.toggleClass('hide');
+        updateMenuLabels();
 
-				aLink.classList.remove('active');
-				i.classList.remove('show');
-			})
-		}
+        if ($sidebar.hasClass('hide')) {
+            $dropdowns.removeClass('show');
+            $sidebar.find('a').removeClass('active');
+            $activeLink.addClass('active'); 
+        } else {
+            $activeLink.addClass('active'); 
+        }
+    });
 
-		this.classList.toggle('active');
-		item.classList.toggle('show');
-	})
-})
+    $dropdowns.each(function() {
+        var $drop = $(this);
+        var $a = $drop.parent().children('a:first');
 
+        $a.on('click', function(e) {
+            e.preventDefault();
+            if (!$sidebar.hasClass('hide')) {
+                var isActive = $a.hasClass('active');
+                $dropdowns.removeClass('show');
+                $sidebar.find('a').removeClass('active');
+                if (!isActive) {
+                    $drop.addClass('show');
+                    $a.addClass('active');
+                }
+            }
+        });
+    });
 
+    $sidebar.on('mouseenter', function() {
+        if ($sidebar.hasClass('hide')) {
+            $menuLabels.show();
+            $activeLink.addClass('active');
+        }
+    });
 
+    $sidebar.on('mouseleave', function() {
+        if ($sidebar.hasClass('hide')) {
+            $menuLabels.hide();
+            $activeLink.addClass('active'); // keep active highlighted
+        }
+    });
 
-
-// SIDEBAR COLLAPSE
-const toggleSidebar = document.querySelector('nav .toggle-sidebar');
-const allSideDivider = document.querySelectorAll('#sidebar .divider');
-
-if(sidebar.classList.contains('hide')) {
-	allSideDivider.forEach(item=> {
-		item.textContent = '-'
-	})
-	allDropdown.forEach(item=> {
-		const a = item.parentElement.querySelector('a:first-child');
-		a.classList.remove('active');
-		item.classList.remove('show');
-	})
-} else {
-	allSideDivider.forEach(item=> {
-		item.textContent = item.dataset.text;
-	})
-}
-
-toggleSidebar.addEventListener('click', function () {
-	sidebar.classList.toggle('hide');
-
-	if(sidebar.classList.contains('hide')) {
-		allSideDivider.forEach(item=> {
-			item.textContent = '-'
-		})
-
-		allDropdown.forEach(item=> {
-			const a = item.parentElement.querySelector('a:first-child');
-			a.classList.remove('active');
-			item.classList.remove('show');
-		})
-	} else {
-		allSideDivider.forEach(item=> {
-			item.textContent = item.dataset.text;
-		})
-	}
-})
-
-
-
-
-sidebar.addEventListener('mouseleave', function () {
-	if(this.classList.contains('hide')) {
-		allDropdown.forEach(item=> {
-			const a = item.parentElement.querySelector('a:first-child');
-			a.classList.remove('active');
-			item.classList.remove('show');
-		})
-		allSideDivider.forEach(item=> {
-			item.textContent = '-'
-		})
-	}
-})
-
-
-
-sidebar.addEventListener('mouseenter', function () {
-	if(this.classList.contains('hide')) {
-		allDropdown.forEach(item=> {
-			const a = item.parentElement.querySelector('a:first-child');
-			a.classList.remove('active');
-			item.classList.remove('show');
-		})
-		allSideDivider.forEach(item=> {
-			item.textContent = item.dataset.text;
-		})
-	}
-})
-
-
-
-
-// PROFILE DROPDOWN
-const profile = document.querySelector('nav .profile');
-const imgProfile = profile.querySelector('img');
-const dropdownProfile = profile.querySelector('.profile-link');
-
-imgProfile.addEventListener('click', function () {
-	dropdownProfile.classList.toggle('show');
-})
-
-
-
-
-// MENU
-const allMenu = document.querySelectorAll('main .content-data .head .menu');
-
-allMenu.forEach(item=> {
-	const icon = item.querySelector('.icon');
-	const menuLink = item.querySelector('.menu-link');
-
-	icon.addEventListener('click', function () {
-		menuLink.classList.toggle('show');
-	})
-})
-
-
-
-window.addEventListener('click', function (e) {
-	if(e.target !== imgProfile) {
-		if(e.target !== dropdownProfile) {
-			if(dropdownProfile.classList.contains('show')) {
-				dropdownProfile.classList.remove('show');
-			}
-		}
-	}
-
-	allMenu.forEach(item=> {
-		const icon = item.querySelector('.icon');
-		const menuLink = item.querySelector('.menu-link');
-
-		if(e.target !== icon) {
-			if(e.target !== menuLink) {
-				if (menuLink.classList.contains('show')) {
-					menuLink.classList.remove('show')
-				}
-			}
-		}
-	})
-})
-
-
-
-
-
-// PROGRESSBAR
-const allProgress = document.querySelectorAll('main .card .progress');
-
-allProgress.forEach(item=> {
-	item.style.setProperty('--value', item.dataset.value)
-})
+    // Initialize
+    updateMenuLabels();
+});
 
 
 
 
 
 
+
+/*
 // APEXCHART
 var options = {
   series: [{
-  name: 'series1',
-  data: [31, 40, 28, 51, 42, 109, 100]
-}, {
-  name: 'series2',
-  data: [11, 32, 45, 32, 34, 52, 41]
-}],
+    name: 'series1',
+    data: [31, 40, 28, 51, 42, 109, 100]
+  }, {
+    name: 'series2',
+    data: [11, 32, 45, 32, 34, 52, 41]
+  }],
   chart: {
-  height: 350,
-  type: 'area'
-},
-dataLabels: {
-  enabled: false
-},
-stroke: {
-  curve: 'smooth'
-},
-xaxis: {
-  type: 'datetime',
-  categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
-},
-tooltip: {
-  x: {
-    format: 'dd/MM/yy HH:mm'
+    height: 350,
+    type: 'line' // Changed from 'area' to 'line'
   },
-},
+  dataLabels: {
+    enabled: false
+  },
+  stroke: {
+    curve: 'smooth'
+  },
+  xaxis: {
+    type: 'datetime',
+    categories: [
+      "2018-09-19T00:00:00.000Z",
+      "2018-09-19T01:30:00.000Z",
+      "2018-09-19T02:30:00.000Z",
+      "2018-09-19T03:30:00.000Z",
+      "2018-09-19T04:30:00.000Z",
+      "2018-09-19T05:30:00.000Z",
+      "2018-09-19T06:30:00.000Z"
+    ]
+  },
+  tooltip: {
+    x: {
+      format: 'dd/MM/yy HH:mm'
+    },
+  },
 };
 
 var chart = new ApexCharts(document.querySelector("#chart"), options);
 chart.render();
+
+*/
