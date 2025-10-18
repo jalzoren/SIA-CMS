@@ -34,7 +34,7 @@ loginForm.addEventListener("submit", async (e) => {
         text: result.message,
         timer: 1500,
         showConfirmButton: false,
-      }).then(() => {
+      }).then(() => { /*heyed*/
         window.location.href = "../admin/index.html"; // redirect after success
       });
     } else {
