@@ -177,6 +177,19 @@ html {
   text-decoration: underline;
 }
 
+.clickable-p {
+  text-decoration: none; /* remove underline */
+  color: inherit;         /* inherit text color */
+  display: block;         /* make entire block clickable */
+}
+
+.clickable-p:hover {
+  text-decoration: underline; /* optional hover effect */
+  cursor: pointer;
+}
+
+
+
 
 
 footer{
