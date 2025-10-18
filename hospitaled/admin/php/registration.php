@@ -24,7 +24,7 @@ $data = [
     'password' => $hashedPassword
 ];
 
-$ch = curl_init("$supabase_url/rest/v1/users");
+$ch = curl_init($supabase_url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
