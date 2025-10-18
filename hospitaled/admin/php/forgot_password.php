@@ -81,7 +81,7 @@ try {
         <h3>Password Reset Request</h3>
         <p>Your verification code is:</p>
         <h2 style='color:#007bff;'>$code</h2>
-        <p>This code will expire in 15 minutes.</p>
+        <p>This code will expire in 1 minute.</p>
         <br><p>If you didn’t request this, please ignore this message.</p>
     ";
     $mail->AltBody = "Your password reset code is: $code (expires in 15 minutes)";
