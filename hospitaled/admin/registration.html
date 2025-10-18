@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hospitaled - Registration</title>
     <link rel="stylesheet" href="../admin/css/login.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   </head>
   <body>
     <section class="container">
@@ -20,7 +22,7 @@
       <div class="right">
         <div class="login-box">
           <h1>Registration</h1>
-          <form>
+          <form id="register-form">
             <!-- Name Input -->
             <label for="name">Full Name:</label>
             <input
@@ -92,16 +94,6 @@
     </footer>
 
     <!-- Show password toggle -->
-    <script>
-      const showPasswordCheckbox = document.getElementById("show-password");
-      const passwordInput = document.getElementById("password");
-      const confirmPasswordInput = document.getElementById("confirm-password");
-
-      showPasswordCheckbox.addEventListener("change", () => {
-        const type = showPasswordCheckbox.checked ? "text" : "password";
-        passwordInput.type = type;
-        confirmPasswordInput.type = type;
-      });
-    </script>
+    <script src="../admin/js/registration.js"></script>
   </body>
 </html>
