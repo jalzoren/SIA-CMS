@@ -1,16 +1,22 @@
 // SEND CODE PAGE
 
 
-document.getElementById("show-password").addEventListener("change", function () {
+document.addEventListener("DOMContentLoaded", () => {
+
+      // -----------------------------
+  // 🔹 SHOW / HIDE PASSWORD TOGGLE
+  // -----------------------------
+  const toggle = document.getElementById("show-passwords");
   const newPass = document.getElementById("new-password");
   const confirmPass = document.getElementById("confirm-password");
-  const type = this.checked ? "text" : "password";
-  if (newPass) newPass.type = type;
-  if (confirmPass) confirmPass.type = type;
-});
 
-
-document.addEventListener("DOMContentLoaded", () => {
+  if (toggle && newPass && confirmPass) {
+    toggle.addEventListener("change", () => {
+      const type = toggle.checked ? "text" : "password";
+      newPass.type = type;
+      confirmPass.type = type;
+    });
+  }
     const sendBtn = document.querySelector(".send-code-btn");
     const forgotForm = document.getElementById("forgot-form");
   
@@ -130,4 +136,3 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
   });
-  
