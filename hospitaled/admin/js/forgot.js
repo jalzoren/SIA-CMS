@@ -1,4 +1,15 @@
 // SEND CODE PAGE
+
+
+document.getElementById("show-password").addEventListener("change", function () {
+  const newPass = document.getElementById("new-password");
+  const confirmPass = document.getElementById("confirm-password");
+  const type = this.checked ? "text" : "password";
+  if (newPass) newPass.type = type;
+  if (confirmPass) confirmPass.type = type;
+});
+
+
 document.addEventListener("DOMContentLoaded", () => {
     const sendBtn = document.querySelector(".send-code-btn");
     const forgotForm = document.getElementById("forgot-form");
