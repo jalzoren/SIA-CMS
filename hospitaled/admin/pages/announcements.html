@@ -7,10 +7,10 @@
       href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="./css/styles.css" />
+    <link rel="stylesheet" href="/hospitaled/admin/css/doctors.css" />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-    <title>Hospitaled - Admin</title>
+    <title>Hospitaled - Doctors</title>
   </head>
   <body>
     <!-- SIDEBAR -->
@@ -27,11 +27,11 @@
 
       <!-- MAIN -->
       <main>
-        <h1 class="title">Dashboard</h1>
+        <h1 class="title">Doctors and Departments</h1>
         <ul class="breadcrumbs">
           <li><a href="#">Home</a></li>
           <li class="divider">/</li>
-          <li><a href="#" class="active">Dashboard</a></li>
+          <li><a href="#" class="active">Doctors and Departments</a></li>
         </ul>
         <div class="info-data">
           <div class="card">
@@ -65,7 +65,7 @@
         <div class="data">
           <div class="content-data">
             <div class="head">
-              <h3>Website Visits</h3>
+              <h3>Table of Doctors</h3>
               <div class="menu">
                 <i class="bx bx-fullscreen icon"></i>
 
@@ -80,19 +80,6 @@
               <div id="chart"></div>
             </div>
           </div>
-          <div class="content-data">
-            <div class="head">
-              <h3>Published and Drafts Content</h3>
-              <div class="menu">
-                <i class="bx bx-fullscreen icon"></i>
-                <ul class="menu-link">
-                  <li><a href="#">Edit</a></li>
-                  <li><a href="#">Save</a></li>
-                  <li><a href="#">Remove</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
         </div>
       </main>
       <!-- MAIN -->
@@ -100,21 +87,41 @@
     <!-- NAVBAR -->
 
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <script src="./js/main.js"></script>
+    <script src="/hospitaled/admin/js/main.js"></script>
+
     <script>
-      $(function () {
-        $("#sidebar").load(
-          "/hospitaled/admin/components/sidebar.html",
-          function () {
-            var path = window.location.pathname;
-            $("#sidebar a").each(function () {
-              if (this.getAttribute("href") === path) {
+    $(function() {
+    $("#sidebar").load("/hospitaled/admin/components/sidebar.html", function() {
+        var currentPage = window.location.pathname.split("/").pop(); // get filename, e.g., announcements.html
+
+        $("#sidebar a").each(function() {
+            var linkPage = $(this).attr("href").split("/").pop(); // get filename of href
+
+            if(linkPage === currentPage) {
+                // Child link (Announcements) active
                 $(this).addClass("active");
-              }
-            });
-          }
-        );
-      });
+
+                // If inside dropdown, expand and highlight parent
+                var parentDropdown = $(this).closest(".side-dropdown");
+                if(parentDropdown.length) {
+                    parentDropdown.show();                      // expand dropdown
+                    parentDropdown.prev("a").addClass("active"); // highlight parent link
+                }
+            }
+        });
+
+        // Optional: make dropdowns toggle on click
+        $("#sidebar li > a").click(function() {
+            var dropdown = $(this).next(".side-dropdown");
+            if(dropdown.length) {
+                dropdown.slideToggle();
+                return false; // prevent default for parent links
+            }
+        });
+    });
+});
+
+
     </script>
   </body>
 </html>
