@@ -19,7 +19,7 @@ form.addEventListener('submit', async (e) => {
   formData.append('email', email);
   formData.append('password', password);
 
-  const response = await fetch('../admin/php/registration.php', {
+  const response = await fetch('../admin/php/registration1.php', {
     method: 'POST',
     body: formData
   });
