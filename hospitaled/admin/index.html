@@ -1,120 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="./css/styles.css" />
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+	<link rel="stylesheet" href="/hospitaled/admin/css/styles.css">
+	<title>AdminSite</title>
+</head>
+<body>
+	
+	<!-- SIDEBAR -->
+	<!-- SIDEBAR -->
+<div id="sidebar"></div>
 
-    <title>Hospitaled - Admin</title>
-  </head>
-  <body>
-    <!-- SIDEBAR -->
-    <section id="sidebar"></section>
 
-    <!-- NAVBAR -->
-    <section id="content">
-      <!-- NAVBAR -->
-      <nav>
-        <i class="bx bx-menu toggle-sidebar"></i>
-        <h1>Welcome, Admin Lorem!</h1>
-      </nav>
-      <!-- NAVBAR -->
+	<!-- SIDEBAR -->
 
-      <!-- MAIN -->
-      <main>
-        <h1 class="title">Dashboard</h1>
-        <ul class="breadcrumbs">
-          <li><a href="#">Home</a></li>
-          <li class="divider">/</li>
-          <li><a href="#" class="active">Dashboard</a></li>
-        </ul>
-        <div class="info-data">
-          <div class="card">
-            <div class="head">
-              <div>
-                <h2>23456</h2>
-              </div>
-              <p>Website Views</p>
-            </div>
-            <span class="progress" data-value="60%"></span>
-          </div>
-          <div class="card">
-            <div class="head">
-              <div>
-                <h2>344</h2>
-              </div>
-              <p>Published Content</p>
-            </div>
-            <span class="progress" data-value="30%"></span>
-          </div>
-          <div class="card">
-            <div class="head">
-              <div>
-                <h2>123</h2>
-              </div>
-              <p>Drafts Content</p>
-            </div>
-            <span class="progress" data-value="80%"></span>
-          </div>
-        </div>
-        <div class="data">
-          <div class="content-data">
-            <div class="head">
-              <h3>Website Visits</h3>
-              <div class="menu">
-                <i class="bx bx-fullscreen icon"></i>
+	<!-- NAVBAR -->
+	<section id="content">
+		<!-- NAVBAR -->
+		<nav>
+			<i class='bx bx-menu toggle-sidebar' ></i>
+		
+		</nav>
+		<!-- NAVBAR -->
 
-                <ul class="menu-link">
-                  <li><a href="#">Edit</a></li>
-                  <li><a href="#">Save</a></li>
-                  <li><a href="#">Remove</a></li>
-                </ul>
-              </div>
-            </div>
-            <div class="chart">
-              <div id="chart"></div>
-            </div>
-          </div>
-          <div class="content-data">
-            <div class="head">
-              <h3>Published and Drafts Content</h3>
-              <div class="menu">
-                <i class="bx bx-fullscreen icon"></i>
-                <ul class="menu-link">
-                  <li><a href="#">Edit</a></li>
-                  <li><a href="#">Save</a></li>
-                  <li><a href="#">Remove</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </main>
-      <!-- MAIN -->
-    </section>
-    <!-- NAVBAR -->
+		<!-- MAIN -->
+		<main>
+			<h1 class="title">Dashboard</h1>
+			<ul class="breadcrumbs">
+				<li><a href="#">Home</a></li>
+				<li class="divider">/</li>
+				<li><a href="#" class="active">Dashboard</a></li>
+			</ul>
+			<div class="info-data">
+				<div class="card">
+					<div class="head">
+						<div>
+							<h2>1500</h2>
+							<p>Website Visits</p>
+						</div>
+					</div>
+				</div>
+				<div class="card">
+					<div class="head">
+						<div>
+							<h2>234</h2>
+							<p>Published Content</p>
+						</div>
+					</div>
+				</div>
+				
+				<div class="card">
+					<div class="head">
+						<div>
+							<h2>235</h2>
+							<p>Drafts</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="data">
+				<div class="content-data">
+					<div class="head">
+						<h3>Website Visits</h3>
+						<div class="menu">
+							<i class='bx bx-dots-horizontal-rounded icon'></i>
+							<ul class="menu-link">
+							
+							</ul>
+						</div>
+					</div>
+					<div class="chart">
+						<div id="chart"></div>
+					</div>
+				</div>
+				<div class="content-data">
+					<div class="head">
+						<h3>Charts</h3>
+						<div class="menu">
+							<i class='bx bx-dots-horizontal-rounded icon'></i>
+							
+						</div>
+					</div>
+					<div class="chat-box">
+						<div class="msg">
+							
+						</div>
+						
+						<div class="msg me">
+              
+						</div>
+						<div class="msg me">
+							<div class="chat">
+								<div class="profile">
+								</div>
+							</div>
+						</div>
+					</div>
+					<form action="#">
+					
+					</form>
+				</div>
+			</div>
+		</main>
+		<!-- MAIN -->
+	</section>
+	<!-- NAVBAR -->
 
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <script src="./js/main.js"></script>
-    <script>
-      $(function () {
-        $("#sidebar").load(
-          "/hospitaled/admin/components/sidebar.html",
-          function () {
-            var path = window.location.pathname;
-            $("#sidebar a").each(function () {
-              if (this.getAttribute("href") === path) {
-                $(this).addClass("active");
-              }
+  <script>
+    $(document).ready(function() {
+        // Load sidebar
+        $("#sidebar-container").load("sidebar.html", function() {
+            // Highlight active link
+            var currentPath = window.location.pathname;
+
+            $("#sidebar-container a").each(function() {
+                var linkPath = $(this).attr("href");
+                // Match full path or just file name
+                if(currentPath.endsWith(linkPath) || currentPath.endsWith(linkPath.split("/").pop())) {
+                    $(this).addClass("active");
+                }
             });
-          }
-        );
-      });
-    </script>
-  </body>
+
+            // Sidebar toggle
+            $(".toggle-sidebar").click(function() {
+                $("#sidebar").toggleClass("hide");
+                $("#content").toggleClass("hide");
+            });
+        });
+    });
+
+  </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+	<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+	<script src="/hospitaled/admin/js/main.js"></script>
+</body>
 </html>
