@@ -164,6 +164,19 @@ html {
   align-items: center;
 }
 
+.forgot-password {
+  font-size: 0.9rem;
+  color: #1f1a5d;
+  text-align: center;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+
 
 footer{
     z-index: 12;
