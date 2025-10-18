@@ -1,64 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hospitaled - Admin Login</title>
-    <link rel="stylesheet" href="../admin/css/login.css" />
-  </head>
-  <body>
-    <section class="container">
-      <div class="left">
-        <div class="branding">
-          <img src="/pictures/logo.clear.png" alt="PLP Logo" class="logo" />
-          <h1 class="title">Hospitaled</h1>
-          <h2 class="subtitle">Health Medical Center</h2>
-          <div class="time-text" id="time-text"></div>
-        </div>
-      </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hospitaled - Admin Forgot Password</title>
+  <link rel="stylesheet" href="../admin/css/forgot.css" />
+</head>
+<body>
+<section class="container">
+  <div class="left">
+    <div class="branding">
+      <img src="/pictures/logo.clear.png" alt="PLP Logo" class="logo" />
+      <h1 class="title">Hospitaled</h1>
+      <h2 class="subtitle">Health Medical Center</h2>
+      <div class="time-text" id="time-text"></div>
+    </div>
+  </div>
 
-      <div class="right">
-        <div class="login-box">
-          <h1>Forgot Password</h1>
-          <form>
-            <label for="Email">Email :</label>
-            <input type="text" id="Email" placeholder="Enter Email Address:" />
+  <div class="right">
+    <div class="login-box">
+        <h1>Forgot Password</h1>
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" placeholder="Enter Password" />
+      <form id="forgot-form" class="forgot-box">
+  <p>Email Address:</p>
+  <input type="email" id="forgot-email" placeholder="Enter your email" required />
+  <button type="submit">Send OTP</button>
+  <p id="forgot-msg"></p>
+  <p id="back-to-login" class="back-to-login">Back to Login</p>
+</form>
 
-            <label class="checkbox-container"
-              >Show Password
-              <input type="checkbox" id="show-password" />
-              <span class="checkmark"></span>
-            </label>
+<form id="otp-form" class="otp-box hidden">
+  <h1>Verify OTP</h1>
+  <p>Enter OTP:</p>
+  <input type="text" id="otp-input" placeholder="Enter OTP" required />
+  <button type="submit">Verify OTP</button>
+  <p id="otp-msg"></p>
+  <p id="back-to-login-otp" class="back-to-login">Back to Login</p>
+</form>
 
-            <a href="/forms/dashboard.html" class="transition-link">
-              <button type="button">LOG IN</button>
-            </a>
-            <p class="forgot-password">Forgot Password?</p>
-          <a href="/hospitaled/admin/login.html" class="clickable-p">
-              <p class="forgot-password">Don't Have an Account? Register</p>
-            </a>
-          </form>
-        </div>
-      </div>
+<form id="reset-form" class="reset-box hidden">
+  <h1>Reset Password</h1>
+  <p>New Password:</p>
+  <input type="password" id="new-password" placeholder="Enter New Password" required />
+  <p>Confirm Password:</p>
+  <input type="password" id="confirm-password" placeholder="Confirm New Password" required />
+  <button type="submit">Reset Password</button>
+  <p id="reset-msg"></p>
+  <p id="back-to-login-reset" class="back-to-login">Back to Login</p>
+</form>
 
-      <div class="design">
-        <img src="/pictures/design.png" class="design1" />
-        <img src="/pictures/design.png" class="design2" />
-      </div>
-    </section>
 
-    <script src="/js/time.js"></script>
+    </div>
+  </div>
 
-    <footer>
-      <p>
-        For emergency concerns, please call our ER at 000-000-0000 or mobile at
-        000-000-0000
-      </p>
-    </footer>
+  <div class="design">
+    <img src="/pictures/design.png" class="design1" />
+    <img src="/pictures/design.png" class="design2" />
+  </div>
+</section>
 
-    <script></script>
-  </body>
+<script src="/js/time.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-3gJwYp+4w4o2u+R7fB1u0b5y0Eiy3c5zBv5lVYj/s3M=" crossorigin="anonymous"></script>
+<script src="/hospitaled/admin/js/forgot.js"></script>
+
+
+<footer>
+  <p>For emergency concerns, please call our ER at 000-000-0000 or mobile at 000-000-0000</p>
+</footer>
+</body>
 </html>

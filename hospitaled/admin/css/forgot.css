@@ -1,0 +1,288 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+body,
+html {
+  height: 100%;
+  background-color: #f6f8ff;
+  overflow: hidden;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.left {
+  width: 60%;
+  background: linear-gradient(to bottom right, #f0f4ff, #dce4f9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.branding {
+  text-align: center;
+}
+
+.branding .logo {
+  width: 220px;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 4.2rem;
+  font-weight: 700;
+  color: #043873;
+}
+
+.subtitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #043873;
+}
+
+.right {
+  width: 40%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 11;
+}
+
+.login-box,
+.forgot-box,
+.otp-box,
+.reset-box {
+  width: 80%;
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 30px 25px;
+  background-color: white;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-box h1,
+.forgot-box h1,
+.otp-box h1,
+.reset-box h1 {
+  font-size: 2rem;
+  color: #043873;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+/* Labels */
+.login-box label,
+.forgot-box label,
+.otp-box label,
+.reset-box label {
+  display: block;
+  margin-top: 15px;
+  font-weight: 600;
+}
+
+/* Inputs */
+.login-box input,
+.forgot-box input,
+.otp-box input,
+.reset-box input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  background-color: #f6f8ff;
+  color: #043873;
+}
+
+.login-box input:hover,
+.forgot-box input:hover,
+.otp-box input:hover,
+.reset-box input:hover {
+  border-color: #043873;
+  box-shadow: 0 0 5px rgba(46, 42, 114, 0.3);
+}
+
+/* Show password checkbox */
+.show-password {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Buttons */
+.login-box button,
+.forgot-box button,
+.otp-box button,
+.reset-box button {
+  margin-top: 20px;
+  width: 100%;
+  padding: 12px;
+  background-color: #043873;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.login-box button:hover,
+.forgot-box button:hover,
+.otp-box button:hover,
+.reset-box button:hover {
+  background-color: #032954;
+}
+
+/* Messages */
+.forgot-password,
+.forgot-password-text,
+.otp-msg,
+.reset-msg {
+  font-size: 0.9rem;
+  color: #043873;
+  text-align: center;
+  margin-top: 15px;
+}
+
+/* Back to Login Links */
+.back-to-login {
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 15px;
+  color: #060650;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.back-to-login:hover {
+  color: #043873;
+  text-decoration: underline;
+}
+
+/* Hidden Forms */
+.hidden {
+  display: none;
+}
+
+/* Decorative Designs */
+.design1,
+.design2 {
+  position: absolute;
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
+  z-index: 10;
+}
+
+.design1 {
+  top: 0;
+  right: 80%;
+  transform: translateY(-30%);
+}
+
+.design2 {
+  bottom: 0;
+  right: 30%;
+  transform: translateY(60%);
+}
+
+.design img {
+  width: 100%;
+  height: auto;
+}
+
+
+/* Labels above input fields */
+.forgot-box p,
+.otp-box p,
+.reset-box p {
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #043873;
+  font-size: 0.95rem;
+}
+
+/* Input spacing */
+.forgot-box input,
+.otp-box input,
+.reset-box input {
+  margin-bottom: 15px;
+}
+    
+
+/* Time Text */
+.time-text {
+  font-size: 15px;
+  color: #043873;
+  font-weight: 700;
+  padding: 10px;
+  border-radius: 5px;
+  width: 80%;
+  margin: 20px auto;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Footer */
+footer {
+  z-index: 12;
+  font-size: 14px;
+  color: #ffffff;
+  background-color: #1f1a5d;
+  padding: 2px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .logo {
+    width: 120px;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+
+  .subtitle {
+    font-size: 20px;
+  }
+
+  .login-box,
+  .forgot-box,
+  .otp-box,
+  .reset-box {
+    width: 90%;
+    margin: 30px auto;
+    padding: 25px 20px;
+  }
+
+  .time-text {
+    font-size: 14px;
+  }
+}
