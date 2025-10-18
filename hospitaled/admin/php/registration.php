@@ -14,7 +14,7 @@ if (!$name || !$email || !$password) {
 // Hash the password
 $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-// Prepare Supabase insert
+// Prepare ok insert
 $data = [
     'full_name' => $name,
     'email' => $email,
