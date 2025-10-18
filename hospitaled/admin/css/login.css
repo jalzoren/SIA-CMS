@@ -1,10 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 body,
@@ -45,13 +45,13 @@ html {
 .title {
   font-size: 4.2rem;
   font-weight: 700;
-  color: #2e2a72;
+  color: #043873;
 }
 
 .subtitle {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #2e2a72;
+  color: #043873;
 }
 
 .right {
@@ -70,7 +70,7 @@ html {
 
 .login-box h1 {
   font-size: 2rem;
-  color: #2e2a72;
+  color: #043873;
   margin-bottom: 20px;
   text-align: center;
 }
@@ -93,7 +93,7 @@ html {
 
 .login-box input[type="text"]:hover,
 .login-box input[type="password"]:hover {
-  border-color: #2e2a72;
+  border-color: #043873;
   box-shadow: 0 0 5px rgba(46, 42, 114, 0.3);
   transition: 0.3s ease;
 }
@@ -112,7 +112,7 @@ html {
   margin-top: 20px;
   width: 100%;
   padding: 12px;
-  background-color: #2e2a72;
+  background-color: #043873;
   color: white;
   border: none;
   border-radius: 6px;
@@ -121,7 +121,7 @@ html {
 }
 
 .login-box button:hover {
-  background-color: #1f1a5d;
+  background-color: #032954;
 }
 
 .design1 {
@@ -153,7 +153,7 @@ html {
 
 .time-text {
   font-size: 15px;
-  color: #1f1a5d;
+  color: #043873;
   font-weight: 700;
   padding: 10px;
   border-radius: 5px;
@@ -167,7 +167,7 @@ html {
 
 .forgot-password {
   font-size: 0.9rem;
-  color: #1f1a5d;
+  color: #043873;
   text-align: center;
   margin-top: 10px;
   cursor: pointer;
