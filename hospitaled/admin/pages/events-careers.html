@@ -7,7 +7,7 @@
       href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/hospitaled/admin/css/news.css" />
+    <link rel="stylesheet" href="/hospitaled/admin/css/events.css" />
     <link rel="stylesheet" href="/hospitaled/admin/css/global.css" />
 
     <!-- ✅ Summernote CSS -->
@@ -18,7 +18,7 @@
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-    <title>Hospitaled - News</title>
+    <title>Hospitaled - Events and Careers</title>
   </head>
   <body>
     <!-- SIDEBAR -->
@@ -39,12 +39,12 @@
           >
         </li>
         <li>
-          <a href="/hospitaled/admin/pages/news.html" class="active"
+          <a href="/hospitaled/admin/pages/news.html"
             ><i class="bx bxs-news icon"></i> News</a
           >
         </li>
         <li>
-          <a href="/hospitaled/admin/pages/events-careers.html"
+          <a href="/hospitaled/admin/pages/events-careers.html" class="active"
             ><i class="bx bxs-briefcase icon"></i> Events & Careers</a
           >
         </li>
@@ -101,16 +101,16 @@
 
       <!-- MAIN -->
       <main>
-        <h1 class="title">News</h1>
+        <h1 class="title">Events and Careers</h1>
         <ul class="breadcrumbs">
-          <li><a href="#">News</a></li>
+          <li><a href="#">Events and Careers</a></li>
           <li class="divider">/</li>
           <li><a href="#" class="active">Dashboard</a></li>
         </ul>
 
         <div class="card announcement-card">
           <div class="head">
-            <p class="announcement-title">Create a News Article</p>
+            <p class="announcement-title">Create an Event or Career Post</p>
 
             <div class="announcement-actions">
               <button class="btn draft">Save as Draft</button>
@@ -122,9 +122,22 @@
           </div>
         </div>
 
-        <!-- ✅ News Form -->
         <div class="card big-card">
           <form class="announcement-form">
+            <div class="form-group post-type-group">
+              <label class="post-type-label">Post Type</label>
+              <div class="post-type-options">
+                <label class="radio-option">
+                  <input type="radio" name="post-type" value="event" checked />
+                  <span>Event Post</span>
+                </label>
+                <label class="radio-option">
+                  <input type="radio" name="post-type" value="career" />
+                  <span>Career Post</span>
+                </label>
+              </div>
+            </div>
+
             <!-- 3 Columns -->
             <div class="form-row">
               <div class="form-group">

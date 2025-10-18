@@ -399,12 +399,12 @@ main .card .head p {
   flex: 1;
 }
 
-/* Labels */
 .form-group label {
   font-weight: 600;
   color: #083a7a;
   display: block;
   margin-bottom: 0.5rem;
+  
 }
 
 /* Inputs */
@@ -425,15 +425,59 @@ main .card .head p {
   box-shadow: 0 0 0 2px rgba(0, 82, 204, 0.1);
 }
 
-/* Quill Editor */
-.quill-editor {
-  height: 220px; /* fixed height */
-  border-radius: 0.25rem;
-  border: 1px solid #c5c9d1;
-  background: #f8f9fa;
-  overflow: hidden;
+.post-type-group {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
 }
 
+.post-type-label {
+  font-weight: 900;
+  color: #083a7a;
+  margin: 0;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  height: 100%; 
+  font-size: 17px;
+  
+}
+
+.post-type-options {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+  
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-weight: 500;
+  color: #1e3a8a;
+  position: relative;
+}
+
+.radio-option input[type="radio"] {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #4f9cf9;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.radio-option input[type="radio"]:checked {
+  background: #4f9cf9;
+  box-shadow: 0 0 0 3px rgba(79, 156, 249, 0.2);
+}
 
 /* Media Upload Section */
 .media-upload {

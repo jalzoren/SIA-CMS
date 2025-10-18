@@ -3,143 +3,188 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <link
       href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css"
       rel="stylesheet"
     />
+
+    <!-- Summernote CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.css"
+      rel="stylesheet"
+    />
+
     <link rel="stylesheet" href="/hospitaled/admin/css/announcements.css" />
+    <link rel="stylesheet" href="/hospitaled/admin/css/global.css" />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-    <title>Hospitaled - Admin</title>
+    <title>Hospitaled - Announcement</title>
   </head>
   <body>
     <!-- SIDEBAR -->
-<section id="sidebar">
-    <a href="./index.html" class="brand"><i class='bx bx-plus icon'></i>hospitaled</a>
+    <section id="sidebar">
+      <a href="./index.html" class="brand"
+        ><i class="bx bx-plus icon"></i>hospitaled</a
+      >
+      <ul class="side-menu">
+        <li>
+          <a href="/hospitaled/admin/index.html"
+            ><i class="bx bxs-dashboard icon"></i> Dashboard</a
+          >
+        </li>
+        <li>
+          <a href="/hospitaled/admin/pages/announcements.html" class="active"
+            ><i class="bx bxs-megaphone icon"></i> Announcements</a
+          >
+        </li>
+        <li>
+          <a href="/hospitaled/admin/pages/news.html"
+            ><i class="bx bxs-news icon"></i> News</a
+          >
+        </li>
+        <li>
+          <a href="/hospitaled/admin/pages/events-careers.html"
+            ><i class="bx bxs-briefcase icon"></i> Events & Careers</a
+          >
+        </li>
+        <li>
+          <a href="/hospitaled/admin/pages/health-tips.html"
+            ><i class="bx bxs-heart icon"></i> Health Tips</a
+          >
+        </li>
+        <li>
+          <a href="/hospitaled/admin/pages/posts.html">
+            <i class="bx bxs-edit icon"></i> Posts
+          </a>
+        </li>
 
-    <ul class="side-menu">
         <li>
-            <a href="/hospitaled/admin/index.html" ><i class='bx bxs-dashboard icon'></i> Dashboard</a>
+          <a href="/hospitaled/admin/pages/doctors.html"
+            ><i class="bx bxs-user-pin icon"></i> Doctor & Departments</a
+          >
         </li>
         <li>
-            <a href="/hospitaled/admin/pages/announcements.html" class="active"><i class='bx bxs-megaphone icon'></i> Announcements</a>
+          <a href="/hospitaled/admin/pages/media-library.html"
+            ><i class="bx bxs-camera icon"></i> Media Library</a
+          >
         </li>
         <li>
-            <a href="/hospitaled/admin/pages/news.html"><i class='bx bxs-news icon'></i> News</a>
+          <a href="/hospitaled/admin/pages/about-hospital.html"
+            ><i class="bx bxs-building-house icon"></i> About Hospital</a
+          >
         </li>
         <li>
-            <a href="/hospitaled/admin/pages/events-careers.html"><i class='bx bxs-briefcase icon'></i> Events & Careers</a>
+          <a href="/hospitaled/admin/pages/analytics-reports.html"
+            ><i class="bx bxs-bar-chart-alt-2 icon"></i> Analytics & Reports</a
+          >
         </li>
         <li>
-            <a href="/hospitaled/admin/pages/health-tips.html"><i class='bx bxs-heart icon'></i> Health Tips</a>
+          <a href="/hospitaled/admin/pages/messaging.html"
+            ><i class="bx bxs-envelope icon"></i> Messaging</a
+          >
         </li>
         <li>
-            <a href="/hospitaled/admin/pages/doctors.html"><i class='bx bxs-user-pin icon'></i> Doctor & Departments</a>
+          <a href="/hospitaled/admin/pages/settings.html"
+            ><i class="bx bxs-cog icon"></i> Settings</a
+          >
         </li>
-        <li>
-            <a href="/hospitaled/admin/pages/media-library.html"><i class='bx bxs-camera icon'></i> Media Library</a>
-        </li>
-        <li>
-            <a href="/hospitaled/admin/pages/about-hospital.html"><i class='bx bxs-building-house icon'></i> About Hospital</a>
-        </li>
-        <li>
-            <a href="/hospitaled/admin/pages/analytics-reports.html"><i class='bx bxs-bar-chart-alt-2 icon'></i> Analytics & Reports</a>
-        </li>
-        <li>
-            <a href="/hospitaled/admin/pages/messaging.html"><i class='bx bxs-envelope icon'></i> Messaging</a>
-        </li>
-        <li>
-            <a href="/hospitaled/admin/pages/settings.html"><i class='bx bxs-cog icon'></i> Settings</a>
-        </li>
-    </ul>
-</section>
-    <!-- NAVBAR -->
+      </ul>
+    </section>
+
+    <!-- MAIN CONTENT -->
     <section id="content">
-      <!-- NAVBAR -->
       <nav>
         <i class="bx bx-menu toggle-sidebar"></i>
         <h1>Welcome, Admin Lorem!</h1>
       </nav>
-      <!-- NAVBAR -->
 
-      <!-- MAIN -->
       <main>
-        <h1 class="title">Dashboard</h1>
+        <h1 class="title">Announcements</h1>
         <ul class="breadcrumbs">
-          <li><a href="#">Home</a></li>
+          <li><a href="#">Announcements</a></li>
           <li class="divider">/</li>
           <li><a href="#" class="active">Dashboard</a></li>
         </ul>
-        <div class="info-data">
-          <div class="card">
-            <div class="head">
-              <div>
-                <h2>23456</h2>
-              </div>
-              <p>Website Views</p>
+
+        <!-- Header Card -->
+        <div class="card announcement-card">
+          <div class="head">
+            <p class="announcement-title">Create an Announcement Post</p>
+            <div class="announcement-actions">
+              <button class="btn draft">Save as Draft</button>
+              <button class="btn schedule">
+                <i class="fa fa-calendar"></i> Schedule Post
+              </button>
+              <button class="btn submit">Submit</button>
             </div>
-            <span class="progress" data-value="60%"></span>
-          </div>
-          <div class="card">
-            <div class="head">
-              <div>
-                <h2>344</h2>
-              </div>
-              <p>Published Content</p>
-            </div>
-            <span class="progress" data-value="30%"></span>
-          </div>
-          <div class="card">
-            <div class="head">
-              <div>
-                <h2>123</h2>
-              </div>
-              <p>Drafts Content</p>
-            </div>
-            <span class="progress" data-value="80%"></span>
           </div>
         </div>
-        <div class="data">
-          <div class="content-data">
-            <div class="head">
-              <h3>Website Visits</h3>
-              <div class="menu">
-                <i class="bx bx-fullscreen icon"></i>
 
-                <ul class="menu-link">
-                  <li><a href="#">Edit</a></li>
-                  <li><a href="#">Save</a></li>
-                  <li><a href="#">Remove</a></li>
-                </ul>
+        <!-- Form Card -->
+        <div class="card big-card">
+          <form class="announcement-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="short-title">Short Title</label>
+                <input
+                  type="text"
+                  id="short-title"
+                  placeholder="Enter short title"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="full-title">Full Title</label>
+                <input
+                  type="text"
+                  id="full-title"
+                  placeholder="Enter full title"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="topic-tags">Topic Tags</label>
+                <input
+                  type="text"
+                  id="topic-tags"
+                  placeholder="e.g. Event, Reminder, Holiday"
+                />
               </div>
             </div>
-            <div class="chart">
-              <div id="chart"></div>
+
+            <!-- Description -->
+            <div class="form-group">
+              <label for="summernote">Description Box</label>
+              <textarea id="summernote"></textarea>
             </div>
-          </div>
-          <div class="content-data">
-            <div class="head">
-              <h3>Published and Drafts Content</h3>
-              <div class="menu">
-                <i class="bx bx-fullscreen icon"></i>
-                <ul class="menu-link">
-                  <li><a href="#">Edit</a></li>
-                  <li><a href="#">Save</a></li>
-                  <li><a href="#">Remove</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
+          </form>
         </div>
       </main>
-      <!-- MAIN -->
     </section>
-    <!-- NAVBAR -->
 
+    <!-- SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <script src="./js/main.js"></script>
+    <script src="/hospitaled/admin/js/main.js"></script>
+
+    <!-- Summernote JS -->
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js"></script>
+
     <script>
-     
+      $(document).ready(function () {
+        $("#summernote").summernote({
+          placeholder: "Write your announcement description here...",
+          tabsize: 2,
+          height: 300,
+          toolbar: [
+            ["style", ["style"]],
+            ["font", ["bold", "italic", "underline", "clear"]],
+            ["para", ["ul", "ol", "paragraph"]],
+            ["insert", ["link", "picture"]],
+            ["view", ["fullscreen", "codeview"]],
+          ],
+        });
+      });
     </script>
   </body>
 </html>
