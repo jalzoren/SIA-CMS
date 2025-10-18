@@ -8,7 +8,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/hospitaled/admin/css/news.css" />
-    <link rel="stylesheet" href="/hospitaled/admin/css/global.css">
+    <link rel="stylesheet" href="/hospitaled/admin/css/global.css" />
 
     <!-- ✅ Summernote CSS -->
     <link
@@ -53,6 +53,12 @@
             ><i class="bx bxs-heart icon"></i> Health Tips</a
           >
         </li>
+        <li>
+          <a href="/hospitaled/admin/pages/posts.html">
+            <i class="bx bxs-edit icon"></i> Posts
+          </a>
+        </li>
+
         <li>
           <a href="/hospitaled/admin/pages/doctors.html"
             ><i class="bx bxs-user-pin icon"></i> Doctor & Departments</a
@@ -123,12 +129,20 @@
             <div class="form-row">
               <div class="form-group">
                 <label for="short-title">Short Title</label>
-                <input type="text" id="short-title" placeholder="Enter short title" />
+                <input
+                  type="text"
+                  id="short-title"
+                  placeholder="Enter short title"
+                />
               </div>
 
               <div class="form-group">
                 <label for="full-title">Full Title</label>
-                <input type="text" id="full-title" placeholder="Enter full title" />
+                <input
+                  type="text"
+                  id="full-title"
+                  placeholder="Enter full title"
+                />
               </div>
 
               <div class="form-group">
@@ -146,8 +160,6 @@
               <label for="summernote">Description Box</label>
               <textarea id="summernote"></textarea>
             </div>
-
-         
           </form>
         </div>
       </main>
@@ -157,7 +169,6 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="/hospitaled/admin/js/main.js"></script>
 
-  
     <!-- Summernote JS -->
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js"></script>
 
@@ -175,11 +186,9 @@
             ["view", ["fullscreen", "codeview"]],
           ],
         });
-    });
+      });
 
-
-        // Media Upload Functionality
+      // Media Upload Functionality
     </script>
-
   </body>
 </html>

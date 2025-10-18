@@ -9,8 +9,7 @@
     />
     <link rel="stylesheet" href="/hospitaled/admin/css/settings.css" />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-        <link rel="stylesheet" href="/hospitaled/admin/css/global.css">
-
+    <link rel="stylesheet" href="/hospitaled/admin/css/global.css" />
 
     <title>Hospitaled - Settings</title>
   </head>
@@ -47,6 +46,12 @@
             ><i class="bx bxs-heart icon"></i> Health Tips</a
           >
         </li>
+        <li>
+          <a href="/hospitaled/admin/pages/posts.html">
+            <i class="bx bxs-edit icon"></i> Posts
+          </a>
+        </li>
+
         <li>
           <a href="/hospitaled/admin/pages/doctors.html"
             ><i class="bx bxs-user-pin icon"></i> Doctor & Departments</a
@@ -293,35 +298,35 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="/hospitaled/admin/js/main.js"></script>
     <script>
-    $(document).ready(function () {
-    $(".tab").on("click", function (e) {
-        e.preventDefault(); 
-        const tabId = $(this).data("tab");
-        if ($("#" + tabId).length) { 
+      $(document).ready(function () {
+        $(".tab").on("click", function (e) {
+          e.preventDefault();
+          const tabId = $(this).data("tab");
+          if ($("#" + tabId).length) {
             $(".tab").removeClass("active");
             $(this).addClass("active");
             $(".tab-content").removeClass("active");
             $("#" + tabId).addClass("active");
-        } else {
+          } else {
             console.warn(`Tab content with id "${tabId}" not found.`);
+          }
+        });
+
+        const initialTab = $(".tab.active").data("tab");
+        if (initialTab && $("#" + initialTab).length) {
+          $("#" + initialTab).addClass("active");
         }
-    });
 
-    const initialTab = $(".tab.active").data("tab");
-    if (initialTab && $("#" + initialTab).length) {
-        $("#" + initialTab).addClass("active");
-    }
+        $(".save-btn").on("click", function (e) {
+          e.preventDefault();
+          alert("Changes saved!");
+        });
 
-    $(".save-btn").on("click", function (e) {
-        e.preventDefault(); 
-        alert("Changes saved!");
-    });
-
-    $(".cancel-btn").on("click", function (e) {
-        e.preventDefault(); 
-        location.reload();
-    });
-});
+        $(".cancel-btn").on("click", function (e) {
+          e.preventDefault();
+          location.reload();
+        });
+      });
     </script>
   </body>
 </html>
