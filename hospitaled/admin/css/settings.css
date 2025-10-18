@@ -638,7 +638,7 @@ main .card .head h2 {
     flex: 1;
     padding: 20px;
     background: var(--white);
-    border: 1px solid var(--border-color);
+    border: 2px solid var(--footer-bg);
     border-radius: 8px;
     text-align: center;
     box-shadow: var(--shadow);
@@ -650,7 +650,7 @@ main .card .head h2 {
 }
 
 .stat-number {
-    font-size: 24px;
+    font-size:30px;
     font-weight: 600;
     color: var(--primary-color);
     display: block;
@@ -658,21 +658,21 @@ main .card .head h2 {
 }
 
 .stat-label {
-    font-size: 14px;
+    font-size: 17px;
     color: var(--text-gray);
     display: block;
 }
 
 .stat-card i {
-    font-size: 18px;
+    font-size: 20px;
     color: var(--text-light);
-    margin-top: 8px;
+    margin-top: 5px;
 }
 
 .access-controls {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 24px;
+    margin-bottom: 4px;
     flex-wrap: wrap;
     gap: 16px;
 }
@@ -721,6 +721,7 @@ main .card .head h2 {
     color: var(--text-dark);
     background: var(--white);
     transition: all 0.3s ease;
+    border: #003087 solid 1px;
 }
 
 .filter-select:focus,
@@ -742,7 +743,6 @@ main .card .head h2 {
     border-collapse: collapse;
     background: var(--white);
     box-shadow: var(--shadow);
-    border-radius: 8px;
     overflow: hidden;
 }
 
