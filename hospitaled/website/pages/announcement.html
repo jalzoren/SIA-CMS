@@ -6,8 +6,10 @@
     <title>Hospitaled - Premium Healthcare Services</title>
     <link rel="stylesheet" href="/SIA-CMS/hospitaled/website/css/style.css" />
     <link rel="stylesheet" href="/SIA-CMS/hospitaled/website/css/global.css" />
-        <link rel="stylesheet" href="/SIA-CMS/hospitaled/website/css/announcements.css" />
-
+    <link
+      rel="stylesheet"
+      href="/SIA-CMS/hospitaled/website/css/announcements.css"
+    />
 
     <link
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
@@ -22,8 +24,7 @@
     <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
   </head>
   <body>
-
-      <div class="emergency-bar">
+    <div class="emergency-bar">
       For emergency concerns, please call our ER at 000-000-0000 or mobile at
       000-000-0000
     </div>
@@ -40,91 +41,108 @@
 
       <div id="nav-container"></div>
     </header>
-      <section class="news-section">
-    <h1><span>Latest</span> Updates and Announcements</h1>
+    <section class="news-section">
+      <h1><span>Latest</span> Updates and Announcements</h1>
 
-    <!-- Featured Article -->
-    <div class="featured-article">
-      <div class="featured-img"></div>
-      <div class="featured-content">
-        <h2>Lorem Ipsum Dolor</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque placerat condimentum tortor ornare gravida. Curabitur vitae libero lacinia augue. Vestibulum purus massa in. Curabitur faucibus porttitor odio sit.</p>
-        <p class="date">February 18, 2025</p>
-        <button>Read More →</button>
-      </div>
-    </div>
-
-    <!-- Filters -->
-    <div class="filters">
-      <select>
-        <option>Filter by Date</option>
-      </select>
-      <div class="search">
-        <input type="text" placeholder="Search">
-        <button>Search</button>
-      </div>
-    </div>
-
-    <!-- Article Grid -->
-    <div class="articles">
-      <div class="card">
-        <div class="img"></div>
-        <div class="content">
-          <h3>Lorem Ipsum Dolor</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque placerat condimentum tortor ornare gravida.</p>
-          <p class="date">February 19, 2025</p>
+      <!-- Featured Article -->
+      <div class="featured-article">
+        <div class="featured-img"></div>
+        <div class="featured-content">
+          <h2>Lorem Ipsum Dolor</h2>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
+            placerat condimentum tortor ornare gravida. Curabitur vitae libero
+            lacinia augue. Vestibulum purus massa in. Curabitur faucibus
+            porttitor odio sit.
+          </p>
+          <p class="date">February 18, 2025</p>
           <button>Read More →</button>
         </div>
       </div>
 
-      <div class="card">
-        <div class="img"></div>
-        <div class="content">
-          <h3>Lorem Ipsum Dolor</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque placerat condimentum tortor ornare gravida.</p>
-          <p class="date">February 19, 2025</p>
-          <button>Read More →</button>
+      <!-- Filters -->
+      <div class="filters">
+        <div class="date-filter">
+          <label for="filter-date">Filter by Date:</label>
+          <input type="date" id="filter-date" name="filter-date" />
+        </div>
+        <div class="search">
+          <input type="text" placeholder="Search" />
+          <button>Search</button>
         </div>
       </div>
 
-      <div class="card">
-        <div class="img"></div>
-        <div class="content">
-          <h3>Lorem Ipsum Dolor</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque placerat condimentum tortor ornare gravida.</p>
-          <p class="date">February 19, 2025</p>
-          <button>Read More →</button>
+      <!-- Article Grid -->
+      <div class="articles">
+        <div class="card">
+          <div class="img"></div>
+          <div class="content">
+            <h3>Lorem Ipsum Dolor</h3>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
+              placerat condimentum tortor ornare gravida.
+            </p>
+            <p class="date">February 19, 2025</p>
+            <button>Read More →</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="img"></div>
+          <div class="content">
+            <h3>Lorem Ipsum Dolor</h3>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
+              placerat condimentum tortor ornare gravida.
+            </p>
+            <p class="date">February 19, 2025</p>
+            <button>Read More →</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="img"></div>
+          <div class="content">
+            <h3>Lorem Ipsum Dolor</h3>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
+              placerat condimentum tortor ornare gravida.
+            </p>
+            <p class="date">February 19, 2025</p>
+            <button>Read More →</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="img"></div>
+          <div class="content">
+            <h3>Lorem Ipsum Dolor</h3>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
+              placerat condimentum tortor ornare gravida.
+            </p>
+            <p class="date">February 19, 2025</p>
+            <button>Read More →</button>
+          </div>
         </div>
       </div>
 
-      <div class="card">
-        <div class="img"></div>
-        <div class="content">
-          <h3>Lorem Ipsum Dolor</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque placerat condimentum tortor ornare gravida.</p>
-          <p class="date">February 19, 2025</p>
-          <button>Read More →</button>
-        </div>
+      <!-- Pagination -->
+      <div class="pagination">
+        <button>&lt;</button>
+        <button class="active">1</button>
+        <button>2</button>
+        <button>3</button>
+        <button>4</button>
+        <button>5</button>
+        <button>6</button>
+        <button>7</button>
+        <button>8</button>
+        <button>9</button>
+        <button>10</button>
+        <button>&gt;</button>
       </div>
-    </div>
-
-    <!-- Pagination -->
-    <div class="pagination">
-      <button>&lt;</button>
-      <button class="active">1</button>
-      <button>2</button>
-      <button>3</button>
-      <button>4</button>
-      <button>5</button>
-      <button>6</button>
-      <button>7</button>
-      <button>8</button>
-      <button>9</button>
-      <button>10</button>
-      <button>&gt;</button>
-    </div>
-  </section>
-   
+    </section>
 
     <footer>
       <div id="footer-container"></div>
