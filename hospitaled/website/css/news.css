@@ -8,9 +8,7 @@ body {
   color: #333;
 }
 
-/* ===============================
-   SECTION HEADER
-   =============================== */
+/* ============ SECTION HEADER =========== */
 .news-section {
   padding: 60px 80px;
   text-align: center;
@@ -27,9 +25,7 @@ body {
   color: #3d8bff;
 }
 
-/* ===============================
-   FEATURED ARTICLE
-   =============================== */
+/* ====== FEATURED ARTICLE ========== */
 .featured-article {
   display: flex;
   align-items: center;
@@ -86,9 +82,7 @@ body {
   background-color: #2a6cd9;
 }
 
-/* ===============================
-   FILTER BAR
-   =============================== */
+/* ======= FILTER BAR ======== */
 .filters {
   display: flex;
   justify-content: flex-end;
@@ -124,9 +118,27 @@ body {
   background-color: #2a6cd9;
 }
 
-/* ===============================
-   ARTICLE GRID
-   =============================== */
+/* ========== DATE FILTER ========== */
+.date-filter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.date-filter label {
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.date-filter input[type="date"] {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+/* =========== ARTICLE GRID ============ */
 .articles {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -186,9 +198,7 @@ body {
   background-color: #2a6cd9;
 }
 
-/* ===============================
-   PAGINATION
-   =============================== */
+/* ========= PAGINATION =============== */
 .pagination {
   display: flex;
   justify-content: center;
@@ -218,9 +228,7 @@ body {
   color: #fff;
 }
 
-/* ===============================
-   RESPONSIVE DESIGN
-   =============================== */
+/* ======== RESPONSIVE DESIGN ============ */
 @media (max-width: 992px) {
   .featured-article {
     flex-direction: column;
