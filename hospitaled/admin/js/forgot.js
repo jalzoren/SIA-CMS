@@ -4,7 +4,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
       // -----------------------------
-  // 🔹 SHOW / HIDE PASSWORD TOGGLE
+  //  SHOW / HIDE PASSWORD TOGGLE
   // -----------------------------
   const toggle = document.getElementById("show-passwords");
   const newPass = document.getElementById("new-password");
@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (sendBtn) {
       sendBtn.addEventListener("click", async () => {
         const email = document.getElementById("email").value.trim();
+        const code = document.getElementById("code").value.trim();
         if (!email) return Swal.fire("Error", "Email is required", "error");
   
         const fd = new FormData();
