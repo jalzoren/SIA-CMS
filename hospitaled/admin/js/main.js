@@ -112,3 +112,66 @@ var chart = new ApexCharts(document.querySelector("#chart"), options);
 chart.render();
 
 */
+
+ddocument.querySelector('.submit').addEventListener('click', async () => {
+  const short_title = document.getElementById('short-title').value.trim();
+  const full_title = document.getElementById('full-title').value.trim();
+  const topic_tags = document.getElementById('topic-tags').value.trim();
+  const description = $('#summernote').summernote('code');
+  const status = 'published'; // you can change this to draft/scheduled
+
+  if (!short_title || !full_title) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Missing Fields',
+      text: 'Please fill out both the short title and full title.',
+      confirmButtonColor: '#3085d6'
+    });
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('short_title', short_title);
+  formData.append('full_title', full_title);
+  formData.append('topic_tags', topic_tags);
+  formData.append('description', description);
+  formData.append('status', status);
+
+  try {
+    const res = await fetch('/hospitaled/admin/api/announcement_create.php', {
+      method: 'POST',
+      body: formData
+    });
+
+    const result = await res.json();
+
+    if (result.success) {
+      Swal.fire({
+        icon: 'success',
+        title: 'Announcement Saved!',
+        text: 'Your announcement has been published successfully.',
+        showConfirmButton: false,
+        timer: 1800
+      });
+
+      document.querySelector('.announcement-form').reset();
+      $('#summernote').summernote('code', '');
+    } else {
+      console.error(result);
+      Swal.fire({
+        icon: 'error',
+        title: 'Failed to Save',
+        text: result.message || 'Something went wrong while saving the announcement.',
+        confirmButtonColor: '#d33'
+      });
+    }
+  } catch (err) {
+    console.error(err);
+    Swal.fire({
+      icon: 'error',
+      title: 'Request Error',
+      text: 'An unexpected error occurred while submitting.',
+      confirmButtonColor: '#d33'
+    });
+  }
+});
