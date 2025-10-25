@@ -742,7 +742,6 @@ footer { background: linear-gradient(120deg, var(--footer-bg) 70%, #0455a0 100%)
 .dropdown-content {
   display: none;
   position: absolute;
-  background: #fff;
   top: 100%;
   left: 0;
   min-width: 180px;
