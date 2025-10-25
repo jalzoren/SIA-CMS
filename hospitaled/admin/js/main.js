@@ -113,12 +113,15 @@ chart.render();
 
 */
 
-ddocument.querySelector('.submit').addEventListener('click', async () => {
+document.querySelector('.submit').addEventListener('click', async () => {
   const short_title = document.getElementById('short-title').value.trim();
   const full_title = document.getElementById('full-title').value.trim();
   const topic_tags = document.getElementById('topic-tags').value.trim();
-  const description = $('#summernote').summernote('code');
+  const description = document.querySelector('#quillEditor .ql-editor').innerHTML;
   const status = 'published'; // you can change this to draft/scheduled
+  // main.js
+console.log("main.js loaded successfully");
+
 
   if (!short_title || !full_title) {
     Swal.fire({
@@ -138,7 +141,7 @@ ddocument.querySelector('.submit').addEventListener('click', async () => {
   formData.append('status', status);
 
   try {
-    const res = await fetch('/hospitaled/admin/api/announcement_create.php', {
+    const res = await fetch('/SIA-CMS/hospitaled/admin/php/announcement_create.php', {
       method: 'POST',
       body: formData
     });
