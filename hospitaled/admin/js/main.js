@@ -113,16 +113,37 @@ chart.render();
 
 */
 
-document.querySelector('.submit').addEventListener('click', async () => {
+// ---- Declare quill globally ----
+// ---- Declare quill globally ----
+let quill;
+
+// Initialize Quill when DOM is ready
+document.addEventListener("DOMContentLoaded", function () {
+  quill = new Quill("#quillEditor", {
+    placeholder: "Write your announcement description here...",
+    theme: "snow",
+    modules: {
+      toolbar: [
+        [{ header: [1, 2, false] }],
+        ["bold", "italic", "underline", "clean"],
+        [{ list: "ordered" }, { list: "bullet" }],
+        ["link", "image"],
+        ["code-block"],
+      ],
+    },
+  });
+
+  console.log("Quill editor initialized");
+});
+
+// ---- Function to handle submit ----
+async function handleAnnouncementSubmit(status) {
   const short_title = document.getElementById('short-title').value.trim();
   const full_title = document.getElementById('full-title').value.trim();
   const topic_tags = document.getElementById('topic-tags').value.trim();
-  const description = document.querySelector('#quillEditor .ql-editor').innerHTML;
-  const status = 'published'; // you can change this to draft/scheduled
-  // main.js
-console.log("main.js loaded successfully");
+  const description = quill.root.innerHTML; // get content from Quill
 
-
+  // Validate required fields
   if (!short_title || !full_title) {
     Swal.fire({
       icon: 'warning',
@@ -133,12 +154,13 @@ console.log("main.js loaded successfully");
     return;
   }
 
+  // Prepare form data
   const formData = new FormData();
   formData.append('short_title', short_title);
   formData.append('full_title', full_title);
   formData.append('topic_tags', topic_tags);
   formData.append('description', description);
-  formData.append('status', status);
+  formData.append('status', status); // use dynamic status
 
   try {
     const res = await fetch('/SIA-CMS/hospitaled/admin/php/announcement_create.php', {
@@ -151,14 +173,15 @@ console.log("main.js loaded successfully");
     if (result.success) {
       Swal.fire({
         icon: 'success',
-        title: 'Announcement Saved!',
-        text: 'Your announcement has been published successfully.',
+        title: status === 'published' ? 'Announcement Published!' : 'Saved as Draft!',
+        text: 'Your announcement has been saved successfully.',
         showConfirmButton: false,
         timer: 1800
       });
 
+      // Reset form and Quill editor
       document.querySelector('.announcement-form').reset();
-      $('#summernote').summernote('code', '');
+      quill.root.innerHTML = '';
     } else {
       console.error(result);
       Swal.fire({
@@ -177,4 +200,8 @@ console.log("main.js loaded successfully");
       confirmButtonColor: '#d33'
     });
   }
-});
+}
+
+// ---- Event listeners for both buttons ----
+document.querySelector('.submit').addEventListener('click', () => handleAnnouncementSubmit('published'));
+document.querySelector('.draft').addEventListener('click', () => handleAnnouncementSubmit('draft'));
