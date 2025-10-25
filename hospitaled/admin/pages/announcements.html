@@ -9,16 +9,19 @@
       rel="stylesheet"
     />
 
-    <!-- Summernote CSS -->
     <link
       href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.css"
       rel="stylesheet"
     />
 
-    <link rel="stylesheet" href="/hospitaled/admin/css/announcements.css" />
-    <link rel="stylesheet" href="/hospitaled/admin/css/global.css" />
+    <link rel="stylesheet" href="/SIA-CMS/hospitaled/admin/css/announcements.css" />
+    <link rel="stylesheet" href="/SIA-CMS/hospitaled/admin/css/global.css" />
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
+    <link
+      href="https://cdn.quilljs.com/1.3.7/quill.snow.css"
+      rel="stylesheet"
+    />
     <title>Hospitaled - Announcement</title>
   </head>
   <body>
@@ -153,10 +156,9 @@
               </div>
             </div>
 
-            <!-- Description -->
             <div class="form-group">
-              <label for="summernote">Description Box</label>
-              <textarea id="summernote"></textarea>
+              <label for="quillEditor">Description Box</label>
+              <div id="quillEditor" style="height: 300px"></div>
             </div>
           </form>
         </div>
@@ -166,23 +168,22 @@
     <!-- SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="/hospitaled/admin/js/main.js"></script>
-
-    <!-- Summernote JS -->
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote-lite.min.js"></script>
+    <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
 
     <script>
-      $(document).ready(function () {
-        $("#summernote").summernote({
+      document.addEventListener("DOMContentLoaded", function () {
+        var quill = new Quill("#quillEditor", {
           placeholder: "Write your announcement description here...",
-          tabsize: 2,
-          height: 300,
-          toolbar: [
-            ["style", ["style"]],
-            ["font", ["bold", "italic", "underline", "clear"]],
-            ["para", ["ul", "ol", "paragraph"]],
-            ["insert", ["link", "picture"]],
-            ["view", ["fullscreen", "codeview"]],
-          ],
+          theme: "snow",
+          modules: {
+            toolbar: [
+              [{ header: [1, 2, false] }],
+              ["bold", "italic", "underline", "clean"],
+              [{ list: "ordered" }, { list: "bullet" }],
+              ["link", "image"],
+              ["code-block"],
+            ],
+          },
         });
       });
     </script>
