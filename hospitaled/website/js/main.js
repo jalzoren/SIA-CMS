@@ -3,7 +3,7 @@ $(document).ready(function () {
     /** ---------------------------
      *  LOAD NAVIGATION COMPONENT
      * --------------------------- */
-    $("#nav-container").load("./components/nav.html", function () {
+    $("#nav-container").load("/SIA-CMS/hospitaled/website/components/nav.html", function () {
 
         // === HAMBURGER MENU TOGGLE ===
         $('.hamburger').on('click', function (e) {
@@ -67,7 +67,7 @@ $(document).ready(function () {
 
         // === HIGHLIGHT ACTIVE NAV ITEM ===
         const path = window.location.pathname.toLowerCase();
-        if (path === '/' || path.endsWith('/index.html')) {
+        if (path === '/' || path.endsWith('/SIA-CMS/hospitaled/website/index.html')) {
             $('#nav-home').addClass('active');
             $('#book-appointment').addClass('active'); // highlight homepage button if needed
         } else if (path.includes('book.html')) {
@@ -79,7 +79,7 @@ $(document).ready(function () {
     /** ---------------------------
      *  LOAD FOOTER COMPONENT
      * --------------------------- */
-    $("#footer-container").load("./components/footer.html");
+    $("#footer-container").load("/SIA-CMS/hospitaled/website/components/footer.html");
 
 
     /** ---------------------------
