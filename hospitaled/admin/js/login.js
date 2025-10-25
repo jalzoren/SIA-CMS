@@ -47,6 +47,16 @@ document.getElementById("show-password").addEventListener("change", function () 
     const formData = new FormData();
     formData.append("email", email);
     formData.append("password", password);
+
+    Swal.fire({
+      title: "Logging in...",
+      text: "Please wait while we verify your credentials.",
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
   
     try {
       const response = await fetch("../admin/php/login.php", {
