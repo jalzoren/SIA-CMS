@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --primary-dark: #043873;
+  --primary-light: #4f9cf9;
+  --secondary-yellow: #ffe492;
+  --secondary-light: #f3f7ff;
+  --secondary-dark: #212529;
+  --bg-color: #ffffff;
+
+  --max-width: 1200px;
+  --transition: 0.3s ease;
+  --radius: 8px;
+}
+
+
+#sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 240px;
+  background: #f9faff;
+  border-right: 1px solid #e0e0e0;
+  transition: width 0.3s ease;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+}
+
+#sidebar.hide {
+  width: 80px;
+}
+
+#sidebar .brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--primary-light);
+  font-weight: 600;
+  font-size: 1.1rem;
+  text-decoration: none;
+  padding: 15px 20px;
+}
+
+#sidebar .side-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#sidebar .side-menu li a {
+  display: flex;
+  align-items: center;
+  color: var(--secondary-dark);
+  padding: 10px 20px;
+  text-decoration: none;
+  transition: 0.2s;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+#sidebar .side-menu li a:hover,
+#sidebar .side-menu li a.active {
+  background: var(--primary-light);
+  color: #ffffff;
+  border-radius: 0%;
+}
+
+#sidebar .icon {
+  font-size: 20px;
+  margin-right: 25px;
+  transition: margin 0.3s ease;
+  padding-left: 6px;
+
+}
+
+#sidebar.hide .icon {
+  margin-right: 0px;
+}
+
+#content {
+  margin-left: 240px;
+  transition: margin-left 0.3s ease;
+}
+
+#app.sidebar-hide #content {
+  margin-left: 80px;
+}
+
+.main-content {
+  background: #f8f9fb;
+  min-height: 100vh;
+  min-width: 900;
+}

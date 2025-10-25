@@ -1,0 +1,135 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+
+:root {
+  --primary-dark: #043873;   
+  --primary-light: #4f9cf9; 
+
+  --secondary-yellow: #ffe492; 
+  --secondary-light: #f3f7ff;  
+  --secondary-gray: #d9d9d9; 
+  --secondary-dark: #212529; 
+
+  --text-color: var(--secondary-dark);
+  --bg-color: #ffffff;
+  --border-radius: 6px;
+  --transition-speed: 0.3s;
+}
+
+.top-bar {
+  background-color: var(--primary-dark);
+  color: white;
+  font-size: 13px;
+  padding: 6px 0;
+  text-align: center;
+}
+
+/* Navbar container */
+.navbar {
+  background-color: #fff;
+  border-bottom: 1px solid #eaeaea;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+.nav-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 14px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* LOGO AREA (aligned left) */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0; /* prevents logo from squeezing on small screens */
+}
+
+.logo-img {
+  width: 30px;
+  height: 30px;
+}
+
+.logo-text {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--primary-light);
+  font-family: "Inter", sans-serif;
+}
+
+/* NAV LINKS + BUTTON (aligned right) */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+/* LINKS */
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 20px;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--primary-light);
+  font-weight: 600;
+  font-size: 15px;
+  padding: 10px 14px;
+  border-radius: 4px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.nav-links a.active,
+.nav-links a:hover {
+  background-color: var(--primary-light);
+  color: #fff;
+}
+
+/* Appointment Button */
+.appointment-btn {
+  border: 2px solid var(--primary-light);
+  color: var(--primary-light);
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.appointment-btn:hover {
+  background-color: var(--primary-light);
+  color: #fff;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .nav-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .nav-right {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .appointment-btn {
+    margin-top: 6px;
+  }
+}
