@@ -3,7 +3,7 @@ $(document).ready(function () {
     /** ---------------------------
      *  LOAD NAVIGATION COMPONENT
      * --------------------------- */
-    $("#nav-container").load("./components/nav.html", function () {
+    $("#nav-container").load("/SIA-CMS/hospitaled/website/components/nav.html", function () {
 
         // === HAMBURGER MENU TOGGLE ===
         $('.hamburger').on('click', function (e) {
