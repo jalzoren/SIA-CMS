@@ -1,0 +1,138 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f5f8ff;
+  margin: 0;
+  color: #333;
+}
+
+.services-section {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 0 4rem;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+.section-title span {
+  color: #007bff;
+  position: relative;
+}
+
+.section-title span::after {
+  content: '';
+  display: block;
+  width: 70px;
+  height: 4px;
+  background: #e6c57c;
+  margin: 0.3rem auto 0;
+  border-radius: 2px;
+}
+
+.top-cards {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.top-card {
+  background: #ccc;
+  width: 300px;
+  height: 200px;
+  border-radius: 10px;
+}
+
+.search-bar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.search-bar input {
+  padding: 0.6rem 1rem;
+  border-radius: 20px 0 0 20px;
+  border: 1px solid #ccc;
+  width: 250px;
+}
+
+.search-bar button {
+  padding: 0.6rem 1.2rem;
+  border-radius: 0 20px 20px 0;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+}
+
+.service-item {
+  display: flex;
+  background: white;
+  border-radius: 20px;
+  padding: 1rem;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.service-img {
+  width: 120px;
+  height: 120px;
+  background: #d0d0d0;
+  border-radius: 30px;
+  flex-shrink: 0;
+  margin-right: 1rem;
+}
+
+.service-content h3 {
+  margin: 0;
+  color: #2b2b2b;
+}
+
+.service-content p {
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.service-content .date {
+  color: #888;
+  font-size: 0.8rem;
+}
+
+.read-more {
+  display: inline-block;
+  background-color: #007bff;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+.read-more:hover {
+  background-color: #0056b3;
+}
+
+@media (max-width: 600px) {
+  .service-item {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .service-img {
+    margin: 0 0 1rem 0;
+  }
+}
