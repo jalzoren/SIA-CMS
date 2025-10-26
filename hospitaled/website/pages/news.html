@@ -43,18 +43,15 @@
     <h1><span>Latest</span> News and Heath Tips</h1>
 
       <!-- Featured Article -->
-      <div class="featured-article">
+      <div class="featured-article" id="featured-article">
         <div class="featured-img"></div>
         <div class="featured-content">
-          <h2>Lorem Ipsum Dolor</h2>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-            placerat condimentum tortor ornare gravida. Curabitur vitae libero
-            lacinia augue. Vestibulum purus massa in. Curabitur faucibus
-            porttitor odio sit.
+          <h2 id="featured-title">Loading...</h2>
+          <p id="featured-description">
+            Loading the latest news article...
           </p>
-          <p class="date">February 18, 2025</p>
-          <button>Read More →</button>
+          <p class="date" id="featured-date">Loading...</p>
+          <button id="featured-read-more">Read More →</button>
         </div>
       </div>
 
@@ -70,58 +67,9 @@
     </div>
 
       <!-- Article Grid -->
-      <div class="articles">
-        <div class="card">
-          <div class="img"></div>
-          <div class="content">
-            <h3>Lorem Ipsum Dolor</h3>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-              placerat condimentum tortor ornare gravida.
-            </p>
-            <p class="date">February 19, 2025</p>
-            <button>Read More →</button>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="img"></div>
-          <div class="content">
-            <h3>Lorem Ipsum Dolor</h3>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-              placerat condimentum tortor ornare gravida.
-            </p>
-            <p class="date">February 19, 2025</p>
-            <button>Read More →</button>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="img"></div>
-          <div class="content">
-            <h3>Lorem Ipsum Dolor</h3>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-              placerat condimentum tortor ornare gravida.
-            </p>
-            <p class="date">February 19, 2025</p>
-            <button>Read More →</button>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="img"></div>
-          <div class="content">
-            <h3>Lorem Ipsum Dolor</h3>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-              placerat condimentum tortor ornare gravida.
-            </p>
-            <p class="date">February 19, 2025</p>
-            <button>Read More →</button>
-          </div>
-        </div>
+      <div class="articles" id="articles-container">
+        <!-- Articles will be loaded dynamically here -->
+        <div class="loading-message">Loading news articles...</div>
       </div>
 
       <!-- Pagination -->
@@ -146,5 +94,126 @@
     </footer>
 
     <script src="/SIA-CMS/hospitaled/website/js/main.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        loadNewsArticles();
+      });
+
+      async function loadNewsArticles() {
+        try {
+          const response = await fetch('/SIA-CMS/hospitaled/website/php/fetch_news.php');
+          const result = await response.json();
+          
+          if (result.success && result.data.length > 0) {
+            displayNewsArticles(result.data);
+          } else {
+            displayNoArticles();
+          }
+        } catch (error) {
+          console.error('Error loading news articles:', error);
+          displayError();
+        }
+      }
+
+      function displayNewsArticles(articles) {
+        // Display featured article (first article)
+        if (articles.length > 0) {
+          const featured = articles[0];
+          document.getElementById('featured-title').textContent = featured.full_title;
+          document.getElementById('featured-description').innerHTML = truncateText(stripHtml(featured.description), 200);
+          document.getElementById('featured-date').textContent = formatDate(featured.created_at);
+          document.getElementById('featured-read-more').onclick = () => showFullArticle(featured.id);
+        }
+
+        // Display other articles in grid
+        const articlesContainer = document.getElementById('articles-container');
+        articlesContainer.innerHTML = '';
+
+        // Skip first article as it's featured
+        const gridArticles = articles.slice(1);
+        
+        if (gridArticles.length === 0) {
+          articlesContainer.innerHTML = '<div class="no-articles">No additional articles available.</div>';
+          return;
+        }
+
+        gridArticles.forEach(article => {
+          const articleCard = createArticleCard(article);
+          articlesContainer.appendChild(articleCard);
+        });
+      }
+
+      function createArticleCard(article) {
+        const card = document.createElement('div');
+        card.className = 'card';
+        
+        card.innerHTML = `
+          <div class="img"></div>
+          <div class="content">
+            <h3>${truncateText(article.full_title, 60)}</h3>
+            <p>${truncateText(stripHtml(article.description), 120)}</p>
+            <p class="date">${formatDate(article.created_at)}</p>
+            <button onclick="showFullArticle('${article.id}')">Read More →</button>
+          </div>
+        `;
+        
+        return card;
+      }
+
+      function showFullArticle(articleId) {
+        // Redirect to dedicated article page
+        window.location.href = `/SIA-CMS/hospitaled/website/pages/article.html?id=${articleId}`;
+      }
+
+      function displayNoArticles() {
+        document.getElementById('featured-title').textContent = 'No Articles Available';
+        document.getElementById('featured-description').textContent = 'There are currently no published news articles.';
+        document.getElementById('featured-date').textContent = '';
+        document.getElementById('featured-read-more').style.display = 'none';
+        
+        document.getElementById('articles-container').innerHTML = 
+          '<div class="no-articles">No news articles are currently available.</div>';
+      }
+
+      function displayError() {
+        document.getElementById('featured-title').textContent = 'Error Loading Articles';
+        document.getElementById('featured-description').textContent = 'There was an error loading the news articles. Please try again later.';
+        document.getElementById('featured-date').textContent = '';
+        document.getElementById('featured-read-more').style.display = 'none';
+        
+        document.getElementById('articles-container').innerHTML = 
+          '<div class="error-message">Error loading articles. Please refresh the page.</div>';
+      }
+
+      function stripHtml(html) {
+        const tmp = document.createElement('div');
+        tmp.innerHTML = html;
+        return tmp.textContent || tmp.innerText || '';
+      }
+
+      function truncateText(text, maxLength) {
+        if (!text) return '';
+        if (text.length <= maxLength) return text;
+        
+        // Find the last space before the limit to avoid cutting words
+        const truncated = text.substring(0, maxLength);
+        const lastSpace = truncated.lastIndexOf(' ');
+        
+        if (lastSpace > maxLength * 0.8) {
+          return truncated.substring(0, lastSpace) + '...';
+        } else {
+          return truncated + '...';
+        }
+      }
+
+      function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+      }
+    </script>
   </body>
 </html>
