@@ -52,12 +52,9 @@ body {
   font-size: 14px;
   width: 100%;
   box-shadow: 0 2px 6px rgba(4, 56, 115, 0.06);
-  position: fixed;          /* keep bar fixed at top */
-  top: 0;
-  left: 0;
-  z-index: 1100;
 }
 
+/* Header */
 header {
   display: flex;
   justify-content: space-between;
@@ -65,11 +62,8 @@ header {
   padding: 12px 30px;
   background-color: #fff;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-  position: fixed;         
-  top: 40px;               
-  left: 0;
-  width: 100%;             
-  height: 70px;           
+  position: sticky;
+  top: 0;
   z-index: 1000;
 }
 
@@ -77,8 +71,8 @@ header {
   font-size: 24px;
   font-weight: bold;
   color: var(--primary-color2);
+  margin-right: auto;
 }
-
 
 .hamburger {
   display: none;
@@ -157,6 +151,44 @@ nav ul li a:hover {
   transition: all 0.25s ease;
 }
 
+.dropdown {
+  position: relative;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  min-width: 160px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 10px 0;
+  z-index: 1;
+  border-radius: 8px;
+}
+
+.dropdown-content a {
+  color: var(--text-dark);
+  padding: 10px 15px;
+  display: block;
+  font-size: 14px;
+}
+
+.dropdown-content a:hover {
+  color: #fff;
+  background-color: var(--primary-color2);
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown > a::after {
+  content: " ▼";
+  font-size: 12px;
+  margin-left: 5px;
+}
 
 /* HERO */
 .hero {
