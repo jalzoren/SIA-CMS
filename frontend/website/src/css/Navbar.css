@@ -1,5 +1,5 @@
 /* ------------------------------
-   STICKY HEADER
+   STICKY HEADER WRAPPER
 ------------------------------ */
 .sticky-header {
   position: sticky;
@@ -22,6 +22,9 @@
    NAVBAR
 ------------------------------ */
 .navbar {
+  position: sticky;         /* ✅ Stick to the top */
+  top: 0;
+  z-index: 9998;            /* slightly below top-bar */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -144,19 +147,19 @@
     display: block;
     position: relative;
     z-index: 10000;
-      margin-right: 20px;
-
+    margin-right: 20px;
   }
- .nav-links {
+
+  .nav-links {
     display: none;
     flex-direction: column;
     position: absolute;
-    top: 70px; 
+    top: 70px;
     left: 0;
-    width: 100%; 
+    width: 100%;
     background-color: white;
     padding: 30px 0;
-    border-radius: 0 0 12px 12px; 
+    border-radius: 0 0 12px 12px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     align-items: center;
     justify-content: center;
@@ -167,7 +170,6 @@
     transition: opacity 0.3s ease, transform 0.3s ease;
     font-size: large;
   }
-
 
   .nav-links.open {
     display: flex;
@@ -184,4 +186,31 @@
   .book-btn {
     display: none;
   }
+}
+
+.nav-links a.active {
+  background-color: var(--primary-color2);
+  color: #fff;
+}
+
+/* Highlight parent dropdown when any child is active */
+.dropdown.active > span {
+  background-color: var(--primary-color2);
+  color: #fff;
+  border-radius: 8px;
+  padding: 9px 18px;
+}
+
+.dropdown > span {
+  cursor: pointer;
+  color: var(--primary-color2);
+  font-weight: 500;
+  padding: 9px 18px;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.dropdown:hover > span {
+  background-color: var(--primary-color2);
+  color: #fff;
 }

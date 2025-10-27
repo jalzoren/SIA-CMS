@@ -3,22 +3,31 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
 import Home from "./pages/Home";
+import Services from "./pages/Services";
+import Doctors from "./pages/Doctors";
+import News from "./pages/News";
+import Announcements from "./pages/Announcements";
+import Careers from "./pages/Careers";
+
+
 import "./App.css";
 
 function App() {
   return (
     <Router>
-      {/* Navbar (sticky top) */}
       <Navbar />
 
-      {/* Main Page Content */}
-      <main className="main-content">
-        <Routes>
-          <Route path="/" element={<Home />} />
-        </Routes>
-      </main>
+      {/* Page Routes */}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/services" element={<Services />} /> 
+        <Route path="/doctors" element={<Doctors />} /> 
+        <Route path="/news" element={<News />} /> 
+        <Route path="/announcements" element={<Announcements />} /> 
+        <Route path="/careers" element={<Careers />} /> 
 
-      {/* Footer (bottom) */}
+      </Routes>
+
       <Footer />
     </Router>
   );

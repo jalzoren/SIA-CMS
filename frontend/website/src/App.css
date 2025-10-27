@@ -1,4 +1,3 @@
-
 :root {
   --primary-color: #043873;
   --primary-color2: #4f9cf9;
@@ -30,9 +29,10 @@ html, body, #root {
   height: 100%;
   overflow-x: hidden;
   background-color: #ffffff;
+  font-family: "Poppins", sans-serif;
 }
 
-/* Header: fixed top, full width */
+/* Header style example */
 .header {
   width: 100%;
   background-color: #242424;
@@ -58,4 +58,3 @@ html, body, #root {
 .btn:hover {
   background-color: #0056b3;
 }
-

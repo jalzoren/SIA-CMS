@@ -1,23 +1,29 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import "../css/Navbar.css";
 import { IoMdArrowDropdown } from "react-icons/io";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const location = useLocation();
+
+  const isNewsActive =
+    location.pathname.startsWith("/news") ||
+    location.pathname.startsWith("/announcements");
 
   return (
-    <>
-      {/* Not sticky */}
+    <div className="sticky-header">
+      {/* Top Bar */}
       <div className="top-bar">
         For emergency concerns, please call our ER at 000-000-0000 or mobile at
         000-000-0000
       </div>
 
-      {/* Sticky */}
+      {/* Navbar */}
       <nav className="navbar">
         <div className="logo">Hospitaled</div>
 
+        {/* Hamburger */}
         <button
           className="hamburger d-lg-none"
           onClick={() => setMenuOpen(!menuOpen)}
@@ -26,41 +32,45 @@ function Navbar() {
           ☰
         </button>
 
+        {/* Nav Links */}
         <ul className={`nav-links ${menuOpen ? "open" : ""}`}>
           <li>
-            <Link to="/" className="active">
+            <NavLink to="/" end>
               Home
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link to="/services">Services</Link>
+            <NavLink to="/services">Services</NavLink>
           </li>
           <li>
-            <Link to="/doctors">Doctors</Link>
+            <NavLink to="/doctors">Doctors</NavLink>
           </li>
-          <li className="dropdown">
-            <a href="#news">
+
+          {/* Dropdown */}
+          <li className={`dropdown ${isNewsActive ? "active" : ""}`}>
+            <span>
               News <IoMdArrowDropdown />
-            </a>
+            </span>
             <div className="dropdown-content">
-              <Link to="/news">Latest News</Link>
-              <Link to="/announcements">Announcements</Link>
+              <NavLink to="/news">Latest News</NavLink>
+              <NavLink to="/announcements">Announcements</NavLink>
             </div>
           </li>
+
           <li>
-            <Link to="/careers">Careers</Link>
+            <NavLink to="/careers">Careers</NavLink>
           </li>
           <li>
-            <Link to="/about">About</Link>
+            <NavLink to="/about">About</NavLink>
           </li>
           <li>
-            <Link to="/contact">Contact</Link>
+            <NavLink to="/contact">Contact</NavLink>
           </li>
         </ul>
 
         <button className="book-btn">Book an Appointment</button>
       </nav>
-    </>
+    </div>
   );
 }
 

@@ -1,0 +1,46 @@
+:root {
+  --primary-color: #043873;
+  --primary-color2: #4f9cf9;
+  --secondary-color: #ffe492;
+  --bg-blue: #f3f7ff;
+  --footer-bg: #003087;
+  --footer-text: #ffffff;
+  --footer-link: #d3d8e0;
+  --text-dark: #333;
+  --text-gray: #555;
+  --text-light: #666;
+  --hero-bg: #e6f0fa;
+  --services-bg: #ffffff;
+  --news-bg: #f8f9fa;
+  --about-bg: #e9ecef;
+  --contact-bg: #f0f8ff;
+  --container-max: 1320px;
+  --radius-large: 16px;
+}
+
+
+.title-center{
+  font-family: "Inter", sans-serif;
+  font-size: 2.5rem;
+  color: var(--primary-color2);
+  font-weight: 700;
+    text-align: center;
+
+}
+
+
+.title-center::after {
+  content: "";
+  display: block;
+  width: 180px;          
+  height: 4px;           
+  background-color: var(--secondary-color); 
+  margin: 0.5rem auto 0; 
+  border-radius: 2px;   
+}
+
+.title-primary {
+  color: var(--primary-color);
+    font-weight: 700;
+
+}
