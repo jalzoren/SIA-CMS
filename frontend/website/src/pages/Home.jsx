@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import "../css/Home.css";
 import {
-  MdOutlineBookmarkBorder,
-  MdOutlineArrowForward,
   MdLocalHospital,
   MdAddBox,
+  MdOutlineArrowForward,
+  MdOutlineBookmarkBorder,
 } from "react-icons/md";
 import { FaHeart, FaChild } from "react-icons/fa";
 
@@ -24,177 +24,318 @@ function Home() {
     return () => clearInterval(timer);
   }, [slides.length]);
 
+  const services = [
+    {
+      icon: <MdLocalHospital className="service-icon" />,
+      title: "Emergency Care",
+      text: "24/7 emergency services with rapid response teams and advanced life support systems.",
+      stat: "Available 24/7",
+    },
+    {
+      icon: <FaHeart className="service-icon" />,
+      title: "Cardiology",
+      text: "Expert heart care including diagnostics, treatments, and cardiac rehabilitation programs.",
+      stat: "1500+ Patients",
+    },
+    {
+      icon: <FaChild className="service-icon" />,
+      title: "Pediatrics",
+      text: "Compassionate care for infants, children, and adolescents with specialized pediatric services.",
+      stat: "500+ Newborns",
+    },
+    {
+      icon: <MdAddBox className="service-icon" />,
+      title: "Surgery",
+      text: "Advanced surgical procedures with cutting-edge technology and minimally invasive techniques.",
+      stat: "98% Success",
+    },
+  ];
+
   return (
     <div>
-      {/* --- HERO SLIDER SECTION --- */}
-      <section className="home">
-        <div className="home-left">
-          <h1>
-            <em>Your Health, Our Priority.</em>
-          </h1>
-          <p>
-            We unite innovation and empathy to redefine healthcare — blending
-            modern medical expertise with heartfelt human connection to help you
-            heal, recover, and thrive.
-          </p>
-          <button className="home-btn">
-            Book Appointment <MdOutlineBookmarkBorder />
-          </button>
-        </div>
-
-        <div className="home-right">
-          <div className="carousel-slide">
-            <img
-              src={slides[current].image}
-              alt={slides[current].title}
-              className="carousel-image"
-            />
-            <div className="carousel-overlay">
-              <h3>{slides[current].title}</h3>
+      {/* --- Section 1: Home --- */}
+      <section className="home-section py-lg-5 py-1">
+        <div className="container py-lg-4 py-3">
+          <div className="row align-items-center justify-content-between bg-white g-lg-5 g-3">
+            {/* LEFT COLUMN */}
+            <div className="col-lg-6 col-md-12 home-left text-center text-lg-start px-lg-5 px-3">
+              <h1 className="display-4 fw-bold mb-4">
+                <em>Your Health, Our Priority.</em>
+              </h1>
+              <p className="fs-5 text-secondary mb-4">
+                We unite innovation and empathy to redefine healthcare — blending
+                modern medical expertise with heartfelt human connection to help
+                you heal, recover, and thrive.
+              </p>
+              <button className="home-btn">
+                Book Appointment <MdOutlineBookmarkBorder />
+              </button>
             </div>
-          </div>
 
-          <div className="carousel-dots">
-            {slides.map((_, index) => (
-              <span
-                key={index}
-                className={`dot ${index === current ? "active" : ""}`}
-                onClick={() => setCurrent(index)}
-              ></span>
-            ))}
+            {/* RIGHT COLUMN (Carousel) */}
+            <div className="col-lg-6 col-md-12 home-right text-center px-lg-5 px-3">
+              <div className="carousel-slide mx-auto">
+                <img
+                  src={slides[current].image}
+                  alt={slides[current].title}
+                  className="carousel-image"
+                />
+                <div className="carousel-overlay">
+                  <h3>{slides[current].title}</h3>
+                </div>
+              </div>
+
+              <div className="carousel-dots mt-3">
+                {slides.map((_, index) => (
+                  <span
+                    key={index}
+                    className={`dot ${index === current ? "active" : ""}`}
+                    onClick={() => setCurrent(index)}
+                  ></span>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* --- INTRO SECTION --- */}
-      <section className="hero-section text-center">
+      {/* --- Section 2: Hero --- */}
+      <section className="hero-section text-center py-5">
         <div className="container">
-          <p className="welcome-text fw-semibold text-uppercase mb-2">
-            Welcome to Hospitaled
-          </p>
-
-          <h1 className="hero-title mb-3">A Great Place to Receive Care</h1>
-
-          <p className="hero-desc mx-auto mb-4">
-            We provide top-quality healthcare services using modern facilities
-            and compassionate medical professionals who are dedicated to your
-            wellness.
-          </p>
-
-          <button className="hero-btn">
-            See More <MdOutlineArrowForward />
-          </button>
+          <div className="mx-auto" style={{ maxWidth: "800px" }}>
+            <p className="welcome-text text-uppercase fw-semibold mb-2">
+              Welcome to Hospitaled
+            </p>
+            <h1 className="hero-title mb-3">A Great Place to Receive Care</h1>
+            <p className="hero-desc mb-4">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
+              placerat scelerisque tortor ornare. Convallis felis vitae tortor
+              augue. Velit nascetur proin massa in. Consequat faucibus porttitor
+              enim et.
+            </p>
+            <button className="hero-btn">
+              See More <MdOutlineArrowForward />
+            </button>
+          </div>
 
           <div className="carousel-container mt-5">
             <img
               src={slides[current].image}
               alt={slides[current].title}
-              className="hero-image"
+              className="hero-image mx-auto d-block"
             />
           </div>
         </div>
       </section>
 
-      {/* --- SERVICES SECTION --- */}
-      <section className="services-section">
-        <div className="services-header">
-          <h2>
-            Provide our <span>Best Services</span>
+      {/* --- Section 3: News --- */}
+      <section className="news-section py-5">
+        <div className="container">
+          <h2 className="news-title text-center mb-5">
+            <span className="highlight text-primary">Latest</span> Updates and
+            Announcements
           </h2>
-          <p>
-            Comprehensive medical care with state-of-the-art facilities and
-            expert healthcare professionals dedicated to your well-being.
-          </p>
-        </div>
 
-        <div className="services-grid">
-          <div className="service-card">
-            <MdLocalHospital className="service-icon" />
-            <h3>Emergency Care</h3>
-            <p>
-              24/7 emergency services with rapid response teams and advanced
-              life support systems.
-            </p>
-            <strong>Available 24/7</strong>
-          </div>
+          <div className="news-grid row flex-nowrap overflow-auto pb-3 px-2 px-lg-0">
+            {[
+              {
+                title: "Online Mother's Breastfeeding Class: From Overwhelmed...",
+                date: "Oct 07, 2025",
+              },
+              {
+                title: "Palliative Lay Forum: Achieving the Miracle...",
+                date: "Oct 04, 2025",
+              },
+              {
+                title: "CARMI Reunion 2025: Growing Forward: 15 Years...",
+                date: "Oct 18, 2025",
+              },
+              {
+                title: "Brain Connects 2025",
+                date: "Oct 06–12, 2025",
+              },
+            ].map((item, i) => (
+              <div
+                className="col-lg-3 col-md-6 col-sm-8 flex-shrink-0"
+                key={i}
+                style={{ minWidth: "260px" }}
+              >
+                <div className="news-card bg-white rounded-4 shadow-sm h-100 d-flex flex-column">
+                  <div
+                    className="news-image bg-light d-flex align-items-center justify-content-center rounded-top-4"
+                    style={{ height: "180px" }}
+                  >
+                    <span className="text-secondary fw-semibold">
+                      Event {i + 1}
+                    </span>
+                  </div>
 
-          <div className="service-card">
-            <FaHeart className="service-icon" />
-            <h3>Cardiology</h3>
-            <p>
-              Expert heart care including diagnostics, treatments, and cardiac
-              rehabilitation programs.
-            </p>
-            <strong>1500+ Patients</strong>
-          </div>
-
-          <div className="service-card">
-            <FaChild className="service-icon" />
-            <h3>Pediatrics</h3>
-            <p>
-              Compassionate care for infants, children, and adolescents with
-              specialized pediatric services.
-            </p>
-            <strong>500+ Newborns</strong>
-          </div>
-
-          <div className="service-card">
-            <MdAddBox className="service-icon" />
-            <h3>Surgery</h3>
-            <p>
-              Advanced surgical procedures with cutting-edge technology and
-              minimally invasive techniques.
-            </p>
-            <strong>98% Success</strong>
-          </div>
-        </div>
-
-        <div className="services-footer">
-          <button className="view-services-btn">
-            View All Services <MdOutlineArrowForward />
-          </button>
-        </div>
-      </section>
-
-      {/* --- NEWS SECTION --- */}
-      <section className="news-section">
-        <h2 className="news-title">
-          <span className="highlight">Latest</span> News and Health Articles
-        </h2>
-
-        <div className="news-grid">
-          {[
-            {
-              title: "Online Mother's Breastfeeding Class: From Overwhelmed...",
-              date: "Oct 07, 2025",
-            },
-            {
-              title: "Palliative Lay Forum: Achieving the Miracle...",
-              date: "Oct 04, 2025",
-            },
-            {
-              title: "CARMI Reunion 2025: Growing Forward: 15 Years...",
-              date: "Oct 18, 2025",
-            },
-            {
-              title: "Brain Connects 2025",
-              date: "Oct 06–12, 2025",
-            },
-          ].map((item, i) => (
-            <div className="news-card" key={i}>
-              <div className="news-image">Event {i + 1}</div>
-              <div className="news-content">
-                <h3 className="news-heading">{item.title}</h3>
-                <p className="news-date">{item.date}</p>
+                  <div className="news-content p-3 flex-grow-1">
+                    <h5 className="news-heading mb-2 text-primary">
+                      {item.title}
+                    </h5>
+                    <p className="news-date text-muted small mb-0">
+                      {item.date}
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
 
-        <button className="news-btn">
-          View All News <MdOutlineArrowForward />
-        </button>
+          <div className="text-center mt-4">
+            <button className="news-btn">
+              View All Announcements <MdOutlineArrowForward />
+            </button>
+          </div>
+        </div>
       </section>
+
+      {/* --- Section 4: Services --- */}
+      <section className="services-section py-5">
+        <div className="container text-center">
+          <div className="services-header mb-5">
+            <h2 className="fw-bold">
+              Provide our <span className="text-primary2">Best Services</span>
+            </h2>
+            <p className="text">
+              Comprehensive medical care with state-of-the-art facilities and
+              expert healthcare professionals dedicated to your well-being.
+            </p>
+          </div>
+
+          <div className="row g-4 justify-content-center">
+            {services.map((service, i) => (
+              <div className="col-lg-3 col-md-6 col-sm-10" key={i}>
+                <div className="service-card bg-white rounded-4 shadow-sm p-4 h-100">
+                  {service.icon}
+                  <h3 className="service-title mt-3">{service.title}</h3>
+                  <p className="service-text">{service.text}</p>
+                  <strong className="service-stat text-primary2">
+                    {service.stat}
+                  </strong>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="services-footer text-center mt-5">
+            <button className="view-services-btn">
+              View All Services <MdOutlineArrowForward />
+            </button>
+          </div>
+        </div>
+      </section>
+
+
+         {/* --- Section 5: News --- */}
+      <section className="news-section py-5">
+        <div className="container">
+          <h2 className="news-title text-center mb-5">
+            <span className="highlight text-primary">Latest</span> News and
+            Health Tips
+          </h2>
+
+          <div className="news-grid row flex-nowrap overflow-auto pb-3 px-2 px-lg-0">
+            {[
+              {
+                title: "Online Mother's Breastfeeding Class: From Overwhelmed...",
+                date: "Oct 07, 2025",
+              },
+              {
+                title: "Palliative Lay Forum: Achieving the Miracle...",
+                date: "Oct 04, 2025",
+              },
+              {
+                title: "CARMI Reunion 2025: Growing Forward: 15 Years...",
+                date: "Oct 18, 2025",
+              },
+              {
+                title: "Brain Connects 2025",
+                date: "Oct 06–12, 2025",
+              },
+            ].map((item, i) => (
+              <div
+                className="col-lg-3 col-md-6 col-sm-8 flex-shrink-0"
+                key={i}
+                style={{ minWidth: "260px" }}
+              >
+                <div className="news-card bg-white rounded-4 shadow-sm h-100 d-flex flex-column">
+                  <div
+                    className="news-image bg-light d-flex align-items-center justify-content-center rounded-top-4"
+                    style={{ height: "180px" }}
+                  >
+                    <span className="text-secondary fw-semibold">
+                      Event {i + 1}
+                    </span>
+                  </div>
+
+                  <div className="news-content p-3 flex-grow-1">
+                    <h5 className="news-heading mb-2 text-primary">
+                      {item.title}
+                    </h5>
+                    <p className="news-date text-muted small mb-0">
+                      {item.date}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-4">
+            <button className="news-btn">
+              View All News and Health Tips <MdOutlineArrowForward />
+            </button>
+          </div>
+        </div>
+      </section>
+
+
+      <section className="contact-section py-5 bg-light">
+  <div className="container">
+    <div className="row g-4 align-items-stretch">
+      {/* CONTACT INFO */}
+      <div className="col-lg-5 col-md-6">
+        <div className="contact-info bg-white shadow-sm rounded-4 p-4 h-100">
+          <h2 className="fw-bold mb-4">
+            <span className="text-primary2">Contact</span> Information
+          </h2>
+
+          <div className="info-item mb-3">
+            <h5 className="fw-semibold">Address:</h5>
+            <p className="text-muted mb-0">
+              Kapasigan, Pasig City, Metro Manila
+            </p>
+          </div>
+
+          <div className="info-item mb-3">
+            <h5 className="fw-semibold">Phone:</h5>
+            <p className="text-muted mb-0">+63 912 345 6789</p>
+          </div>
+
+          <div className="info-item mb-3">
+            <h5 className="fw-semibold">Email:</h5>
+            <p className="text-muted mb-0">info@example.com</p>
+          </div>
+        </div>
+      </div>
+
+      {/* MAP */}
+      <div className="col-lg-7 col-md-6">
+        <div className="map-container rounded-4 overflow-hidden shadow-sm h-100">
+          <iframe
+            title="Pasig Map"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3859.843023830412!2d121.0747!3d14.5670!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b833ad9e7f43%3A0x4a6a9436f8b7a5b5!2sPasig%2C%20Metro%20Manila!5e0!3m2!1sen!2sph!4v1690000000000!5m2!1sen!2sph"
+            allowFullScreen
+            loading="lazy"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
     </div>
   );
 }

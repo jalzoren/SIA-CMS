@@ -1,106 +1,90 @@
-/* -------------------------------
-   Emergency bar (not sticky)
-------------------------------- */
-.emergency-bar {
-  background-color: var(--primary-color);
-  color: #fff;
-  text-align: center;
-  padding: 10px 12px;
-  font-size: 14px;
-  width: 100%;
-  box-shadow: 0 2px 6px rgba(4, 56, 115, 0.06);
-  position: relative; /* not sticky */
-  z-index: 1;
+/* ------------------------------
+   STICKY HEADER
+------------------------------ */
+.sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
 }
 
-/* -------------------------------
-   Header (sticky navigation)
-------------------------------- */
-header {
+/* ------------------------------
+   TOP BAR
+------------------------------ */
+.top-bar {
+  background-color: #003366;
+  color: white;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 14px;
+}
+
+/* ------------------------------
+   NAVBAR
+------------------------------ */
+.navbar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 12px 30px;
-  background-color: #fff;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-  position: sticky; /* only header is sticky */
-  top: 0;
-  z-index: 1000;
+  justify-content: space-between;
+  background-color: white;
+  padding: 15px 60px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .logo {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: bold;
   color: var(--primary-color2);
-  margin-right: auto;
+  margin-left: 20px;
 }
 
-/* -------------------------------
-   Navigation
-------------------------------- */
-.nav-menu {
+/* ------------------------------
+   NAV LINKS
+------------------------------ */
+.nav-links {
   display: flex;
-  align-items: center;
-  margin-left: auto;
-}
-
-.nav-menu.open {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  background-color: #fff;
-  position: absolute;
-  top: 60px;
-  left: 0;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  z-index: 999;
-}
-
-nav ul {
   list-style: none;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  gap: 25px;
   margin: 0;
-  padding: 0;
 }
 
-nav ul li {
-  margin: 0 5px;
-}
-
-nav ul li a {
+.nav-links a {
   text-decoration: none;
   color: var(--primary-color2);
-  font-size: 16px;
-  padding: 13px 20px;
-  transition: all 0.25s ease;
+  font-weight: 500;
+  padding: 9px 18px;
   border-radius: 8px;
+  transition: 0.3s;
 }
 
-nav ul li a#nav-book {
-  font-weight: bold;
-  box-shadow: 0 4px 12px rgba(79, 156, 249, 0.15);
-  border: solid var(--primary-color2) 2px;
-}
-
-nav ul li a#nav-book:hover,
-nav ul li a#nav-book.active {
-  background: var(--primary-color2);
-  color: #fff;
-  box-shadow: 0 6px 18px rgba(79, 156, 249, 0.22);
-}
-
-nav ul li a.active,
-nav ul li a:hover {
+.nav-links a:hover,
+.nav-links a.active {
   background-color: var(--primary-color2);
-  color: #fff !important;
-  transition: all 0.25s ease;
+  color: #fff;
 }
 
-/* -------------------------------
-   Dropdown
-------------------------------- */
+/* ------------------------------
+   BOOK BUTTON
+------------------------------ */
+.book-btn {
+  background-color: white;
+  border: 2px solid var(--primary-color2);
+  color: var(--primary-color2);
+  font-weight: bold;
+  padding: 9px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-right: 20px;
+}
+
+.book-btn:hover {
+  background-color: var(--primary-color2);
+  color: white;
+}
+
+/* ------------------------------
+   DROPDOWN
+------------------------------ */
 .dropdown {
   position: relative;
 }
@@ -114,7 +98,6 @@ nav ul li a:hover {
   min-width: 160px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   padding: 10px 0;
-  z-index: 1;
   border-radius: 8px;
 }
 
@@ -126,23 +109,17 @@ nav ul li a:hover {
 }
 
 .dropdown-content a:hover {
-  color: #fff;
   background-color: var(--primary-color2);
+  color: white;
 }
 
 .dropdown:hover .dropdown-content {
   display: block;
 }
 
-.dropdown > a::after {
-  content: " ▼";
-  font-size: 12px;
-  margin-left: 5px;
-}
-
-/* -------------------------------
-   Hamburger (responsive)
-------------------------------- */
+/* ------------------------------
+   HAMBURGER
+------------------------------ */
 .hamburger {
   display: none;
   font-size: 22px;
@@ -151,45 +128,60 @@ nav ul li a:hover {
   color: var(--primary-color2);
   cursor: pointer;
   padding: 8px;
-  margin-left: auto;
   transition: transform 0.3s ease;
+  margin-right: 20px;
 }
 
-.hamburger:hover,
-.hamburger:focus {
+.hamburger:hover {
   transform: scale(1.05);
 }
 
+/* ------------------------------
+   RESPONSIVE (Mobile)
+------------------------------ */
 @media (max-width: 992px) {
   .hamburger {
     display: block;
-  }
+    position: relative;
+    z-index: 10000;
+      margin-right: 20px;
 
-  .nav-menu {
+  }
+ .nav-links {
     display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 70px; 
+    left: 0;
+    width: 100%; 
+    background-color: white;
+    padding: 30px 0;
+    border-radius: 0 0 12px 12px; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 20px;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    font-size: large;
   }
 
-  .nav-menu.open {
+
+  .nav-links.open {
     display: flex;
+    opacity: 1;
+    transform: translateY(0);
   }
 
-  header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  nav ul {
-    flex-direction: column;
+  .nav-links a {
+    text-align: center;
     width: 100%;
+    padding: 9px 18px;
   }
 
-  nav ul li {
-    width: 100%;
-  }
-
-  nav ul li a {
-    display: block;
-    width: 100%;
-    text-align: left;
+  .book-btn {
+    display: none;
   }
 }
