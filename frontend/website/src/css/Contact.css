@@ -1,0 +1,29 @@
+
+.title-center{
+  font-family: "Inter", sans-serif;
+  font-size: 2.5rem;
+  color: var(--primary-color2);
+  font-weight: 700;
+    text-align: center;
+
+}
+
+.contact-section{
+background-color: #ffffff;
+}
+
+.title-center::after {
+  content: "";
+  display: block;
+  width: 180px;          
+  height: 4px;           
+  background-color: var(--secondary-color); 
+  margin: 0.5rem auto 0; 
+  border-radius: 2px;   
+}
+
+.title-primary {
+  color: var(--primary-color);
+    font-weight: 700;
+
+}

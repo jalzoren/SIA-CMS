@@ -2,6 +2,7 @@ import { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import "../css/Navbar.css";
 import { IoMdArrowDropdown } from "react-icons/io";
+import "boxicons/css/boxicons.min.css";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -21,8 +22,10 @@ function Navbar() {
 
       {/* Navbar */}
       <nav className="navbar">
-        <div className="logo">Hospitaled</div>
-
+         <div to="/dashboard" className="brand">
+        <i className="bx bx-plus-medical icon"></i>
+        <span>HospitalED</span>
+      </div>
         {/* Hamburger */}
         <button
           className="hamburger d-lg-none"

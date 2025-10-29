@@ -1,0 +1,106 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400..800&display=swap");
+
+* {
+  font-family: "Inter", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: #043873;
+  --primary-color2: #4f9cf9;
+  --secondary-color: #ffe492;
+  --bg-blue: #f3f7ff;
+  --footer-bg: #003087;
+  --white: #ffffff;
+  --footer-link: #d3d8e0;
+  --text-dark: #333;
+  --text-gray: #555;
+  --text-light: #666;
+  --hero-bg: #e6f0fa;
+  --services-bg: #ffffff;
+  --news-bg: #f8f9fa;
+  --about-bg: #e9ecef;
+  --contact-bg: #f0f8ff;
+  --grey: #f1f2f6;
+  --blue: #4f9cf9;
+  --light-blue: #e8f0fe;
+}
+
+html,
+body {
+  background: var(--bg-blue);
+  overflow-x: hidden;
+  height: 100%;
+}
+
+/* ========================= */
+/* SIDEBAR */
+/* ========================= */
+/* ========================= */
+/* NAVBAR */
+/* ========================= */
+.navbar {
+  background: var(--white);
+  height: 64px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* 👈 pushes profile icon to right */
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Left section (menu + title) */
+.navbar .right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.navbar .toggle-sidebar {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.navbar h1 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+/* Profile Icon */
+.profile-icon {
+  font-size: 1.8rem;
+  color: #4f9cf9;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.profile-icon:hover {
+  transform: scale(1.1);
+}
+
+
+@media screen and (max-width: 768px) {
+  #sidebar {
+    width: 60px;
+  }
+
+  #content {
+    width: calc(100% - 60px);
+    left: 60px;
+  }
+
+  nav h1 {
+    font-size: 18px;
+  }
+
+  .info-data {
+    grid-template-columns: 1fr;
+  }
+}

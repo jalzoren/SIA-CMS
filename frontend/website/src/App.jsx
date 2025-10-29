@@ -8,6 +8,8 @@ import Doctors from "./pages/Doctors";
 import News from "./pages/News";
 import Announcements from "./pages/Announcements";
 import Careers from "./pages/Careers";
+import Contact from "./pages/Contact";
+
 
 
 import "./App.css";
@@ -25,6 +27,7 @@ function App() {
         <Route path="/news" element={<News />} /> 
         <Route path="/announcements" element={<Announcements />} /> 
         <Route path="/careers" element={<Careers />} /> 
+        <Route path="/contact" element={<Contact />} /> 
 
       </Routes>
 

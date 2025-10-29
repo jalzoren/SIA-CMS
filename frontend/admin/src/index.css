@@ -1,68 +1,177 @@
+/* 🌐 GLOBAL THEME VARIABLES */
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  font-family: "Inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-weight: 400;
+  line-height: 1.6;
+  font-size: 16px;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  /* 🎨 Colors */
+  --primary-color: #043873;
+  --primary-color2: #4f9cf9;
+  --secondary-color: #ffe492;
+  --bg-blue: #f3f7ff;
+  --footer-bg: #003087;
+  --footer-text: #ffffff;
+  --footer-link: #d3d8e0;
+  --text-dark: #333333;
+  --text-gray: #555555;
+  --text-light: #777777;
+  --hero-bg: #e6f0fa;
+  --services-bg: #ffffff;
+  --news-bg: #f8f9fa;
+  --about-bg: #e9ecef;
+  --contact-bg: #f0f8ff;
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
+  /* ⚙️ Layout + Effects */
+  --container-max: 1320px;
+  --radius: 6px;
+  --radius-large: 16px;
+  --transition: 0.3s ease;
+}
+
+/* 🧱 Base Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 📄 Body */
+body {
+  color: var(--text-dark);
+  background-color: var(--bg-blue);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
+/* 🧭 Root container */
+#root {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+h2{
+  font-family: "Inter";
+  color: var(--primary-color);
 }
 
+p {
+  color: #444;
+  margin-bottom: 1rem;
+}
+
+a {
+  color: var(--primary-color2);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+
+a:hover {
+  color: var(--primary-color);
+}
+
+/* 🧩 Unified Input Styles */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="search"],
+textarea,
+select {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: var(--text-dark);
+  background-color: #fff;
+  border: 1px solid #cbd5e1;
+  border-radius: var(--radius);
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+/* Focus state */
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--primary-color2);
+  box-shadow: 0 0 0 3px rgba(79, 156, 249, 0.25);
+}
+
+/* Placeholder */
+::placeholder {
+  color: #999;
+  font-size: 13px;
+}
+
+/* Disabled state */
+input:disabled,
+textarea:disabled,
+select:disabled {
+  background-color: #f3f4f6;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* ---------- GLOBAL BUTTONS ---------- */
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+  display: inline-block;
+  width: 100%;
+  background-color: var(--primary-color2);
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 12px;
+  border: none;
+  border-radius: var(--radius);
   cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  letter-spacing: 0.5px;
+  transition: all var(--transition);
 }
 
-@media (prefers-color-scheme: light) {
+button:hover {
+  background-color: var(--primary-color);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+button:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 🌗 Light/Dark Mode */
+@media (prefers-color-scheme: dark) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    --color-bg: #121212;
+    --color-text: #f4f4f4;
+    --color-primary: #60a5fa;
+    --color-primary-hover: #3b82f6;
   }
-  a:hover {
-    color: #747bff;
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
   }
+
+  input,
+  textarea,
+  select {
+    background-color: #1e1e1e;
+    border-color: #333;
+    color: var(--color-text);
+  }
+
   button {
-    background-color: #f9f9f9;
+    background-color: var(--color-primary);
+  }
+
+  button:hover {
+    background-color: var(--color-primary-hover);
   }
 }

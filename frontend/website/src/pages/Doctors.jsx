@@ -8,7 +8,7 @@ const Doctors = () => {
     <div className="careers-section container py-5">
       {/* Section Title */}
       <h2 className="section-title text-center mb-4">
-        Latest <span>Careers</span>
+        Doctors to <span>Careers</span>
       </h2>
 
       {/* Intro Text */}
