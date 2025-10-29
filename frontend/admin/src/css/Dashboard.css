@@ -11,7 +11,7 @@
 .dashboard-page {
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 30px;
   background: var(--bg-blue);
   min-height: 100vh;
   font-family: "Inter", sans-serif;
@@ -76,13 +76,13 @@
   gap: 30px;
 }
 .card:nth-child(1) .icon-circle {
-  background: linear-gradient(1deg, #043873, #4f9cf9);
+  background: linear-gradient(1deg, #1e5ea7, #4f9cf9);
 }
 .card:nth-child(2) .icon-circle {
-  background: linear-gradient(1deg, #4f9cf9, #043873);
+  background: linear-gradient(1deg, #4f9cf9, #1e5ea7);
 }
 .card:nth-child(3) .icon-circle {
-  background: linear-gradient(1deg, #043873, #4f9cf9);
+  background: linear-gradient(1deg, #1e5ea7, #4f9cf9);
 }
 
 /* TEXT */
