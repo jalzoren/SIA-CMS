@@ -59,6 +59,7 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 0.75rem;
+  align-content: center;
 }
 
 h2{
@@ -66,6 +67,9 @@ h2{
   color: var(--primary-color);
 }
 
+h3{
+  margin: 0px;
+}
 
 .announcement{
   font-size: 1rem;
@@ -93,6 +97,9 @@ h2{
   width: 110px;
 }
 
+.announcement{
+  margin: 0px;
+}
 .btn.draft {
   background: #fff;
   border: 1px solid #cbd5e1;

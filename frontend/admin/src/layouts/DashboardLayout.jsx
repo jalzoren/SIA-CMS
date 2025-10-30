@@ -47,7 +47,7 @@ export default function DashboardLayout() {
               className="toggle-sidebar"
               onClick={() => setIsSidebarOpen((prev) => !prev)}
             />
-            <h1>Welcome, Admin!</h1>
+            <h1 className="title-name">Welcome, Admin!</h1>
           </div>
 
           <div className="navbar-right" onClick={handleLogout}>

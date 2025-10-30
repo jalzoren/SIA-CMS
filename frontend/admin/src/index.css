@@ -57,6 +57,11 @@ h2, h3{
   margin: 0px;
 }
 
+h1, h2, h3, h4, h5{
+  font-family: "Inter";
+  color: var(--primary-color);
+}
+
 p {
   color: #444;
   margin-bottom: 1rem;

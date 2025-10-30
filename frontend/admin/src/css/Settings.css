@@ -55,6 +55,7 @@
   padding-bottom: 8px;
   margin-bottom: 25px;
   font-size: 15px;
+  flex-wrap: wrap;
 }
 
 .cms-tab-item {
@@ -93,7 +94,7 @@
 }
 
 /* ==============================
-   INPUTS & SELECTS
+   INPUTS, SELECTS, RADIO, CHECKBOX
 ============================== */
 label {
   font-size: 14px;
@@ -106,7 +107,8 @@ label {
 input[type="text"],
 input[type="email"],
 input[type="number"],
-select {
+select,
+textarea {
   width: 100%;
   border: 1px solid var(--border-color);
   border-radius: 8px;
@@ -117,10 +119,21 @@ select {
 }
 
 input:focus,
-select:focus {
+select:focus,
+textarea:focus {
   outline: none;
   border-color: var(--primary-color2);
   box-shadow: 0 0 0 2px rgba(79, 156, 249, 0.15);
+}
+
+/* Align radio and checkbox inputs with labels */
+input[type="radio"],
+input[type="checkbox"] {
+  vertical-align: middle;
+  margin-right: 6px;
+  position: relative;
+  top: -1px;
+  accent-color: var(--primary-color2);
 }
 
 /* ==============================
@@ -167,6 +180,7 @@ button {
 .btn-success {
   background: var(--primary-color) !important;
   border: none !important;
+  color: #fff !important;
 }
 
 /* ==============================
@@ -432,15 +446,52 @@ button {
   border: 2px dashed #cbd5e1 !important;
 }
 
+.cms-system-card .system-section {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.system-block h5 {
+  color: var(--primary-color);
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.system-block .stat-box {
+  background: var(--bg-blue);
+  border-radius: 8px;
+  padding: 12px 0;
+  box-shadow: var(--shadow);
+}
+
+.system-block button {
+  min-width: 160px;
+}
+
+/* ==============================
+   HEADING FIX (Override Bootstrap)
+============================== */
+h1, h2, h3, h4, h5, h6,
+.cms-section-title {
+  color: var(--primary-color) !important;
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+}
+
+/* ==============================
+   BOOTSTRAP OVERRIDES
+============================== */
+/* Remove Bootstrap dropdown caret */
+.dropdown-toggle::after {
+  display: none !important;
+  content: none !important;
+}
+
 /* ==============================
    RESPONSIVE
 ============================== */
 @media (max-width: 768px) {
-  .cms-tabs {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
   .role-subnav {
     flex-direction: column;
     align-items: flex-start;

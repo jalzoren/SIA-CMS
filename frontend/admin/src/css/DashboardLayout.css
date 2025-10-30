@@ -74,6 +74,11 @@
   font-size: 1.8rem;
   color: var(--text-dark, #333);
   transition: color 0.3s ease;
+  margin-right: 10px;
+}
+
+.title-name{
+  margin-bottom: 0px;
 }
 
 .profile-icon:hover {

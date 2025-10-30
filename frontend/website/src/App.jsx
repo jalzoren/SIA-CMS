@@ -9,10 +9,11 @@ import News from "./pages/News";
 import Announcements from "./pages/Announcements";
 import Careers from "./pages/Careers";
 import Contact from "./pages/Contact";
-
-
+import ComponentNews from "./components/ComponentNews";
 
 import "./App.css";
+import ComponentAnnouncement from "./components/ComponentAnnouncement";
+import ComponentCareers from "./components/ComponentCareers";
 
 function App() {
   return (
@@ -22,12 +23,17 @@ function App() {
       {/* Page Routes */}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/services" element={<Services />} /> 
-        <Route path="/doctors" element={<Doctors />} /> 
-        <Route path="/news" element={<News />} /> 
-        <Route path="/announcements" element={<Announcements />} /> 
-        <Route path="/careers" element={<Careers />} /> 
-        <Route path="/contact" element={<Contact />} /> 
+        <Route path="/services" element={<Services />} />
+        <Route path="/doctors" element={<Doctors />} />
+        <Route path="/news" element={<News />} />
+        <Route path="/announcements" element={<Announcements />} />
+        <Route path="/careers" element={<Careers />} />
+        <Route path="/contact" element={<Contact />} />
+
+        {/* Full News Article Page (Dynamic ID) */}
+        <Route path="/news/:id" element={<ComponentNews />} />
+                <Route path="/announcements/:id" element={<ComponentAnnouncement />} />
+                <Route path="/careers/:id" element={<ComponentCareers />} />
 
       </Routes>
 

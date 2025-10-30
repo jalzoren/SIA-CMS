@@ -18,7 +18,7 @@ import {
   FaChevronUp,
 } from "react-icons/fa";
 import { FaShieldHeart } from "react-icons/fa6";
-import "../css/Sidebar.css";
+import "../components/components-css/Sidebar.css";
 
 const Sidebar = ({ isOpen }) => {
   const location = useLocation();
@@ -102,8 +102,8 @@ const Sidebar = ({ isOpen }) => {
                   <span className="icon">{item.icon}</span>
                   {isOpen && <span className="label">{item.label}</span>}
                   {isOpen && (
-                    <span className="">
-                      
+                    <span className="arrow">
+                      {isOpenDropdown ? <FaChevronUp /> : <FaChevronDown />}
                     </span>
                   )}
                 </button>

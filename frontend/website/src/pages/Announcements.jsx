@@ -1,41 +1,97 @@
 import React from "react";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { Link } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../components/components-css/ComponentNews.css";
 
 const Announcements = () => {
-  const careerCards = Array(6).fill({});
+  const announcements = [
+    {
+      id: 1,
+      title: "New Hospital Wing Opening",
+      image: "https://via.placeholder.com/600x300?text=New+Wing",
+      date: "March 2, 2025",
+      description:
+        "We’re thrilled to announce the opening of our new hospital wing, designed to expand patient capacity and provide top-notch care.",
+    },
+    {
+      id: 2,
+      title: "Free Flu Vaccination Drive",
+      image: "https://via.placeholder.com/600x300?text=Flu+Vaccination",
+      date: "February 18, 2025",
+      description:
+        "Join our community health campaign offering free flu shots for all — keeping our community healthy this season!",
+    },
+    {
+      id: 3,
+      title: "24/7 Emergency Services Expansion",
+      image: "https://via.placeholder.com/600x300?text=Emergency+Expansion",
+      date: "January 10, 2025",
+      description:
+        "We are proud to announce that our emergency department now operates 24/7 with more doctors and advanced facilities.",
+    },
+    {
+      id: 4,
+      title: "New Specialist Doctors Joined",
+      image: "https://via.placeholder.com/600x300?text=New+Doctors",
+      date: "December 20, 2024",
+      description:
+        "We welcome new specialists to our growing team, expanding our expertise in cardiology, neurology, and pediatrics.",
+    },
+    {
+      id: 5,
+      title: "Hospital Accreditation Achieved",
+      image: "https://via.placeholder.com/600x300?text=Accreditation",
+      date: "November 15, 2024",
+      description:
+        "We are officially accredited by national health authorities, ensuring quality and safety in all our services.",
+    },
+    {
+      id: 6,
+      title: "Blood Donation Campaign",
+      image: "https://via.placeholder.com/600x300?text=Blood+Donation",
+      date: "October 5, 2024",
+      description:
+        "Be a hero! Join our blood donation campaign and help save lives in our community.",
+    },
+  ];
 
   return (
-    <div className="careers-section container py-5">
-      {/* Section Title */}
-      <h2 className="section-title text-center mb-4">
-        Latest <span>Careers</span>
+    <div className="news-section container py-5">
+      {/* ✨ Updated Title Style */}
+      <h2 className="title-center mb-4">
+        Latest <span className="title-primary">Updates & Announcements</span>
       </h2>
 
-      {/* Intro Text */}
       <p className="intro-text text-center mb-5">
-        Join our healthcare team and be part of an organization where you can make a meaningful impact on people's lives.
-        As a valued member, you'll collaborate with dedicated professionals to provide compassionate, high-quality care to individuals from all walks of life.
+        Stay informed with our latest hospital updates, important advisories, and community initiatives.
       </p>
 
-      {/* Why Choose Us */}
-      <div className="why-choose-us mb-5">
-        <h3>Why choose us?</h3>
-        <ul>
-          <li><strong>Commitment to excellence:</strong> We have a strong tradition of delivering trusted and effective healthcare services.</li>
-          <li><strong>Supportive culture:</strong> Our workplace fosters collaboration, respect, and positivity.</li>
-          <li><strong>Growth opportunities:</strong> We provide continuous learning and career development to help you reach your full potential.</li>
-        </ul>
-        <p>Be part of a team that makes a difference—start your journey with us today.</p>
-      </div>
-
-      {/* Careers Grid */}
       <div className="row g-4">
-        {careerCards.map((_, index) => (
-          <div key={index} className="col-12 col-md-6 col-lg-4">
-            <div className="career-card card h-100 shadow-sm">
-              <div className="career-img bg-secondary rounded-top" style={{height: '200px'}}></div>
-              <div className="card-body text-center">
-                <a href="#" className="btn btn-primary mt-3">See More →</a>
+        {announcements.map((item) => (
+          <div key={item.id} className="col-12 col-md-6 col-lg-4">
+            <div className="news-card card h-100 shadow-sm">
+              <div
+                className="news-img rounded-top"
+                style={{
+                  backgroundImage: `url(${item.image})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  height: "200px",
+                }}
+              ></div>
+
+              <div className="card-body text-center d-flex flex-column justify-content-between">
+                <div>
+                  <h5 className="card-title fw-bold text-primary">{item.title}</h5>
+                  <p className="text-muted small mb-2">{item.date}</p>
+                  <p className="card-text text-secondary small">{item.description}</p>
+                </div>
+                <Link
+                  to={`/announcements/${item.id}`}
+                  className="btn btn-primary mt-3 align-self-center"
+                >
+                  See More →
+                </Link>
               </div>
             </div>
           </div>

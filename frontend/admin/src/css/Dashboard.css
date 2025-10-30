@@ -11,7 +11,7 @@
 .dashboard-page {
   display: flex;
   flex-direction: column;
-  padding: 30px;
+  padding: 25px 40px;
   background: var(--bg-blue);
   min-height: 100vh;
   font-family: "Inter", sans-serif;

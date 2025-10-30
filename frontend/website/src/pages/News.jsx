@@ -1,41 +1,73 @@
 import React from "react";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { Link } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../components/components-css/ComponentNews.css";
 
 const News = () => {
-  const careerCards = Array(6).fill({});
+  const articles = [
+    {
+      id: 1,
+      title: "Hope at Home: The Medical City Champions Accessible Liver Transplantation for Filipinos",
+      image: "https://via.placeholder.com/600x300?text=Liver+Transplantation",
+      date: "February 18, 2025",
+      description:
+        "The Medical City continues to lead in providing life-saving liver transplantation accessible to more Filipino patients.",
+    },
+    {
+      id: 2,
+      title: "The Medical City Leads Breakthrough in Cancer Care for Filipinos",
+      image: "https://via.placeholder.com/600x300?text=Cancer+Care",
+      date: "March 12, 2025",
+      description:
+        "A groundbreaking advancement in cancer treatment through precision medicine and targeted therapy, enhancing survival rates.",
+    },
+    {
+      id: 3,
+      title: "TMC Expands Pediatric Services for the Next Generation",
+      image: "https://via.placeholder.com/600x300?text=Pediatrics",
+      date: "April 2, 2025",
+      description:
+        "The Medical City expands its pediatric services, offering a holistic environment for children and their families.",
+    },
+  ];
 
   return (
-    <div className="careers-section container py-5">
-      {/* Section Title */}
-      <h2 className="section-title text-center mb-4">
-        Latest <span>Careers</span>
+    <div className="news-section container py-5">
+      {/* ✨ Updated Title Style */}
+      <h2 className="title-center mb-4">
+        Latest <span className="title-primary">News and Health Tips</span>
       </h2>
 
-      {/* Intro Text */}
       <p className="intro-text text-center mb-5">
-        Join our healthcare team and be part of an organization where you can make a meaningful impact on people's lives.
-        As a valued member, you'll collaborate with dedicated professionals to provide compassionate, high-quality care to individuals from all walks of life.
+        Stay updated with the latest health news, innovations, and inspiring stories from The Medical City.
       </p>
 
-      {/* Why Choose Us */}
-      <div className="why-choose-us mb-5">
-        <h3>Why choose us?</h3>
-        <ul>
-          <li><strong>Commitment to excellence:</strong> We have a strong tradition of delivering trusted and effective healthcare services.</li>
-          <li><strong>Supportive culture:</strong> Our workplace fosters collaboration, respect, and positivity.</li>
-          <li><strong>Growth opportunities:</strong> We provide continuous learning and career development to help you reach your full potential.</li>
-        </ul>
-        <p>Be part of a team that makes a difference—start your journey with us today.</p>
-      </div>
-
-      {/* Careers Grid */}
       <div className="row g-4">
-        {careerCards.map((_, index) => (
-          <div key={index} className="col-12 col-md-6 col-lg-4">
-            <div className="career-card card h-100 shadow-sm">
-              <div className="career-img bg-secondary rounded-top" style={{height: '200px'}}></div>
-              <div className="card-body text-center">
-                <a href="#" className="btn btn-primary mt-3">See More →</a>
+        {articles.map((article) => (
+          <div key={article.id} className="col-12 col-md-6 col-lg-4">
+            <div className="news-card card h-100 shadow-sm">
+              <div
+                className="news-img rounded-top"
+                style={{
+                  backgroundImage: `url(${article.image})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  height: "200px",
+                }}
+              ></div>
+
+              <div className="card-body text-center d-flex flex-column justify-content-between">
+                <div>
+                  <h5 className="card-title fw-bold text-primary">{article.title}</h5>
+                  <p className="text-muted small mb-2">{article.date}</p>
+                  <p className="card-text text-secondary small">{article.description}</p>
+                </div>
+                <Link
+                  to={`/news/${article.id}`}
+                  className="btn btn-primary mt-3 align-self-center"
+                >
+                  See More →
+                </Link>
               </div>
             </div>
           </div>

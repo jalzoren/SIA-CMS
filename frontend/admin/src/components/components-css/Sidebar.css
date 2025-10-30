@@ -22,6 +22,9 @@
   padding-left: 0px;
 }
 
+
+
+
 /* ===== Collapsed ===== */
 #sidebar.collapsed {
   width: 70px;
@@ -35,6 +38,13 @@
   width: 0;
   overflow: hidden;
 }
+
+/* Remove Bootstrap dropdown caret */
+.dropdown-toggle::after {
+  display: none !important;
+  content: none !important;
+}
+
 
 /* ===== Brand ===== */
 #sidebar .brand {

@@ -108,8 +108,8 @@ export default function Settings() {
               </div>
 
               <div className="mt-4 d-flex gap-3 w-50">
-                <button className="btn btn-primary w-25">Save Changes</button>
-                <button className="btn btn-secondary w-25">Cancel</button>
+                <button className="btn btn-primary w-5">Save Changes</button>
+                <button className="btn btn-secondary w-5">Cancel</button>
               </div>
             </div>
           </div>
@@ -151,7 +151,7 @@ export default function Settings() {
               </div>
 
               <div className="col-md-12 mt-4">
-                <h5>Colors</h5>
+                <h6>Colors</h6>
                 <div className="d-flex gap-3">
                   <div className="theme-box bg-primary"></div>
                   <div className="theme-box bg-info"></div>
@@ -159,9 +159,8 @@ export default function Settings() {
                 </div>
               </div>
 
-              {/* WEBSITE LAYOUT */}
               <div className="col-md-12 mt-5">
-                <h5>Website Layout</h5>
+                <h6>Website Layout</h6>
                 <div className="layout-options">
                   {["classic", "modern", "compact"].map((layout) => (
                     <div
@@ -171,15 +170,17 @@ export default function Settings() {
                       }`}
                       onClick={() => setSelectedLayout(layout)}
                     >
-                      <div
-                        className={`layout-preview layout-${layout}`}
-                      ></div>
+                      <div className={`layout-preview layout-${layout}`}></div>
                       <p>
                         {layout.charAt(0).toUpperCase() + layout.slice(1)} Layout
                       </p>
                     </div>
                   ))}
                 </div>
+              </div>
+              <div className="mt-4 d-flex gap-3 w-50">
+                <button className="btn btn-primary w-5">Save Changes</button>
+                <button className="btn btn-secondary w-5">Cancel</button>
               </div>
             </div>
           </div>
@@ -267,7 +268,6 @@ export default function Settings() {
               </div>
             </div>
 
-            {/* Subnav Tabs */}
             <div className="role-subnav">
               <div className="tabs">
                 {["users", "permissions", "adduser"].map((sub) => (
@@ -298,10 +298,9 @@ export default function Settings() {
               </div>
             </div>
 
-            {/* USER SUBTABS CONTENT */}
             {userSubTab === "users" && (
               <>
-                <h4 className="cms-table-title">User Accounts</h4>
+                <h6 className="cms-table-title">User Accounts</h6>
                 <table className="cms-table">
                   <thead>
                     <tr>
@@ -421,56 +420,53 @@ export default function Settings() {
 
         {/* === SYSTEM SETTINGS === */}
         {activeTab === "system" && (
-          <div className="cms-card">
+          <div className="cms-card cms-system-card">
             <h3 className="cms-section-title">System Settings</h3>
+
             <div className="system-section">
-              <div className="d-flex justify-content-between align-items-center mb-3">
-                <h5>Back Up</h5>
+              {/* Backup Section */}
+              <div className="system-block d-flex justify-content-between align-items-center mb-4">
+                <h6 className="mb-0">Back Up</h6>
                 <button className="btn btn-primary">Create Backup Now</button>
               </div>
 
-              <h5>Restore</h5>
-              <div className="restore-box border border-dashed p-4 text-center">
-                <p>Click to upload backup file (.zip or .sql files)</p>
-              </div>
-
-              <h5 className="mt-4">Database Maintenance</h5>
-              <div className="row text-center">
-                <div className="col-md-3">
-                  <p>
-                    <b>Total Size</b>
-                  </p>
-                  <p>2.4 GB</p>
-                </div>
-                <div className="col-md-3">
-                  <p>
-                    <b>Total Records</b>
-                  </p>
-                  <p>45,234</p>
-                </div>
-                <div className="col-md-3">
-                  <p>
-                    <b>Last Optimization</b>
-                  </p>
-                  <p>3 days ago</p>
-                </div>
-                <div className="col-md-3">
-                  <p>
-                    <b>Cache Size</b>
-                  </p>
-                  <p>200 MB</p>
+              {/* Restore Section */}
+              <div className="system-block">
+                <h6>Restore</h6>
+                <div className="restore-box border border-dashed p-4 text-center">
+                  <p>Click to upload backup file (.zip or .sql files)</p>
                 </div>
               </div>
 
-              <div className="mt-3 d-flex gap-3 justify-content-center">
-                <button className="btn btn-primary">Optimize Database</button>
-                <button className="btn btn-secondary">Clear Cache</button>
-                <button className="btn btn-warning">Repair Tables</button>
+              {/* Database Maintenance */}
+              <div className="system-block">
+                <h6>Database Maintenance</h6>
+                <div className="row text-center mb-3">
+                  <div className="col-md-3 stat-box">
+                    <p><b>Total Size</b></p><p>2.4 GB</p>
+                  </div>
+                  <div className="col-md-3 stat-box">
+                    <p><b>Total Records</b></p><p>45,234</p>
+                  </div>
+                  <div className="col-md-3 stat-box">
+                    <p><b>Last Optimization</b></p><p>3 days ago</p>
+                  </div>
+                  <div className="col-md-3 stat-box">
+                    <p><b>Cache Size</b></p><p>200 MB</p>
+                  </div>
+                </div>
+
+                <div className="d-flex gap-3 justify-content-center flex-wrap">
+                  <button className="btn btn-primary">Optimize Database</button>
+                  <button className="btn btn-secondary">Clear Cache</button>
+                  <button className="btn btn-warning">Repair Tables</button>
+                </div>
               </div>
 
+              {/* Export / Import Section */}
               <div className="row mt-5">
                 <div className="col-md-6">
-                  <h5>Export Content</h5>
+                  <h6>Export Content</h6>
                   <select className="w-100 mb-2">
                     <option>Select Format</option>
                     <option>PDF</option>
@@ -481,13 +477,13 @@ export default function Settings() {
                 </div>
 
                 <div className="col-md-6">
-                  <h5>Import Content</h5>
+                  <h6>Import Content</h6>
                   <select className="w-100 mb-2">
                     <option>Select Destination</option>
                     <option>Blog</option>
                     <option>Services</option>
                   </select>
-                  <div className="border border-dashed text-center p-4 mb-2">
+                  <div className="restore-box border border-dashed text-center p-4 mb-2">
                     <p>Click to upload files (.PDF, .DOCX, .ZIP)</p>
                   </div>
                   <button className="btn btn-success w-100">Import Content</button>
