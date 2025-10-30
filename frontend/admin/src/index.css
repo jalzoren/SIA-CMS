@@ -51,9 +51,10 @@ body {
   flex-direction: column;
 }
 
-h2{
+h2, h3{
   font-family: "Inter";
   color: var(--primary-color);
+  margin: 0px;
 }
 
 p {
@@ -80,7 +81,7 @@ input[type="search"],
 textarea,
 select {
   width: 100%;
-  padding: 10px 14px;
+  padding: 14px 14px;
   font-size: 14px;
   color: var(--text-dark);
   background-color: #fff;

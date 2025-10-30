@@ -18,6 +18,10 @@
   display: none;
 }
 
+.side-dropdown{
+  padding-left: 0px;
+}
+
 /* ===== Collapsed ===== */
 #sidebar.collapsed {
   width: 70px;

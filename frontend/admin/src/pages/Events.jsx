@@ -34,7 +34,7 @@ export default function Events() {
       <ul className="breadcrumbs">
         <li>Events and Careers</li>
         <li className="divider">/</li>
-        <li>Admin Dashboard</li>
+        <li>Admin Panel</li>
       </ul>
 
       {/* CREATE POST HEADER CARD */}
@@ -43,8 +43,8 @@ export default function Events() {
           <h3 className="announcement">Create an Events and Career Post</h3>
           <div className="announcement-actions">
             <button className="btn draft">Draft</button>
-            <button className="btn submit">
-              Submit
+              <button className="btn submit">
+              Post
             </button>
           </div>
         </div>

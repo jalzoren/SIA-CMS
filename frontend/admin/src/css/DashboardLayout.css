@@ -56,6 +56,7 @@
   cursor: pointer;
   color: var(--text-dark, #333);
   transition: color 0.3s ease;
+  margin-left: 10px;
 }
 
 .toggle-sidebar:hover {

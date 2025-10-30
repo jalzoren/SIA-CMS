@@ -11,7 +11,6 @@ export default function Health() {
   const [isChecked, setIsChecked] = useState(false);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
 
-  // Example doctor data (you can later fetch this from your DB)
   const [doctorList] = useState([
     { name: "Dr. Maria Santos", department: "Pediatrics" },
     { name: "Dr. Jose Dela Cruz", department: "Cardiology" },
@@ -93,7 +92,9 @@ export default function Health() {
           <h3 className="announcement">Create a Health Tips Article</h3>
           <div className="announcement-actions">
             <button className="btn draft">Draft</button>
-            <button className="btn submit">Submit</button>
+               <button className="btn submit">
+              Post
+            </button>
           </div>
         </div>
       </div>

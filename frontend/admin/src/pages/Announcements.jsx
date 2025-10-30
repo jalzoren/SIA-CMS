@@ -34,7 +34,7 @@ export default function Announcements() {
       <ul className="breadcrumbs">
         <li>Announcements</li>
         <li className="divider">/</li>
-        <li>Admin Dashboard</li>
+        <li>Admin Panel</li>
       </ul>
 
       {/* CREATE POST HEADER CARD */}
@@ -44,7 +44,7 @@ export default function Announcements() {
           <div className="announcement-actions">
             <button className="btn draft">Draft</button>
             <button className="btn submit">
-              Submit
+              Post
             </button>
           </div>
         </div>

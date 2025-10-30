@@ -62,6 +62,9 @@
   color: var(--primary-color2);
 }
 
+.breadcrumbs{
+  padding: 0px;
+}
 /* FILTER BAR */
 .filter-bar {
   display: flex;
@@ -113,10 +116,9 @@
   border-color: var(--primary-color2);
   box-shadow: 0 0 0 2px rgba(79, 156, 249, 0.15);
 }
-/* ---------- SEARCH BOX – 2× DROPDOWN WIDTH, COMPACT BUTTON ---------- */
 .search-box {
   flex: 0 0 auto;
-  width: calc(2 * 180px + 12px);   /* 2 dropdowns + gap */
+  width: calc(2 * 180px + 12px);  
   min-width: 300px;
   display: flex;
   overflow: visible;
@@ -132,12 +134,11 @@
   min-width: 0;
 }
 
-/* SEARCH BUTTON – COMPACT, NORMAL SIZE */
 .search-btn {
   background: var(--primary-color2);
   border: none;
   color: white;
-  width: 48px;                     /* Fixed compact width */
+  width: 48px;                  
   height: 100%;
   border-radius: 0 8px 8px 0;
   display: flex;
@@ -155,7 +156,7 @@
 }
 
 input{
-    height: 30px;
+    height: 40px;
     padding: 10px;
     margin: 5px;
 }

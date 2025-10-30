@@ -1,0 +1,456 @@
+/* ==============================
+   THEME VARIABLES
+============================== */
+:root {
+  --primary-color: #043873;
+  --primary-color2: #4f9cf9;
+  --bg-blue: #f3f7ff;
+  --white: #ffffff;
+  --text-dark: #1a1a1a;
+  --text-gray: #6b7280;
+  --border-color: #e5e7eb;
+  --shadow: 0 2px 8px rgba(4, 56, 115, 0.05);
+  --radius: 10px;
+}
+
+/* ==============================
+   PAGE CONTAINER
+============================== */
+.cms-settings-page {
+  padding: 25px 40px;
+  background-color: var(--bg-blue);
+  font-family: "Inter", sans-serif;
+  color: var(--text-dark);
+}
+
+/* ==============================
+   HEADER
+============================== */
+.title {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: var(--text-gray);
+  margin: 6px 0 20px 0;
+}
+
+.breadcrumbs .divider {
+  color: #9ca3af;
+}
+
+/* ==============================
+   TABS
+============================== */
+.cms-tabs {
+  display: flex;
+  gap: 25px;
+  border-bottom: 2px solid #dbe2ef;
+  padding-bottom: 8px;
+  margin-bottom: 25px;
+  font-size: 15px;
+}
+
+.cms-tab-item {
+  color: #555;
+  cursor: pointer;
+  transition: 0.2s;
+  padding-bottom: 6px;
+  position: relative;
+}
+
+.cms-tab-item.active {
+  color: var(--primary-color);
+  font-weight: 600;
+  border-bottom: 2px solid var(--primary-color2);
+}
+
+.cms-tab-item:hover {
+  color: var(--primary-color2);
+}
+
+/* ==============================
+   CARD CONTAINERS
+============================== */
+.cms-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 25px;
+  box-shadow: var(--shadow);
+}
+
+.cms-section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 20px;
+}
+
+/* ==============================
+   INPUTS & SELECTS
+============================== */
+label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-dark);
+  display: block;
+  margin-bottom: 6px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+select {
+  width: 100%;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  transition: 0.2s;
+  background-color: #fff;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--primary-color2);
+  box-shadow: 0 0 0 2px rgba(79, 156, 249, 0.15);
+}
+
+/* ==============================
+   BUTTONS
+============================== */
+button {
+  border-radius: 8px;
+  transition: 0.2s;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 16px;
+}
+
+.btn-primary {
+  background: var(--primary-color2) !important;
+  color: #fff !important;
+  border: none !important;
+}
+
+.btn-primary:hover {
+  background: var(--primary-color) !important;
+}
+
+.btn-secondary {
+  background: #e5e7eb !important;
+  border: none !important;
+  color: var(--text-dark) !important;
+}
+
+.btn-secondary:hover {
+  background: #d1d5db !important;
+}
+
+.btn-warning {
+  background: #fbbf24 !important;
+  border: none !important;
+  color: #fff !important;
+}
+
+.btn-warning:hover {
+  background: #f59e0b !important;
+}
+
+.btn-success {
+  background: var(--primary-color) !important;
+  border: none !important;
+}
+
+/* ==============================
+   UPLOAD BUTTONS
+============================== */
+.upload-btn {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.upload-btn small {
+  color: var(--text-gray);
+  font-size: 13px;
+}
+
+/* ==============================
+   APPEARANCE / THEME COLORS
+============================== */
+.theme-box {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.theme-box:hover {
+  transform: scale(1.05);
+}
+
+/* ==============================
+   LAYOUT PREVIEW BOXES
+============================== */
+.layout-options {
+  display: flex;
+  gap: 25px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+
+.layout-box {
+  border: 2px solid transparent;
+  border-radius: 10px;
+  padding: 15px;
+  width: 160px;
+  text-align: center;
+  background: #f9fafb;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.layout-box.active {
+  border-color: var(--primary-color2);
+  background: #e9f3ff;
+}
+
+.layout-preview {
+  width: 100%;
+  height: 80px;
+  border-radius: 8px;
+  background: linear-gradient(to right, #dbeafe, #eff6ff);
+  margin-bottom: 8px;
+}
+
+/* ==============================
+   USER ROLE MANAGEMENT
+============================== */
+.cms-userrole-card .role-summary {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+}
+
+.summary-card {
+  flex: 1;
+  background: var(--bg-blue);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  text-align: center;
+  padding: 20px;
+}
+
+.summary-card h2 {
+  color: var(--primary-color);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.summary-card p {
+  color: var(--text-gray);
+  font-size: 14px;
+}
+
+/* Sub navigation under user role */
+.role-subnav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.role-subnav .tabs {
+  display: flex;
+  gap: 20px;
+  font-size: 15px;
+  border-bottom: 2px solid #dbe2ef;
+  padding-bottom: 6px;
+}
+
+.role-subnav .tabs span {
+  color: #555;
+  cursor: pointer;
+  transition: 0.2s;
+  padding-bottom: 4px;
+}
+
+.role-subnav .tabs span.active {
+  color: var(--primary-color);
+  border-bottom: 2px solid var(--primary-color2);
+  font-weight: 600;
+}
+
+.role-subnav .tabs span:hover {
+  color: var(--primary-color2);
+}
+
+.role-subnav .filters {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.role-subnav .filters select {
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  padding: 6px 10px;
+  height: 40px;
+}
+
+.search-bar {
+  display: flex;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.search-bar input {
+  border: none;
+  padding: 8px 10px;
+  font-size: 14px;
+  outline: none;
+}
+
+.search-bar button {
+  background: var(--primary-color2);
+  border: none;
+  color: white;
+  width: 40px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.search-bar button:hover {
+  background: var(--primary-color);
+}
+
+/* ==============================
+   TABLE STYLING
+============================== */
+.cms-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.cms-table thead {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+.cms-table th,
+.cms-table td {
+  padding: 12px 15px;
+  text-align: left;
+  font-size: 14px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.cms-table td .edit {
+  color: var(--primary-color2);
+  cursor: pointer;
+}
+
+.cms-table td .edit:hover {
+  color: var(--primary-color);
+  text-decoration: underline;
+}
+
+.cms-table td .delete {
+  color: #dc2626;
+  cursor: pointer;
+}
+
+.cms-table td .delete:hover {
+  text-decoration: underline;
+}
+
+/* ==============================
+   PAGINATION (Bootstrap Styled)
+============================== */
+.pagination {
+  margin-top: 20px;
+  justify-content: center;
+}
+
+.pagination .page-item .page-link {
+  color: var(--primary-color2);
+  border: 1px solid var(--border-color);
+  transition: 0.2s;
+}
+
+.pagination .page-item .page-link:hover {
+  background-color: var(--primary-color);
+  color: #fff;
+  border-color: var(--primary-color);
+}
+
+.pagination .page-item.active .page-link {
+  background-color: var(--primary-color2);
+  border-color: var(--primary-color2);
+  color: #fff;
+}
+
+.pagination .page-item.disabled .page-link {
+  color: #9ca3af;
+  background: #f9fafb;
+  border-color: #e5e7eb;
+}
+
+/* ==============================
+   SYSTEM SETTINGS
+============================== */
+.restore-box {
+  border-radius: var(--radius);
+  background: #f9fafb;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.restore-box:hover {
+  background: #edf2f7;
+}
+
+.border-dashed {
+  border: 2px dashed #cbd5e1 !important;
+}
+
+/* ==============================
+   RESPONSIVE
+============================== */
+@media (max-width: 768px) {
+  .cms-tabs {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .role-subnav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .layout-options {
+    flex-direction: column;
+  }
+
+  .summary-card {
+    flex: 1 1 100%;
+  }
+}

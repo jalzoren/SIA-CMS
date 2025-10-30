@@ -7,9 +7,15 @@
 h2{
   font-family: "Inter";
   color: var(--primary-color);
+    margin-bottom: 0px;
+
 }
 
 
+h3{
+    margin-bottom: 0px;
+
+}
 .logo {
   height: 6em;
   padding: 1.5em;

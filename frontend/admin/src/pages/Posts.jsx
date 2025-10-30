@@ -45,9 +45,9 @@ export default function Posts() {
       {/* ----- Header ----- */}
       <h2 className="title">Posts</h2>
       <ul className="breadcrumbs">
-        <li>Doctors and Departments</li>
+        <li>Posts Log</li>
         <li className="divider">/</li>
-        <li>Post</li>
+        <li>Admin Panel</li>
       </ul>
 
       {/* ----- Tabs ----- */}

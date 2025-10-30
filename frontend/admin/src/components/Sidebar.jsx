@@ -102,8 +102,8 @@ const Sidebar = ({ isOpen }) => {
                   <span className="icon">{item.icon}</span>
                   {isOpen && <span className="label">{item.label}</span>}
                   {isOpen && (
-                    <span className="arrow">
-                      {isOpenDropdown ? <FaChevronUp /> : <FaChevronDown />}
+                    <span className="">
+                      
                     </span>
                   )}
                 </button>
