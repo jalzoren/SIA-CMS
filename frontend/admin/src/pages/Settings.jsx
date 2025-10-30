@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaUpload } from "react-icons/fa";
 import "../css/Settings.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -7,6 +7,11 @@ export default function Settings() {
   const [activeTab, setActiveTab] = useState("general");
   const [selectedLayout, setSelectedLayout] = useState("classic");
   const [userSubTab, setUserSubTab] = useState("users");
+
+  // Scroll to top whenever a main tab changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [activeTab, userSubTab]);
 
   return (
     <div className="cms-settings-page">
@@ -81,6 +86,7 @@ export default function Settings() {
                   <option>Select language</option>
                   <option>English</option>
                   <option>Spanish</option>
+                  <option>Filipino</option>
                 </select>
               </div>
 
@@ -94,10 +100,10 @@ export default function Settings() {
                 </select>
                 <div className="mt-2 d-flex gap-3">
                   <label>
-                    <input type="radio" name="date" /> MM/DD/YYYY
+                    <input type="radio" name="dateformat" /> MM/DD/YYYY
                   </label>
                   <label>
-                    <input type="radio" name="date" /> DD/MM/YYYY
+                    <input type="radio" name="dateformat" /> DD/MM/YYYY
                   </label>
                 </div>
               </div>
@@ -132,8 +138,8 @@ export default function Settings() {
               <div className="col-md-4">
                 <label>Font Size</label>
                 <select>
-                  <option>Body</option>
                   <option>Small</option>
+                  <option>Medium</option>
                   <option>Large</option>
                 </select>
               </div>
@@ -151,7 +157,7 @@ export default function Settings() {
               </div>
 
               <div className="col-md-12 mt-4">
-                <h6>Colors</h6>
+                <h6>Theme Colors</h6>
                 <div className="d-flex gap-3">
                   <div className="theme-box bg-primary"></div>
                   <div className="theme-box bg-info"></div>
@@ -178,6 +184,7 @@ export default function Settings() {
                   ))}
                 </div>
               </div>
+
               <div className="mt-4 d-flex gap-3 w-50">
                 <button className="btn btn-primary w-5">Save Changes</button>
                 <button className="btn btn-secondary w-5">Cancel</button>
@@ -268,6 +275,7 @@ export default function Settings() {
               </div>
             </div>
 
+            {/* SUB NAVIGATION */}
             <div className="role-subnav">
               <div className="tabs">
                 {["users", "permissions", "adduser"].map((sub) => (
@@ -298,6 +306,7 @@ export default function Settings() {
               </div>
             </div>
 
+            {/* USERS TABLE */}
             {userSubTab === "users" && (
               <>
                 <h6 className="cms-table-title">User Accounts</h6>
@@ -334,49 +343,10 @@ export default function Settings() {
                     </tr>
                   </tbody>
                 </table>
-
-                <nav aria-label="User pagination" className="mt-3">
-                  <ul className="pagination justify-content-center">
-                    <li className="page-item disabled">
-                      <a className="page-link" href="#">
-                        Previous
-                      </a>
-                    </li>
-                    <li className="page-item active">
-                      <a className="page-link" href="#">
-                        1
-                      </a>
-                    </li>
-                    <li className="page-item">
-                      <a className="page-link" href="#">
-                        2
-                      </a>
-                    </li>
-                    <li className="page-item">
-                      <a className="page-link" href="#">
-                        3
-                      </a>
-                    </li>
-                    <li className="page-item disabled">
-                      <a className="page-link" href="#">
-                        ...
-                      </a>
-                    </li>
-                    <li className="page-item">
-                      <a className="page-link" href="#">
-                        68
-                      </a>
-                    </li>
-                    <li className="page-item">
-                      <a className="page-link" href="#">
-                        Next
-                      </a>
-                    </li>
-                  </ul>
-                </nav>
               </>
             )}
 
+            {/* PERMISSIONS */}
             {userSubTab === "permissions" && (
               <div className="mt-3">
                 <h5>Role Permissions Management</h5>
@@ -384,6 +354,7 @@ export default function Settings() {
               </div>
             )}
 
+            {/* ADD USER */}
             {userSubTab === "adduser" && (
               <div className="mt-3">
                 <h5>Add New User</h5>
@@ -424,13 +395,11 @@ export default function Settings() {
             <h3 className="cms-section-title">System Settings</h3>
 
             <div className="system-section">
-              {/* Backup Section */}
               <div className="system-block d-flex justify-content-between align-items-center mb-4">
                 <h6 className="mb-0">Back Up</h6>
                 <button className="btn btn-primary">Create Backup Now</button>
               </div>
 
-              {/* Restore Section */}
               <div className="system-block">
                 <h6>Restore</h6>
                 <div className="restore-box border border-dashed p-4 text-center">
@@ -438,7 +407,6 @@ export default function Settings() {
                 </div>
               </div>
 
-              {/* Database Maintenance */}
               <div className="system-block">
                 <h6>Database Maintenance</h6>
                 <div className="row text-center mb-3">
@@ -463,7 +431,6 @@ export default function Settings() {
                 </div>
               </div>
 
-              {/* Export / Import Section */}
               <div className="row mt-5">
                 <div className="col-md-6">
                   <h6>Export Content</h6>

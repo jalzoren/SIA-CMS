@@ -59,6 +59,11 @@ h6 {
   color: var(--color-text);
 }
 
+
+label{
+ color: var(--primary-color);
+}
+
 p {
   color: #444;
   margin-bottom: 1rem;

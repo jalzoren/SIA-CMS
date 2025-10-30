@@ -61,7 +61,7 @@
   gap: 0.75rem;
 }
 
-h2{
+h2, label{
   font-family: "Inter";
   color: var(--primary-color);
 }
