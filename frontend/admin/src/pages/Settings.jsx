@@ -389,7 +389,6 @@ export default function Settings() {
           </div>
         )}
 
-        {/* === SYSTEM SETTINGS === */}
         {activeTab === "system" && (
           <div className="cms-card cms-system-card">
             <h3 className="cms-section-title">System Settings</h3>
