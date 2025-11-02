@@ -83,10 +83,9 @@ export default function Dashboard() {
         <li>Admin Dashboard</li>
       </ul>
 
-      {/* TOP CARDS - Using flex + same structure */}
       <div className="info-data">
         <a
-          href="https://yourwebsite.com"
+          href="https://localhost:5174/"
           target="_blank"
           rel="noopener noreferrer"
           className="card"

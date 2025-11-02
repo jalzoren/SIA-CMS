@@ -8,6 +8,7 @@ import Events from "./pages/Events";
 import Health from "./pages/Health";
 import Posts from "./pages/Posts";
 import Settings from "./pages/Settings";
+import Media from "./pages/Media";
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
           <Route path="health" element={<Health />} />
                     <Route path="posts" element={<Posts />} />
                     <Route path="settings" element={<Settings />} />
+                    <Route path="media" element={<Media />} />
 
         </Route>
       </Routes>
