@@ -91,7 +91,7 @@ const Announcements = () => {
                   to={`/announcements/${item.id}`}
                   className="btn btn-primary mt-3 align-self-center"
                 >
-                  See More →
+                  Read More →
                 </Link>
               </div>
             </div>
