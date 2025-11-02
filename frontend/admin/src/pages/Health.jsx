@@ -89,7 +89,7 @@ export default function Health() {
       {/* CREATE POST HEADER CARD */}
       <div className="card announcement-card">
         <div className="head">
-          <h3 className="announcement">Create a Health Tips Article</h3>
+          <h3 className="announcement-title">Create a Health Tips Article</h3>
           <div className="announcement-actions">
             <button className="btn draft">Draft</button>
                <button className="btn submit">

@@ -71,11 +71,13 @@ h3{
   margin: 0px;
 }
 
-.announcement{
+.announcement-title{
   font-size: 1rem;
   font-weight: 600;
   color: var(--primary-color);
   font-family: "Inter";
+  margin-bottom: 0px;
+  margin-left: 15px;
 }
 
 .announcement-actions {

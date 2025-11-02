@@ -40,7 +40,7 @@ export default function Events() {
       {/* CREATE POST HEADER CARD */}
       <div className="card announcement-card">
         <div className="head">
-          <h3 className="announcement">Create an Events and Career Post</h3>
+          <h3 className="announcement-title">Create an Events and Career Post</h3>
           <div className="announcement-actions">
             <button className="btn draft">Draft</button>
               <button className="btn submit">
