@@ -72,9 +72,9 @@
 
 .profile-icon {
   font-size: 1.8rem;
-  color: var(--text-dark, #333);
+  color: var(--primary-color);
   transition: color 0.3s ease;
-  margin-right: 10px;
+  margin-right: 15px;
 }
 
 .title-name{
@@ -92,7 +92,6 @@
   overflow-y: auto;
 }
 
-/* ===== Sidebar Toggle States ===== */
 .dashboard-layout.sidebar-open #sidebar {
   width: 260px;
 }
@@ -100,7 +99,6 @@
   width: 70px;
 }
 
-/* Adjust content margin */
 .dashboard-layout.sidebar-open #content {
   margin-left: 260px;
 }
@@ -108,7 +106,6 @@
   margin-left: 70px;
 }
 
-/* ===== Responsive (mobile) ===== */
 @media (max-width: 768px) {
   .dashboard-layout {
     position: relative;
