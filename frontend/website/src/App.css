@@ -23,7 +23,7 @@ html {
 }
 
 body {
-  padding-top: 110px; /* Prevents content hiding behind fixed header */
+  padding-top: 130px; /* Prevents content hiding behind fixed header */
 }
 
 
