@@ -1,6 +1,7 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../css/Contact.css"; 
+import Chatbot from "../components/Chatbot";
 
 const Contact = () => {
   return (
@@ -58,6 +59,8 @@ const Contact = () => {
           </ul>
         </div>
       </div>
+              <Chatbot />
+
     </div>
   );
 };

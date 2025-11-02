@@ -5,9 +5,9 @@ import {
   MdAddBox,
   MdOutlineArrowForward,
   MdOutlineBookmarkBorder,
-  MdClose,
 } from "react-icons/md";
-import { FaHeart, FaChild, FaComments } from "react-icons/fa";
+import { FaHeart, FaChild } from "react-icons/fa";
+import Chatbot from "../components/Chatbot";
 
 function Home() {
   const slides = [
@@ -17,11 +17,6 @@ function Home() {
   ];
 
   const [current, setCurrent] = useState(0);
-  const [showChat, setShowChat] = useState(false);
-  const [messages, setMessages] = useState([
-    { sender: "bot", text: "👋 Hi! I'm Lunax — your Healthcare Companion." },
-  ]);
-  const [input, setInput] = useState("");
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -29,24 +24,6 @@ function Home() {
     }, 4000);
     return () => clearInterval(timer);
   }, [slides.length]);
-
-  const handleSend = () => {
-    if (!input.trim()) return;
-    const newMessage = { sender: "user", text: input };
-    setMessages((prev) => [...prev, newMessage]);
-    setInput("");
-
-    // Simulated bot response
-    setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        {
-          sender: "bot",
-          text: "Thanks for reaching out! 💬 A representative will assist you soon.",
-        },
-      ]);
-    }, 1000);
-  };
 
   const services = [
     {
@@ -152,7 +129,7 @@ function Home() {
         </div>
       </section>
 
-      {/* --- Section 3: Updates --- */}
+      {/* --- Section 3: News --- */}
       <section className="news-section py-5">
         <div className="container">
           <h2 className="news-title text-center mb-5">
@@ -194,6 +171,7 @@ function Home() {
                       Event {i + 1}
                     </span>
                   </div>
+
                   <div className="news-content p-3 flex-grow-1">
                     <h5 className="news-heading mb-2 text-primary">
                       {item.title}
@@ -251,7 +229,7 @@ function Home() {
         </div>
       </section>
 
-      {/* --- Section 5: News and Health Tips --- */}
+      {/* --- Section 5: News --- */}
       <section className="news-section py-5">
         <div className="container">
           <h2 className="news-title text-center mb-5">
@@ -262,19 +240,20 @@ function Home() {
           <div className="news-grid row flex-nowrap overflow-auto pb-3 px-2 px-lg-0">
             {[
               {
-                title: "Healthy Living Tips for 2025",
+                title:
+                  "Online Mother's Breastfeeding Class: From Overwhelmed...",
                 date: "Oct 07, 2025",
               },
               {
-                title: "Nutrition Week: Eat Smart, Live Strong",
+                title: "Palliative Lay Forum: Achieving the Miracle...",
                 date: "Oct 04, 2025",
               },
               {
-                title: "Mental Health Awareness Month",
+                title: "CARMI Reunion 2025: Growing Forward: 15 Years...",
                 date: "Oct 18, 2025",
               },
               {
-                title: "Heart Care: Preventive Tips",
+                title: "Brain Connects 2025",
                 date: "Oct 06–12, 2025",
               },
             ].map((item, i) => (
@@ -289,7 +268,7 @@ function Home() {
                     style={{ height: "180px" }}
                   >
                     <span className="text-secondary fw-semibold">
-                      Article {i + 1}
+                      Event {i + 1}
                     </span>
                   </div>
 
@@ -308,13 +287,12 @@ function Home() {
 
           <div className="text-center mt-4">
             <button className="news-btn">
-              View All News <MdOutlineArrowForward />
+              View All News and Health Tips <MdOutlineArrowForward />
             </button>
           </div>
         </div>
       </section>
 
-      {/* --- Section 6: Contact --- */}
       <section className="contact-section py-5 bg-light">
         <div className="container">
           <div className="row g-4 align-items-stretch">
@@ -355,65 +333,11 @@ function Home() {
                 ></iframe>
               </div>
             </div>
+
+            <Chatbot />
           </div>
         </div>
       </section>
-
-      {/* --- Floating Chatbot --- */}
-      <div className="chatbot-container">
-        <div className={`chatbot-popup-wrapper ${showChat ? "show" : ""}`}>
-          {showChat && (
-            <div className="chatbot-popup">
-              <div className="chatbot-header">
-                <div className="chatbot-info">
-                  <img
-                    src="lunax-avatar.png"
-                    alt="Lunax"
-                    className="chatbot-avatar"
-                  />
-                  <div>
-                    <h5 className="mb-0">
-                      Hi! I'm <span className="text-highlight">Lunax</span>
-                    </h5>
-                    <p className="mb-0 small text-white">Your Healthcare Companion</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="chatbot-messages">
-                {messages.map((msg, index) => (
-                  <div
-                    key={index}
-                    className={`chat-message ${
-                      msg.sender === "user" ? "user-msg" : "bot-msg"
-                    }`}
-                  >
-                    {msg.text}
-                  </div>
-                ))}
-              </div>
-
-              <div className="chatbot-input">
-                <input
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  placeholder="Type a message..."
-                  onKeyDown={(e) => e.key === "Enter" && handleSend()}
-                />
-                <button onClick={handleSend}>➤</button>
-              </div>
-            </div>
-          )}
-        </div>
-
-        <button
-          className="chatbot-btn"
-          onClick={() => setShowChat((prev) => !prev)}
-        >
-          {showChat ? <MdClose /> : <FaComments />}
-        </button>
-      </div>
     </div>
   );
 }
