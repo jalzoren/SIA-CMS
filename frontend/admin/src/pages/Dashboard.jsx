@@ -4,6 +4,7 @@ import ApexCharts from "apexcharts";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { FaGlobe, FaPenFancy, FaFileAlt } from "react-icons/fa";
+import { MdFullscreen } from "react-icons/md";
 
 export default function Dashboard() {
   const [time, setTime] = useState(new Date());
@@ -44,7 +45,7 @@ export default function Dashboard() {
       },
       markers: {
         size: 5,
-        colors: ["#ffffff"],
+        colors: ["#000000ff"],
         strokeColors: "#4f9cf9",
         strokeWidth: 2,
       },
@@ -56,16 +57,8 @@ export default function Dashboard() {
           opacityTo: 0.05,
           stops: [0, 90, 100],
           colorStops: [
-            {
-              offset: 0,
-              color: "#4f9cf9",
-              opacity: 0.5,
-            },
-            {
-              offset: 100,
-              color: "#043873",
-              opacity: 0.1,
-            },
+            { offset: 0, color: "#4f9cf9", opacity: 0.5 },
+            { offset: 100, color: "#043873", opacity: 0.1 },
           ],
         },
       },
@@ -90,13 +83,13 @@ export default function Dashboard() {
         <li>Admin Dashboard</li>
       </ul>
 
-      {/* TOP CARDS */}
+      {/* TOP CARDS - Using flex + same structure */}
       <div className="info-data">
         <a
           href="https://yourwebsite.com"
           target="_blank"
           rel="noopener noreferrer"
-          className="card link-card"
+          className="card"
         >
           <div className="icon-circle">
             <FaGlobe />
@@ -130,20 +123,65 @@ export default function Dashboard() {
 
       {/* MAIN CONTENT GRID */}
       <div className="main-content">
-        {/* LEFT SIDE (Chart) */}
+        {/* CHART + VISIT LOGS */}
         <div className="chart-card">
-          <div className="head">
-            <h3>Website Visits</h3>
-            <i className="bx bx-fullscreen icon"></i>
+          <div className="chart-title">
+            <h3 className="chart-name">Website Visits</h3>
+            <MdFullscreen className="fullscreen-icon" />
           </div>
+
           <div id="chart"></div>
+
+          <div className="visit-logs">
+            <h4>Recent Visit Logs</h4>
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Visitor IP</th>
+                  <th>Page Visited</th>
+                  <th>Device</th>
+                  <th>Date & Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>192.168.0.15</td>
+                  <td>/home</td>
+                  <td>Desktop</td>
+                  <td>2025-10-31 13:22</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>192.168.0.32</td>
+                  <td>/services</td>
+                  <td>Mobile</td>
+                  <td>2025-10-31 13:25</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>192.168.0.44</td>
+                  <td>/contact</td>
+                  <td>Tablet</td>
+                  <td>2025-10-31 13:28</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
 
-        {/* RIGHT SIDE (Calendar + Hotline) */}
+        {/* SIDE PANEL */}
         <div className="side-panel">
           <div className="calendar-section">
             <div className="calendar-header">
-              <h3>{time.toLocaleTimeString()}</h3>
+              <h3>
+                {time.toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  second: "2-digit",
+                })}
+              </h3>
               <p>
                 {time.toLocaleDateString(undefined, {
                   weekday: "long",
