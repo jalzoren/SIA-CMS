@@ -64,9 +64,9 @@ function Home() {
                 <em>Your Health, Our Priority.</em>
               </h1>
               <p className="fs-5 text-secondary mb-4">
-                We unite innovation and empathy to redefine healthcare —
-                blending modern medical expertise with heartfelt human
-                connection to help you heal, recover, and thrive.
+                We unite innovation and empathy to redefine healthcare — blending
+                modern medical expertise with heartfelt human connection to help
+                you heal, recover, and thrive.
               </p>
               <button className="home-btn">
                 Book Appointment <MdOutlineBookmarkBorder />
@@ -140,8 +140,7 @@ function Home() {
           <div className="news-grid row flex-nowrap overflow-auto pb-3 px-2 px-lg-0">
             {[
               {
-                title:
-                  "Online Mother's Breastfeeding Class: From Overwhelmed...",
+                title: "Online Mother's Breastfeeding Class: From Overwhelmed...",
                 date: "Oct 07, 2025",
               },
               {
@@ -229,7 +228,8 @@ function Home() {
         </div>
       </section>
 
-      {/* --- Section 5: News --- */}
+
+         {/* --- Section 5: News --- */}
       <section className="news-section py-5">
         <div className="container">
           <h2 className="news-title text-center mb-5">
@@ -240,8 +240,7 @@ function Home() {
           <div className="news-grid row flex-nowrap overflow-auto pb-3 px-2 px-lg-0">
             {[
               {
-                title:
-                  "Online Mother's Breastfeeding Class: From Overwhelmed...",
+                title: "Online Mother's Breastfeeding Class: From Overwhelmed...",
                 date: "Oct 07, 2025",
               },
               {
@@ -293,51 +292,54 @@ function Home() {
         </div>
       </section>
 
+
       <section className="contact-section py-5 bg-light">
-        <div className="container">
-          <div className="row g-4 align-items-stretch">
-            {/* CONTACT INFO */}
-            <div className="col-lg-5 col-md-6">
-              <div className="contact-info bg-white shadow-sm rounded-4 p-4 h-100">
-                <h2 className="fw-bold mb-4">
-                  <span className="text-primary2">Contact</span> Information
-                </h2>
+  <div className="container">
+    <div className="row g-4 align-items-stretch">
+      {/* CONTACT INFO */}
+      <div className="col-lg-5 col-md-6">
+        <div className="contact-info bg-white shadow-sm rounded-4 p-4 h-100">
+          <h2 className="fw-bold mb-4">
+            <span className="text-primary2">Contact</span> Information
+          </h2>
 
-                <div className="info-item mb-3">
-                  <h5 className="fw-semibold">Address:</h5>
-                  <p className="text-muted mb-0">
-                    Kapasigan, Pasig City, Metro Manila
-                  </p>
-                </div>
+          <div className="info-item mb-3">
+            <h5 className="fw-semibold">Address:</h5>
+            <p className="text-muted mb-0">
+              Kapasigan, Pasig City, Metro Manila
+            </p>
+          </div>
 
-                <div className="info-item mb-3">
-                  <h5 className="fw-semibold">Phone:</h5>
-                  <p className="text-muted mb-0">+63 912 345 6789</p>
-                </div>
+          <div className="info-item mb-3">
+            <h5 className="fw-semibold">Phone:</h5>
+            <p className="text-muted mb-0">+63 912 345 6789</p>
+          </div>
 
-                <div className="info-item mb-3">
-                  <h5 className="fw-semibold">Email:</h5>
-                  <p className="text-muted mb-0">info@example.com</p>
-                </div>
-              </div>
-            </div>
-
-            {/* MAP */}
-            <div className="col-lg-7 col-md-6">
-              <div className="map-container rounded-4 overflow-hidden shadow-sm h-100">
-                <iframe
-                  title="Pasig Map"
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3859.843023830412!2d121.0747!3d14.5670!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b833ad9e7f43%3A0x4a6a9436f8b7a5b5!2sPasig%2C%20Metro%20Manila!5e0!3m2!1sen!2sph!4v1690000000000!5m2!1sen!2sph"
-                  allowFullScreen
-                  loading="lazy"
-                ></iframe>
-              </div>
-            </div>
-
-            <Chatbot />
+          <div className="info-item mb-3">
+            <h5 className="fw-semibold">Email:</h5>
+            <p className="text-muted mb-0">info@example.com</p>
           </div>
         </div>
-      </section>
+      </div>
+
+      {/* MAP */}
+      <div className="col-lg-7 col-md-6">
+        <div className="map-container rounded-4 overflow-hidden shadow-sm h-100">
+          <iframe
+            title="Pasig Map"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3859.843023830412!2d121.0747!3d14.5670!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b833ad9e7f43%3A0x4a6a9436f8b7a5b5!2sPasig%2C%20Metro%20Manila!5e0!3m2!1sen!2sph!4v1690000000000!5m2!1sen!2sph"
+            allowFullScreen
+            loading="lazy"
+          ></iframe>
+        </div>
+      </div>
+
+            <Chatbot />
+
+    </div>
+  </div>
+</section>
+
     </div>
   );
 }

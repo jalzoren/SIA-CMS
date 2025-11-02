@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import "../css/Navbar.css";
 import { IoMdArrowDropdown } from "react-icons/io";
@@ -9,20 +9,24 @@ function Navbar() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // ✅ Scroll to top smoothly on route change
-  useEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-  }, [location.pathname]);
-
   const isNewsActive =
     location.pathname.startsWith("/news") ||
     location.pathname.startsWith("/announcements");
 
-  // ✅ Close menu after navigating (for mobile)
-  const handleNavClick = (path) => {
-    navigate(path);
+  // ✅ Universal scroll + navigate function
+  const handleNavClick = (e, path) => {
+    e.preventDefault();
+
+    if (location.pathname === path) {
+      // If already on the page, scroll to top
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      // Otherwise, navigate normally
+      navigate(path);
+    }
+
+    // Close mobile menu after clicking
     setMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -35,16 +39,12 @@ function Navbar() {
 
       {/* Navbar */}
       <nav className="navbar">
-        <div
-          className="brand"
-          onClick={() => handleNavClick("/")}
-          style={{ cursor: "pointer" }}
-        >
+        <div to="/dashboard" className="brand">
           <i className="bx bx-plus-medical icon"></i>
           <span>HospitalED</span>
         </div>
 
-        {/* Hamburger (mobile) */}
+        {/* Hamburger */}
         <button
           className="hamburger d-lg-none"
           onClick={() => setMenuOpen(!menuOpen)}
@@ -56,17 +56,17 @@ function Navbar() {
         {/* Nav Links */}
         <ul className={`nav-links ${menuOpen ? "open" : ""}`}>
           <li>
-            <NavLink to="/" end onClick={() => setMenuOpen(false)}>
+            <NavLink to="/" end onClick={(e) => handleNavClick(e, "/")}>
               Home
             </NavLink>
           </li>
           <li>
-            <NavLink to="/services" onClick={() => setMenuOpen(false)}>
+            <NavLink to="/services" onClick={(e) => handleNavClick(e, "/services")}>
               Services
             </NavLink>
           </li>
           <li>
-            <NavLink to="/doctors" onClick={() => setMenuOpen(false)}>
+            <NavLink to="/doctors" onClick={(e) => handleNavClick(e, "/doctors")}>
               Doctors
             </NavLink>
           </li>
@@ -77,35 +77,39 @@ function Navbar() {
               News <IoMdArrowDropdown />
             </span>
             <div className="dropdown-content">
-              <NavLink to="/news" onClick={() => setMenuOpen(false)}>
+              <NavLink
+                to="/news"
+                onClick={(e) => handleNavClick(e, "/news")}
+              >
                 Latest News
               </NavLink>
-              <NavLink to="/announcements" onClick={() => setMenuOpen(false)}>
+              <NavLink
+                to="/announcements"
+                onClick={(e) => handleNavClick(e, "/announcements")}
+              >
                 Announcements
               </NavLink>
             </div>
           </li>
 
           <li>
-            <NavLink to="/careers" onClick={() => setMenuOpen(false)}>
+            <NavLink to="/careers" onClick={(e) => handleNavClick(e, "/careers")}>
               Careers
             </NavLink>
           </li>
           <li>
-            <NavLink to="/about" onClick={() => setMenuOpen(false)}>
+            <NavLink to="/about" onClick={(e) => handleNavClick(e, "/about")}>
               About
             </NavLink>
           </li>
           <li>
-            <NavLink to="/contact" onClick={() => setMenuOpen(false)}>
+            <NavLink to="/contact" onClick={(e) => handleNavClick(e, "/contact")}>
               Contact
             </NavLink>
           </li>
         </ul>
 
-        <button className="book-btn" onClick={() => handleNavClick("/contact")}>
-          Book an Appointment
-        </button>
+        <button className="book-btn">Book an Appointment</button>
       </nav>
     </div>
   );

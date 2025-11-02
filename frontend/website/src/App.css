@@ -18,19 +18,36 @@
   --radius-large: 16px;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  padding-top: 110px; /* Prevents content hiding behind fixed header */
+}
+
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html, body, #root {
+html,
+body {
   width: 100%;
-  height: 100%;
-  overflow-x: hidden;
+  min-height: 100%;
+  overflow-x: hidden; /* ✅ only here */
   background-color: #ffffff;
   font-family: "Poppins", sans-serif;
 }
+
+#root {
+  width: 100%;
+  min-height: 100%;
+  background-color: #ffffff;
+}
+
 
 /* Header style example */
 .header {

@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import ScrollToTop from "./components/ScrollToTop";
 
 import Home from "./pages/Home";
 import Services from "./pages/Services";
@@ -10,21 +11,18 @@ import Announcements from "./pages/Announcements";
 import Careers from "./pages/Careers";
 import Contact from "./pages/Contact";
 import ComponentNews from "./components/ComponentNews";
-
-import "./App.css";
 import ComponentAnnouncement from "./components/ComponentAnnouncement";
 import ComponentCareers from "./components/ComponentCareers";
-import ScrollToTop from "./components/ScrollToTop";
+
+import "./App.css";
 
 function App() {
   return (
     <Router>
-                  <ScrollToTop />
+      {/* ✅ This handles scroll to top on every route change */}
+      <ScrollToTop />
 
       <Navbar />
-
-
-      {/* Page Routes */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/services" element={<Services />} />
@@ -34,13 +32,14 @@ function App() {
         <Route path="/careers" element={<Careers />} />
         <Route path="/contact" element={<Contact />} />
 
-        {/* Full News Article Page (Dynamic ID) */}
+        {/* Sub components */}
         <Route path="/news/:id" element={<ComponentNews />} />
-                <Route path="/announcements/:id" element={<ComponentAnnouncement />} />
-                <Route path="/careers/:id" element={<ComponentCareers />} />
-
+        <Route
+          path="/announcements/:id"
+          element={<ComponentAnnouncement />}
+        />
+        <Route path="/careers/:id" element={<ComponentCareers />} />
       </Routes>
-
       <Footer />
     </Router>
   );
