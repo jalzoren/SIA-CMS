@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 03, 2025 at 04:19 PM
+-- Generation Time: Nov 03, 2025 at 07:20 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -39,6 +39,34 @@ CREATE TABLE `announcement` (
   `updated_at` datetime DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `author` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `events_careers`
+--
+
+CREATE TABLE `events_careers` (
+  `id` int(11) NOT NULL,
+  `post_type` enum('event','career') NOT NULL DEFAULT 'event',
+  `short_title` varchar(255) NOT NULL,
+  `full_title` varchar(500) NOT NULL,
+  `tags` varchar(255) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `status` enum('draft','posted') NOT NULL DEFAULT 'draft',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `image` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `events_careers`
+--
+
+INSERT INTO `events_careers` (`id`, `post_type`, `short_title`, `full_title`, `tags`, `description`, `status`, `created_at`, `updated_at`, `image`) VALUES
+(1, 'event', 'jehfbjwh', 'jbfjhwe', 'jbfjhwe', '<p>fbwjefhbjwhfebjhwfe</p>', 'posted', '2025-11-03 17:57:43', '2025-11-03 17:57:43', NULL),
+(2, 'career', 'kjndjqwn', 'jejfjbe', 'jwbfjwhbe', '<p>fjbejhbffe</p>', 'draft', '2025-11-03 17:58:08', '2025-11-03 17:58:08', NULL),
+(3, 'event', 'jnjnjewf', 'hfbjwfe', 'jbfwje', '<p>fjwehjef</p>', 'posted', '2025-11-03 18:04:30', '2025-11-03 18:04:30', NULL);
 
 -- --------------------------------------------------------
 
@@ -81,12 +109,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `full_name`, `email`, `password`, `created_at`, `role`, `reset_code`, `code_expiry`) VALUES
-(8, 'Lynn', 'lynnzylameczdo@gmail.com', '$2y$10$DI4OaNNnAetr2lw/PPGZ8.8QDcIb6xeYSNaO6BfCJ2jdBs642eIae', '2025-10-17 21:31:06', NULL, '514594', '2025-10-25 10:41:31'),
-(11, 'Lynn Czyla Alpuerto', 'alpuerto_lynnczyla@plpasig.edu.ph', '$2y$10$rKij1uYdqQp2heCev49fluN2UF1d.WPDAKTU/lMPVner3OZAua/pm', '2025-10-18 03:32:20', NULL, NULL, NULL),
-(12, 'James', 'flavierlaurence01@gmail.com', '$2y$10$cneYX5gDEIYKsYU9P/XME.8aRXDAZe.FCTGqPkd8OdNZovvPxdiNS', '2025-10-18 03:40:35', NULL, NULL, NULL),
-(15, 'Jerimiah Bitancor', 'bitancor_jerimiah@plpasig.edu.ph', '$2y$10$xHouGMXLgcp9d3Ja6YtT1uCzRjoKU2zyXOFUw/hlVuP1Xr67SLjiS', '2025-10-18 03:43:04', NULL, NULL, NULL),
-(16, 'Jerimiah Bitancor', 'jerimiahbitancor27@gmail.com', '$2y$10$3gHPraY/JFb2ACg4lWbMGOPUMP.u8gvoG.hQ/EKmmJYyBKnX9F9ua', '2025-10-18 04:19:37', NULL, NULL, NULL),
-(23, 'BIANCA RAIN CAGURUNGAN CASTILLON', 'bianca.cagurungan03@gmail.com', '$2y$10$TS7mUoct68ZVm3EfTw2tVuOAuwU6RFfeC1PAgQVQBXDKyfUIAFLru', '2025-10-25 00:24:30', NULL, NULL, NULL);
+(8, 'Lynn', 'lynnzylameczdo@gmail.com', '$2b$10$ADe2OQ01nBT9Udz1/wJZaOc2XXdJ.OyPChMfN/PSD8x3Z2wzHkyOq', '2025-10-17 21:31:06', 'hr_administrator', '514594', '2025-10-25 10:41:31'),
+(11, 'Lynn Czyla Alpuerto', 'alpuerto_lynnczyla@plpasig.edu.ph', '$2b$10$ADe2OQ01nBT9Udz1/wJZaOc2XXdJ.OyPChMfN/PSD8x3Z2wzHkyOq', '2025-10-18 03:32:20', 'content_administrator', NULL, NULL),
+(12, 'James', 'flavierlaurence01@gmail.com', '$2b$10$ADe2OQ01nBT9Udz1/wJZaOc2XXdJ.OyPChMfN/PSD8x3Z2wzHkyOq', '2025-10-18 03:40:35', 'super_administrator', NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -96,6 +121,12 @@ INSERT INTO `users` (`id`, `full_name`, `email`, `password`, `created_at`, `role
 -- Indexes for table `announcement`
 --
 ALTER TABLE `announcement`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `events_careers`
+--
+ALTER TABLE `events_careers`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -114,6 +145,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `events_careers`
+--
+ALTER TABLE `events_careers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
