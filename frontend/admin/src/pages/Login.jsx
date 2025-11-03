@@ -6,18 +6,36 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Temporary login logic (replace with real API later)
-    if (email === "admin@example.com" && password === "1234") {
-      localStorage.setItem("auth", "true");
-      window.location.href = "/dashboard"; // redirect manually
-    } else {
-      alert("Invalid credentials");
+  
+    try {
+      const response = await fetch("http://localhost:5000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+  
+      const data = await response.json();
+  
+      if (response.ok) {
+        // ✅ Login success
+        alert("Login successful!");
+        localStorage.setItem("auth", "true");
+        localStorage.setItem("user", JSON.stringify(data.user)); // optional
+        window.location.href = "/dashboard";
+      } else {
+        // ❌ Login failed
+        alert(data.message || "Invalid email or password");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Error connecting to server.");
     }
   };
-
+  
   return (
     <div className="login-wrapper">
       {/* Left Branding Section */}
