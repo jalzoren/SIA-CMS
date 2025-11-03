@@ -3,20 +3,13 @@ import Quill from "quill";
 import "quill/dist/quill.snow.css";
 import Swal from "sweetalert2";
 import "../css/Health.css";
-import { IoChevronDown, IoChevronUp } from "react-icons/io5";
+import { IoMdCreate } from "react-icons/io";
+import { IoMdInformationCircleOutline } from "react-icons/io";
 
 export default function Health() {
   const quillRef = useRef(null);
-  const [showAuthorInfo, setShowAuthorInfo] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
-  const [selectedDoctor, setSelectedDoctor] = useState(null);
-
-  const [doctorList] = useState([
-    { name: "Dr. Maria Santos", department: "Pediatrics" },
-    { name: "Dr. Jose Dela Cruz", department: "Cardiology" },
-    { name: "Dr. Angela Reyes", department: "Dermatology" },
-    { name: "Dr. Michael Tan", department: "Orthopedics" },
-  ]);
+  const fileInputRef = useRef(null);
+  const [fileInfo, setFileInfo] = useState(null);
 
   // Initialize Quill editor
   useEffect(() => {
@@ -29,7 +22,7 @@ export default function Health() {
             [{ header: [1, 2, false] }],
             ["bold", "italic", "underline", "strike"],
             [{ list: "ordered" }, { list: "bullet" }],
-            ["link", "image", "code-block"],
+            ["link", "", "code-block"],
             ["clean"],
           ],
         },
@@ -38,42 +31,46 @@ export default function Health() {
     }
   }, []);
 
-  // Checkbox with disclaimer modal
-  const handleCheckboxClick = async () => {
-    if (!isChecked) {
-      const result = await Swal.fire({
-        title: "Medical Disclaimer & Privacy Policy",
-        html: `
-          <p style="text-align:left; font-size:14px; color:#333;">
-            By agreeing to this disclaimer, you acknowledge that the medical advice, articles,
-            and health tips shared here are for educational purposes only.
-            They do not replace professional consultation, diagnosis, or treatment.
-            Always seek advice from a qualified healthcare provider.
-          </p>
-          <p style="text-align:left; font-size:14px; color:#333;">
-            Your submission implies consent to share accurate and respectful health information
-            following our privacy and ethical guidelines.
-          </p>
-        `,
-        icon: "info",
-        confirmButtonText: "I Agree",
-        confirmButtonColor: "#043873",
-        showCancelButton: true,
-        cancelButtonText: "Cancel",
-      });
+  // Handle file selection
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
 
-      if (result.isConfirmed) {
-        setIsChecked(true);
-        Swal.fire({
-          icon: "success",
-          title: "Thank you!",
-          text: "You have agreed to the medical disclaimer.",
-          confirmButtonColor: "#043873",
+    const isImage = file.type.startsWith("image/");
+    if (isImage) {
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        setFileInfo({
+          name: file.name,
+          preview: ev.target?.result,
+          isImage: true,
         });
-      }
+      };
+      reader.readAsDataURL(file);
     } else {
-      setIsChecked(false);
+      setFileInfo({
+        name: file.name,
+        isImage: false,
+      });
     }
+  };
+
+  // Show disclaimer popup when clicked
+  const handleDisclaimerClick = async () => {
+    await Swal.fire({
+      title: "Medical Disclaimer & Privacy Policy",
+      html: `
+        <p style="text-align:left; font-size:14px; color:#333;">
+          By agreeing to this disclaimer, you acknowledge that the medical advice,
+          articles, and health tips shared here are for educational purposes only.
+          They do not replace professional consultation, diagnosis, or treatment.
+          Always seek advice from a qualified healthcare provider.
+        </p>
+      `,
+      icon: "info",
+      confirmButtonText: "I Agree",
+      confirmButtonColor: "#043873",
+    });
   };
 
   return (
@@ -92,16 +89,29 @@ export default function Health() {
           <h3 className="announcement-title">Create a Health Tips Article</h3>
           <div className="announcement-actions">
             <button className="btn draft">Draft</button>
-               <button className="btn submit">
-              Post
-            </button>
+            <button className="btn submit">Post</button>
           </div>
         </div>
       </div>
 
       {/* FORM BODY */}
+
       <div className="cms-card cms-form-card">
         <form className="cms-form">
+          <span
+            className="link-text"
+            style={{
+              cursor: "pointer",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "4px",
+            }}
+            onClick={handleDisclaimerClick}
+          >
+            <IoMdInformationCircleOutline />
+            Medical Disclaimer
+          </span>
+          {/* TITLE ROW */}
           <div className="cms-form-row">
             <div className="cms-form-group">
               <label htmlFor="cms-short-title">Short Title</label>
@@ -131,62 +141,52 @@ export default function Health() {
             </div>
           </div>
 
-          {/* Quill Editor */}
-          <div className="cms-form-group">
-            <label>Description Box</label>
-            <div ref={quillRef} className="cms-quill-editor"></div>
-          </div>
-
-          {/* AUTHOR + DISCLAIMER SECTION */}
-          <div className="cms-row-inline">
-            {/* Author Dropdown */}
-            <div className="dropdown-wrapper">
-              <div
-                className="dropdown-section"
-                onClick={() => setShowAuthorInfo((prev) => !prev)}
-              >
-                <label className="dropdown-label">
-                  Author Information{" "}
-                  {showAuthorInfo ? <IoChevronUp /> : <IoChevronDown />}
-                </label>
-
-                {selectedDoctor && (
-                  <span className="selected-doctor">
-                    {selectedDoctor.name} — {selectedDoctor.department}
-                  </span>
-                )}
-              </div>
-
-              {showAuthorInfo && (
-                <ul className="author-dropdown-list">
-                  {doctorList.map((doctor, index) => (
-                    <li
-                      key={index}
-                      onClick={() => {
-                        setSelectedDoctor(doctor);
-                        setShowAuthorInfo(false);
-                      }}
-                    >
-                      <strong>{doctor.name}</strong>
-                      <span className="dept"> — {doctor.department}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
+          {/* DESCRIPTION + FILE UPLOAD ROW */}
+          <div className="cms-form-row" style={{ alignItems: "flex-start" }}>
+            {/* Description Box */}
+            <div className="cms-form-group" style={{ flex: 2 }}>
+              <label>Description Box</label>
+              <div ref={quillRef} className="cms-quill-editor"></div>
             </div>
 
-            {/* Checkbox Section */}
-            <div className="checkbox-section">
-              <input
-                type="checkbox"
-                id="disclaimer"
-                checked={isChecked}
-                onChange={handleCheckboxClick}
-              />
-              <label htmlFor="disclaimer" className="disclaimer-label">
-                I agree to the{" "}
-                <span className="link-text">Medical Disclaimer</span>
-              </label>
+            {/* Upload Box */}
+            <div
+              className="cms-form-group"
+              style={{ flex: 1, minWidth: "250px" }}
+            >
+              <label>Upload Image</label>
+              <div
+                className="file-upload-container"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  className="file-input-hidden"
+                />
+                <label className="upload-label">
+                  <IoMdCreate style={{ marginRight: "8px" }} />
+                  Choose Image
+                </label>
+
+                <div className="file-preview-area">
+                  {fileInfo ? (
+                    fileInfo.isImage && fileInfo.preview ? (
+                      <img
+                        src={fileInfo.preview}
+                        alt="preview"
+                        className="file-preview-img"
+                      />
+                    ) : (
+                      <p className="file-name">{fileInfo.name}</p>
+                    )
+                  ) : (
+                    <p className="file-placeholder">No image chosen</p>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </form>

@@ -1,22 +1,24 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Quill from "quill";
 import "../css/Events.css";
 import "quill/dist/quill.snow.css";
 
 export default function Events() {
   const quillRef = useRef(null);
+  const fileInputRef = useRef(null);
+  const [fileInfo, setFileInfo] = useState(null); // Plain JS state
 
   useEffect(() => {
     if (quillRef.current && !quillRef.current.__quill) {
       const quill = new Quill(quillRef.current, {
         theme: "snow",
-        placeholder: "Write your announcement description here...",
+        placeholder: "Write your event or career description here...",
         modules: {
           toolbar: [
             [{ header: [1, 2, false] }],
             ["bold", "italic", "underline", "strike"],
             [{ list: "ordered" }, { list: "bullet" }],
-            ["link", "image", "code-block"],
+            ["link", "", "code-block"],
             ["clean"],
           ],
         },
@@ -121,14 +123,57 @@ export default function Events() {
               <input
                 type="text"
                 id="cms-tags"
-                placeholder="e.g. Event, Reminder, Holiday"
+                placeholder="e.g. Workshop, Job, Internship"
               />
             </div>
           </div>
 
-          <div className="cms-form-group">
-            <label>Description Box</label>
-            <div ref={quillRef} className="cms-quill-editor"></div>
+          {/* DESCRIPTION + FILE UPLOAD ROW */}
+          <div className="cms-form-row" style={{ alignItems: "flex-start" }}>
+            {/* Description Box */}
+            <div className="cms-form-group" style={{ flex: 2 }}>
+              <label>Description Box</label>
+              <div ref={quillRef} className="cms-quill-editor"></div>
+            </div>
+
+            {/* Upload Box */}
+            <div className="cms-form-group" style={{ flex: 1, minWidth: "250px" }}>
+              <label>Upload Image</label>
+
+              <div
+                className="file-upload-container"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  className="file-input-hidden"
+                />
+
+                <label className="upload-label">
+                  <IoMdCreate style={{ marginRight: "8px" }} />
+                  Choose Image
+                </label>
+
+                <div className="file-preview-area">
+                  {fileInfo ? (
+                    fileInfo.isImage && fileInfo.preview ? (
+                      <img
+                        src={fileInfo.preview}
+                        alt="preview"
+                        className="file-preview-img"
+                      />
+                    ) : (
+                      <p className="file-name">{fileInfo.name}</p>
+                    )
+                  ) : (
+                    <p className="file-placeholder">No image chosen</p>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
         </form>
       </div>

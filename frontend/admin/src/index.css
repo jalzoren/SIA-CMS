@@ -83,8 +83,8 @@ input[type="email"],
 input[type="password"],
 input[type="number"],
 input[type="search"],
-textarea,
-select {
+textarea:focus,
+select:focus {
   width: 100%;
   padding: 14px 14px;
   font-size: 14px;
@@ -97,7 +97,13 @@ select {
 }
 
 /* Focus state */
-input:focus,
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+input[type="search"]:focus,
+textarea,
+select,
 textarea:focus,
 select:focus {
   border-color: var(--primary-color2);

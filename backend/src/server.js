@@ -6,7 +6,7 @@ import newsRoute from "../routes/news.js";// <-- import news route
 import eventsRoute from "../routes/events.js"; // add this
 
 
-dotenv.config();
+dotenv.config({ path: "../.env" });
 
 const app = express();
 

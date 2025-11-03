@@ -18,6 +18,7 @@ import {
 } from "react-icons/fa";
 import { FaShieldHeart } from "react-icons/fa6";
 import "../components/components-css/Sidebar.css";
+import "boxicons/css/boxicons.min.css";
 
 const Sidebar = ({ isOpen }) => {
   const location = useLocation();
@@ -102,8 +103,7 @@ const Sidebar = ({ isOpen }) => {
   return (
     <aside id="sidebar" className={isOpen ? "" : "collapsed"}>
       <div className="brand">
-        <FaShieldHeart className="icon" />
-        {isOpen && <span>hospitaled</span>}
+<i className="bx bx-plus-medical icon"></i>        {isOpen && <span>hospitaled</span>}
       </div>
 
       <ul className="side-menu">
