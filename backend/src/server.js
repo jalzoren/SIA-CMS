@@ -4,9 +4,10 @@ import dotenv from "dotenv";
 import loginRoute from "../routes/login.js";
 import newsRoute from "../routes/news.js";
 import announcementsRoute from "../routes/announcement.js";
+import eventsRoute from "../routes/events.js"; // add this
 
 
-dotenv.config();
+dotenv.config({ path: "../.env" });
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 
 app.use("/api", loginRoute);
 app.use("/api", newsRoute); 
+app.use("/api", eventsRoute); // register route
 app.use("/api", announcementsRoute);
 
 

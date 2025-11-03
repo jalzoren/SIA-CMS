@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import Loading from "./components/Loading"; // import Loading page
 import Login from "./pages/Login";
 import DashboardLayout from "./layouts/DashboardLayout";
 import Dashboard from "./pages/Dashboard";
@@ -14,7 +15,9 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/" element={<Loading />} />
+
+        {/* Login */}
         <Route path="/login" element={<Login />} />
 
         {/* Layout */}
@@ -24,11 +27,13 @@ export default function App() {
           <Route path="news" element={<News />} />
           <Route path="events" element={<Events />} />
           <Route path="health" element={<Health />} />
-                    <Route path="posts" element={<Posts />} />
-                    <Route path="settings" element={<Settings />} />
-                    <Route path="media" element={<Media />} />
-
+          <Route path="posts" element={<Posts />} />
+          <Route path="settings" element={<Settings />} />
+          <Route path="media" element={<Media />} />
         </Route>
+
+        {/* Redirect unknown routes */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );
