@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { useEffect, useRef, useState } from "react";
 import Quill from "quill";
 import Swal from "sweetalert2";
 import "../css/News.css";
