@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import Quill from "quill";
+import Swal from "sweetalert2";
 import "../css/News.css";
 import "quill/dist/quill.snow.css";
 import { IoMdCreate } from "react-icons/io";
 
 export default function News() {
   const quillRef = useRef(null);
-  const fileInputRef = useRef(null);
-  const [fileInfo, setFileInfo] = useState(null); // Plain JS state
 
+  // ✅ Initialize Quill editor once
   useEffect(() => {
     if (quillRef.current && !quillRef.current.__quill) {
       const quill = new Quill(quillRef.current, {
@@ -28,29 +28,6 @@ export default function News() {
     }
   }, []);
 
-  const handleFileChange = (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const isImage = file.type.startsWith("image/");
-    if (isImage) {
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        setFileInfo({
-          name: file.name,
-          preview: ev.target?.result,
-          isImage: true,
-        });
-      };
-      reader.readAsDataURL(file);
-    } else {
-      setFileInfo({
-        name: file.name,
-        isImage: false,
-      });
-    }
-  };
-
   return (
     <div className="cms-announcement-page">
       {/* PAGE HEADER */}
@@ -64,17 +41,22 @@ export default function News() {
       {/* CREATE POST HEADER CARD */}
       <div className="card announcement-card">
         <div className="head">
-          <h3 className="announcement-title">Create a News Article</h3>
+          <h3 className="announcement-title">
+            <IoMdCreate style={{ marginRight: "6px" }} />
+            Create a News Article
+          </h3>
           <div className="announcement-actions">
             <button className="btn draft">Draft</button>
-            <button className="btn submit">Post</button>
+               <button className="btn submit">
+              Post
+            </button>
           </div>
         </div>
       </div>
 
       {/* FORM BODY */}
       <div className="cms-card cms-form-card">
-        <form className="cms-form">
+        <form className="cms-form" onSubmit={(e) => e.preventDefault()}>
           <div className="cms-form-row">
             <div className="cms-form-group">
               <label htmlFor="cms-short-title">Short Title</label>
@@ -82,6 +64,8 @@ export default function News() {
                 type="text"
                 id="cms-short-title"
                 placeholder="Enter short title"
+                value={shortTitle}
+                onChange={(e) => setShortTitle(e.target.value)}
               />
             </div>
 
@@ -91,6 +75,8 @@ export default function News() {
                 type="text"
                 id="cms-full-title"
                 placeholder="Enter full title"
+                value={fullTitle}
+                onChange={(e) => setFullTitle(e.target.value)}
               />
             </div>
 
@@ -99,7 +85,7 @@ export default function News() {
               <input
                 type="text"
                 id="cms-tags"
-                placeholder="e.g. Breaking, Update, Feature"
+                placeholder="e.g. Event, Reminder, Holiday"
               />
             </div>
           </div>

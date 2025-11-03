@@ -14,6 +14,9 @@ import ComponentNews from "./components/ComponentNews";
 import ComponentAnnouncement from "./components/ComponentAnnouncement";
 import ComponentCareers from "./components/ComponentCareers";
 
+import NewsArticle from "./pages/NewsArticle";
+
+
 import "./App.css";
 
 function App() {
@@ -33,7 +36,7 @@ function App() {
         <Route path="/contact" element={<Contact />} />
 
         {/* Sub components */}
-        <Route path="/news/:id" element={<ComponentNews />} />
+        <Route path="/news/:id" element={<NewsArticle />} />
         <Route
           path="/announcements/:id"
           element={<ComponentAnnouncement />}

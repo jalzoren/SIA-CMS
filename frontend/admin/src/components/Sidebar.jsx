@@ -12,7 +12,6 @@ import {
   FaCamera,
   FaBuilding,
   FaChartBar,
-  FaEnvelope,
   FaCog,
   FaChevronDown,
   FaChevronUp,
@@ -23,106 +22,110 @@ import "boxicons/css/boxicons.min.css";
 
 const Sidebar = ({ isOpen }) => {
   const location = useLocation();
+  const [role, setRole] = useState(null);
   const [openDropdown, setOpenDropdown] = useState(null);
 
-  const menuItems = [
-    { icon: <FaTachometerAlt />, label: "Dashboard", path: "/dashboard" },
-    {
-      label: "Content Creation",
-      icon: <FaFolderOpen />,
-      isDropdown: true,
-      children: [
-        { icon: <FaBullhorn />, label: "Announcements", path: "/announcements" },
-        { icon: <FaNewspaper />, label: "News", path: "/news" },
-        { icon: <FaBriefcase />, label: "Events & Careers", path: "/events" },
-        { icon: <FaHeart />, label: "Health Tips", path: "/health" },
-        { icon: <FaEdit />, label: "Posts Log", path: "/posts" },
-      ],
-    },
+  // Load role from localStorage
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      setRole(parsedUser.role);
+    }
+  }, []);
+
+  // ==============================
+  // Menu Definitions
+  // ==============================
+  const dashboard = { icon: <FaTachometerAlt />, label: "Dashboard", path: "/dashboard" };
+
+  const contentMenu = {
+    label: "Content Creation",
+    icon: <FaFolderOpen />,
+    children: [
+      { icon: <FaBullhorn />, label: "Announcements", path: "/announcements" },
+      { icon: <FaNewspaper />, label: "News", path: "/news" },
+      { icon: <FaBriefcase />, label: "Events & Careers", path: "/events" },
+      { icon: <FaHeart />, label: "Health Tips", path: "/health" },
+      { icon: <FaEdit />, label: "Post Log", path: "/posts" },
+    ],
+  };
+
+  const doctors = { icon: <FaUserMd />, label: "Doctors", path: "/doctors" };
+  const mediaLibrary = { icon: <FaCamera />, label: "Media Library", path: "/media" };
+  const aboutHospital = { icon: <FaBuilding />, label: "About Hospital", path: "/hospital" };
+  const analytics = { icon: <FaChartBar />, label: "Analytics", path: "/analytics" };
+  const settings = { icon: <FaCog />, label: "Settings", path: "/settings" };
+
+  const hrMenu = [
+    { icon: <FaBriefcase />, label: "Events & Careers", path: "/events" },
     { icon: <FaUserMd />, label: "Doctors", path: "/doctors" },
-    { icon: <FaCamera />, label: "Media Library", path: "/media" },
-    { icon: <FaBuilding />, label: "About Hospital", path: "/hospital" },
-    { icon: <FaChartBar />, label: "Analytics", path: "/analytics" },
-    { icon: <FaEnvelope />, label: "Messaging", path: "/messaging" },
-    { icon: <FaCog />, label: "Settings", path: "/settings" },
+    { icon: <FaEdit />, label: "Post Log", path: "/posts" },
   ];
 
-  // Automatically open dropdown if current path matches a child
+  // ==============================
+  // Combine menu by role
+  // ==============================
+  let menuItems = [];
+
+  if (role === "super_administrator") {
+    menuItems = [
+      dashboard,
+      contentMenu,
+      doctors,
+      mediaLibrary,
+      aboutHospital,
+      analytics,
+      settings,
+    ];
+  } else if (role === "content_administrator") {
+    menuItems = [dashboard, contentMenu, doctors, mediaLibrary];
+  } else if (role === "hr_administrator") {
+    menuItems = [...hrMenu];
+  }
+
+  // ==============================
+  // Dropdown logic
+  // ==============================
   useEffect(() => {
     const activeDropdown = menuItems.find(
       (item) =>
-        item.isDropdown &&
-        item.children.some((child) => location.pathname === child.path)
+        item.children?.some((child) => location.pathname === child.path)
     );
     setOpenDropdown(activeDropdown ? activeDropdown.label : null);
   }, [location.pathname]);
 
-  const toggleDropdown = (label) => {
-    setOpenDropdown((prev) => (prev === label ? null : label));
-  };
+  const toggleDropdown = (label) => setOpenDropdown((prev) => (prev === label ? null : label));
 
+  // ==============================
+  // Render Sidebar
+  // ==============================
   return (
     <aside id="sidebar" className={isOpen ? "" : "collapsed"}>
-      {/* Brand */}
       <div className="brand">
 <i className="bx bx-plus-medical icon"></i>        {isOpen && <span>hospitaled</span>}
       </div>
 
-      {/* Headings */}
-      {isOpen && (
-        <div className="sidebar-heading">
-          <p className="cms">CMS Controls</p>
-          <p className="admin">Admin Functions</p>
-        </div>
-      )}
-
-      {/* Menu */}
       <ul className="side-menu">
         {menuItems.map((item) => {
-          if (item.isDropdown) {
+          if (item.children) {
             const isOpenDropdown = openDropdown === item.label;
-            const isChildActive = item.children.some(
-              (child) => location.pathname === child.path
-            );
-
             return (
-              <li
-                key={item.label}
-                className={`dropdown ${isOpenDropdown ? "open" : ""} ${
-                  isChildActive ? "active-parent" : ""
-                }`}
-              >
-                <button
-                  type="button"
-                  className={`dropdown-toggle ${
-                    isChildActive ? "active" : ""
-                  }`}
-                  onClick={() => toggleDropdown(item.label)}
-                >
+              <li key={item.label} className={`dropdown ${isOpenDropdown ? "open" : ""}`}>
+                <button className="dropdown-toggle" onClick={() => toggleDropdown(item.label)}>
                   <span className="icon">{item.icon}</span>
                   {isOpen && <span className="label">{item.label}</span>}
-                  {isOpen && (
-                    <span className="arrow">
-                      {isOpenDropdown ? <FaChevronUp /> : <FaChevronDown />}
-                    </span>
-                  )}
+                  {isOpen && (isOpenDropdown ? <FaChevronUp /> : <FaChevronDown />)}
                 </button>
-
-                <ul
-                  className={`side-dropdown ${
-                    isOpenDropdown && isOpen ? "show" : ""
-                  }`}
-                >
-                  {item.children.map((sub) => (
-                    <li key={sub.path}>
+                <ul className={`side-dropdown ${isOpenDropdown ? "show" : ""}`}>
+                  {item.children.map((child) => (
+                    <li key={child.path}>
                       <Link
-                        to={sub.path}
-                        className={
-                          location.pathname === sub.path ? "active" : ""
-                        }
+                        to={child.path}
+                        className={location.pathname === child.path ? "active" : ""}
                       >
-                        <span className="icon">{sub.icon}</span>
-                        <span className="label">{sub.label}</span>
+                        <span className="icon">{child.icon}</span>
+                        <span className="label">{child.label}</span>
                       </Link>
                     </li>
                   ))}
@@ -132,7 +135,7 @@ const Sidebar = ({ isOpen }) => {
           }
 
           return (
-            <li key={item.path}>
+            <li key={item.label}>
               <Link
                 to={item.path}
                 className={location.pathname === item.path ? "active" : ""}
