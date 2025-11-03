@@ -1,4 +1,4 @@
-/* 1. PRIMARY BUTTON (Blue - "See More") */
+
 button {
   background: linear-gradient(135deg, var(--primary-color2), #3b8af6);
   color: white !important;

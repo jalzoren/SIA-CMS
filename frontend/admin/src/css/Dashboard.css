@@ -1,0 +1,386 @@
+:root {
+  --primary-color: #043873;
+  --primary-color2: #4f9cf9;
+  --bg-blue: #f3f7ff;
+  --white: #ffffff;
+  --text-dark: #1a1a1a;
+  --text-gray: #6b7280;
+  --border-color: #e5e7eb;
+  --sidebar-width: 280px;
+}
+
+.dashboard-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background: var(--bg-blue);
+  font-family: "Inter", sans-serif;
+}
+
+/* --------------------------------------------------------------
+   SIDEBAR
+   -------------------------------------------------------------- */
+.sidebar {
+  width: var(--sidebar-width);
+  background: var(--white);
+  padding: 24px 16px;
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.06);
+  transition: width 0.3s ease;
+  overflow-y: auto;
+}
+.sidebar.collapsed {
+  width: 70px; /* icon-only when collapsed */
+}
+.sidebar .logo {
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--primary-color);
+  margin-bottom: 32px;
+  text-align: center;
+}
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.sidebar li {
+  margin-bottom: 8px;
+}
+.sidebar a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: var(--text-dark);
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.sidebar a:hover,
+.sidebar a.active {
+  background: var(--primary-color2);
+  color: #fff;
+}
+.sidebar .icon {
+  font-size: 20px;
+}
+
+
+.dashboard-page {
+  flex: 1; /* take remaining space */
+  padding: 25px 40px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-blue);
+}
+
+/* ==============================================================
+   TITLE & BREADCRUMBS
+   ============================================================== */
+.title {
+  font-size: 28px;
+  color: var(--primary-color);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+  color: var(--primary-color2);
+  margin-bottom: 20px;
+  margin-left: 10px;
+}
+.breadcrumbs .divider {
+  margin: 0 5px;
+}
+
+/* ==============================================================
+   TOP CARDS – FLEX (always same height)
+   ============================================================== */
+.info-data {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 24px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.info-data .card {
+  flex: 1;
+  min-width: 240px;
+  max-width: 100%;
+  height: 140px;
+  background: var(--white);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column; /* Stack icon + text vertically */
+  align-items: center;
+  justify-content: center; /* Center vertically */
+  gap: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  transition: transform 0.25s, box-shadow 0.25s;
+  text-decoration: none;
+  color: inherit;
+  text-align: center;
+}
+
+.info-data .card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+}
+
+/* ===== ICON STYLE ===== */
+.icon-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.info-data .card:nth-child(1) .icon-circle {
+  background: linear-gradient(135deg, #4f9cf9, #3f86dc);
+}
+.info-data .card:nth-child(2) .icon-circle {
+  background: linear-gradient(135deg, #3f86dc, #4f9cf9);
+}
+.info-data .card:nth-child(3) .icon-circle {
+  background: linear-gradient(135deg, #4f9cf9, #3f86dc);
+}
+
+/* ===== TEXT STYLE ===== */
+.card h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+.card p {
+  margin: 2px 0 0;
+  font-size: 14px;
+  color: var(--text-gray);
+}
+
+.chart-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px; 
+  margin-bottom: 10px;
+}
+
+.chart-name {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.fullscreen-icon {
+  font-size: 29px;
+  color: var(--text-gray);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.fullscreen-icon:hover {
+  color: var(--primary-color);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .info-data {
+    flex-direction: column;
+  }
+  .info-data .card {
+    width: 100%;
+  }
+}
+
+
+/* ==============================================================
+   MAIN GRID – FLEX (2 : 1 ratio, adapts when sidebar collapses)
+   ============================================================== */
+.main-content {
+  display: flex;
+  gap: 24px;
+  flex: 1; /* fill remaining vertical space */
+}
+.chart-card {
+  flex: 2; /* 2 parts */
+  background: var(--white);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+.chart-card h3 {
+  font-size: 18px;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+#chart {
+  flex: 1;
+  min-height: 300px;
+  margin-bottom: 20px;
+}
+
+/* Visit-logs table inside chart card */
+.visit-logs {
+  margin-top: 16px;
+}
+.visit-logs h4 {
+  font-size: 16px;
+  color: var(--primary-color);
+  margin: 0 0 12px;
+  font-weight: 600;
+}
+.visit-logs table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.visit-logs th,
+.visit-logs td {
+  padding: 10px 8px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+.visit-logs th {
+  background: var(--primary-color);
+  color: #fff;
+  font-weight: 600;
+}
+.visit-logs tr:hover {
+  background: #f9fafb;
+}
+
+/* --------------------------------------------------------------
+   SIDE PANEL (calendar + hotlines)
+   -------------------------------------------------------------- */
+.side-panel {
+  flex: 1; /* 1 part */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Calendar */
+.calendar-section {
+  background: #fff;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+.calendar-header h3 {
+  color: var(--primary-color);
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 4px;
+}
+.calendar-header p {
+  color: var(--primary-color2);
+  font-size: 14px;
+  margin: 0;
+}
+.react-calendar {
+  border: none;
+  width: 100%;
+  border-radius: 10px;
+  background: #fff;
+  padding: 8px;
+}
+.react-calendar__tile--now {
+  background: var(--primary-color) !important;
+  color: #fff !important;
+  border-radius: 6px;
+}
+.react-calendar__tile--active {
+  background: var(--primary-color2) !important;
+  color: #fff !important;
+  border-radius: 6px;
+}
+
+.hotline-section {
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+.hotline-title {
+  text-align: center;
+  font-size: 18px;
+  color: var(--primary-color2);
+  margin: 0 0 12px;
+  font-weight: 600;
+}
+.hotline-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.hotline-table th,
+.hotline-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+.hotline-table th {
+  background: var(--primary-color);
+  color: #fff;
+  font-weight: 600;
+}
+.hotline-table tr:hover {
+  background: #f9fafb;
+}
+
+/* ==============================================================
+   RESPONSIVE
+   ============================================================== */
+@media (max-width: 1024px) {
+  .dashboard-wrapper {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    padding: 16px;
+  }
+  .sidebar.collapsed {
+    width: 100%;
+  } /* still full width on mobile */
+  .main-content {
+    flex-direction: column;
+  }
+  .info-data {
+    flex-direction: column;
+  }
+  .info-data .card {
+    min-width: unset;
+  }
+}
+@media (max-width: 640px) {
+  .dashboard-page {
+    padding: 16px;
+  }
+  .title {
+    font-size: 24px;
+  }
+}
+
+/* Misc */
+abbr {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+li {
+  list-style: none;
+}

@@ -1,0 +1,129 @@
+:root {
+  --primary-color: #043873;
+  --primary-color2: #4f9cf9;
+  --secondary-color: #ffe492;
+  --bg-blue: #f3f7ff;
+  --footer-bg: #003087;
+  --footer-text: #ffffff;
+  --footer-link: #d3d8e0;
+  --text-dark: #333;
+  --text-gray: #555;
+  --text-light: #666;
+  --hero-bg: #e6f0fa;
+  --services-bg: #ffffff;
+  --news-bg: #f8f9fa;
+  --about-bg: #e9ecef;
+  --contact-bg: #f0f8ff;
+  --container-max: 1320px;
+  --radius-large: 16px;
+}
+
+
+
+.careers-section {
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3rem 0 5rem;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color:var(--primary-color2) ;
+  margin-bottom: 1rem;
+}
+
+.section-title span {
+  color: var(--primary-color);
+  position: relative;
+}
+
+.section-title span::after {
+    content: "";
+  display: block;
+  width: 180px;          
+  height: 4px;           
+  background-color: var(--secondary-color); 
+  margin: 0.5rem auto 0; 
+  border-radius: 2px; 
+}
+
+.intro-text {
+  text-align: center;
+  font-size: 1rem;
+  color: #555;
+  max-width: 850px;
+  margin: 0 auto 2rem;
+  line-height: 1.6;
+}
+
+.why-choose-us {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #444;
+  margin-bottom: 3rem;
+}
+
+.why-choose-us h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.why-choose-us ul {
+  margin: 0 0 1rem 1.2rem;
+}
+
+.why-choose-us li {
+  margin-bottom: 0.5rem;
+}
+
+.careers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.career-card {
+  background-color: #e5e8ee;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.career-img {
+  background: #cfcfcf;
+  width: 100%;
+  height: 250px;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.see-more {
+  display: inline-block;
+  background-color: #4b8ce8;
+  color: white;
+  padding: 0.6rem 1.4rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: background 0.3s ease;
+}
+
+.see-more:hover {
+  background-color: #2f6cd1;
+}
+
+@media (max-width: 600px) {
+  .section-title {
+    font-size: 1.8rem;
+  }
+
+  .career-img {
+    height: 200px;
+  }
+}

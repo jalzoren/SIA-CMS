@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hospitaled - News Article</title>
+    <link rel="stylesheet" href="/SIA-CMS/hospitaled/website/css/style.css" />
+    <link rel="stylesheet" href="/SIA-CMS/hospitaled/website/css/global.css" />
+    <link rel="stylesheet" href="/SIA-CMS/hospitaled/website/css/news.css" />
+    <link rel="stylesheet" href="/SIA-CMS/hospitaled/website/css/article.css" />
+
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <link
+      href="https://cdn.quilljs.com/1.3.7/quill.snow.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
+  </head>
+  <body>
+    <div class="emergency-bar">
+      For emergency concerns, please call our ER at 000-000-0000 or mobile at
+      000-000-0000
+    </div>
+
+    <header>
+      <div class="logo">Hospitaled</div>
+      <input
+        type="button"
+        class="hamburger"
+        aria-label="Toggle navigation"
+        aria-expanded="false"
+        value="☰"
+      />
+
+      <div id="nav-container"></div>
+    </header>
+
+    <!-- Single Article Layout -->
+    <section class="article-section">
+      <div class="article-container">
+        <!-- Article Header -->
+        <div class="article-header">
+          <h1 class="section-title">NEWS</h1>
+          <div class="title-underline"></div>
+        </div>
+
+        <!-- Article Content -->
+        <div class="article-content">
+          <h2 class="article-title" id="article-title">Loading...</h2>
+          
+          <p class="article-date" id="article-date">Loading...</p>
+          
+          <div class="content-divider"></div>
+          
+          <!-- Article Image -->
+          <div class="article-image">
+            <div class="image-placeholder" id="article-image"></div>
+            <p class="image-caption">Photo by: CMS</p>
+          </div>
+          
+          <!-- Article Body -->
+          <div class="article-body" id="article-body">
+            <div class="loading-content">Loading article content...</div>
+          </div>
+          
+          <!-- Article Tags -->
+          <div class="article-tags" id="article-tags" style="display: none;">
+            <span class="tags-label">Tags:</span>
+            <span class="tags-content" id="tags-content"></span>
+          </div>
+        </div>
+
+        <!-- Back Button -->
+        <div class="article-actions">
+          <button class="back-button" onclick="goBack()">
+            <i class="material-icons">arrow_back</i>
+            Back to News
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div id="footer-container"></div>
+    </footer>
+
+    <script src="/SIA-CMS/hospitaled/website/js/main.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        loadArticle();
+      });
+
+      function loadArticle() {
+        // Get article ID from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const articleId = urlParams.get('id');
+        
+        if (!articleId) {
+          showError('Article not found');
+          return;
+        }
+
+        fetchArticleById(articleId);
+      }
+
+      async function fetchArticleById(articleId) {
+        try {
+          const response = await fetch('/SIA-CMS/hospitaled/website/php/fetch_news.php');
+          const result = await response.json();
+          
+          if (result.success && result.data.length > 0) {
+            const article = result.data.find(a => a.id === articleId);
+            if (article) {
+              displayArticle(article);
+            } else {
+              showError('Article not found');
+            }
+          } else {
+            showError('No articles available');
+          }
+        } catch (error) {
+          console.error('Error loading article:', error);
+          showError('Error loading article');
+        }
+      }
+
+      function displayArticle(article) {
+        // Update page title
+        document.title = `${article.full_title} - Hospitaled News`;
+        
+        // Update article content
+        document.getElementById('article-title').textContent = article.full_title;
+        document.getElementById('article-date').textContent = formatDate(article.created_at);
+        
+        
+        // Display full article body
+        document.getElementById('article-body').innerHTML = article.description;
+        
+        // Display tags if available
+        if (article.topic_tags && article.topic_tags.trim()) {
+          document.getElementById('tags-content').textContent = article.topic_tags;
+          document.getElementById('article-tags').style.display = 'block';
+        }
+      }
+
+      function extractIntro(htmlContent) {
+        // Extract first paragraph or first 200 characters
+        const tmp = document.createElement('div');
+        tmp.innerHTML = htmlContent;
+        const firstParagraph = tmp.querySelector('p');
+        
+        if (firstParagraph) {
+          return firstParagraph.innerHTML;
+        } else {
+          // If no paragraph tags, take first 200 characters
+          const textContent = tmp.textContent || tmp.innerText || '';
+          return textContent.substring(0, 200) + (textContent.length > 200 ? '...' : '');
+        }
+      }
+
+      function showError(message) {
+        document.getElementById('article-title').textContent = 'Error';
+        document.getElementById('article-intro').textContent = message;
+        document.getElementById('article-date').textContent = '';
+        document.getElementById('article-body').innerHTML = '<p>Please try again later or go back to the news page.</p>';
+      }
+
+      function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+      }
+
+      function goBack() {
+        window.location.href = '/SIA-CMS/hospitaled/website/pages/news.html';
+      }
+    </script>
+    <script src="/SIA-CMS/hospitaled/website/js/main.js"></script>
+  </body>
+</html>

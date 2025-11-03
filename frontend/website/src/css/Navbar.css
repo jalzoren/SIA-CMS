@@ -1,0 +1,230 @@
+/* ------------------------------
+   STICKY HEADER WRAPPER
+------------------------------ */
+.sticky-header {
+  position: fixed; /* ✅ Fixed for reliability */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+}
+
+/* ------------------------------
+   TOP BAR
+------------------------------ */
+.top-bar {
+  background-color: #003366;
+  color: white;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 14px;
+}
+
+/* ------------------------------
+   NAVBAR
+------------------------------ */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  padding: 15px 60px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* ------------------------------
+   BRAND / LOGO
+------------------------------ */
+.brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-color2);
+  height: 64px;
+  background: var(--white);
+  padding: 0 18px;
+  margin-left: 20px;
+}
+
+.brand .icon {
+  font-size: 1.8rem;
+  min-width: 36px;
+  text-align: center;
+}
+
+/* ------------------------------
+   NAV LINKS
+------------------------------ */
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 25px;
+  margin: 0;
+    cursor: pointer;
+
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--primary-color2);
+  font-weight: 500;
+  padding: 9px 18px;
+  border-radius: 8px;
+  transition: 0.3s;
+  cursor:pointer;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  background-color: var(--primary-color2);
+  color: #fff;
+}
+
+/* ------------------------------
+   BOOK BUTTON
+------------------------------ */
+.book-btn {
+  background-color: white;
+  border: 2px solid var(--primary-color2);
+  color: var(--primary-color2);
+  font-weight: bold;
+  padding: 9px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-right: 20px;
+}
+
+.book-btn:hover {
+  background-color: var(--primary-color2);
+  color: white;
+}
+
+/* ------------------------------
+   DROPDOWN
+------------------------------ */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  min-width: 160px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 10px 0;
+  border-radius: 8px;
+}
+
+.dropdown-content a {
+  color: var(--text-dark);
+  padding: 10px 15px;
+  display: block;
+  font-size: 14px;
+}
+
+.dropdown-content a:hover {
+  background-color: var(--primary-color2);
+  color: white;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* ------------------------------
+   HAMBURGER
+------------------------------ */
+.hamburger {
+  display: none;
+  font-size: 22px;
+  background: none;
+  border: none;
+  color: var(--primary-color2);
+  cursor: pointer;
+  padding: 8px;
+  transition: transform 0.3s ease;
+  margin-right: 20px;
+}
+
+.hamburger:hover {
+  transform: scale(1.05);
+}
+
+/* ------------------------------
+   RESPONSIVE (Mobile)
+------------------------------ */
+@media (max-width: 992px) {
+  .hamburger {
+    display: block;
+    position: relative;
+    z-index: 10000;
+    margin-right: 20px;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    padding: 30px 0;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 20px;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    font-size: large;
+  }
+
+  .nav-links.open {
+    display: flex;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .book-btn {
+    display: none;
+  }
+}
+
+/* ------------------------------
+   ACTIVE / HIGHLIGHT STATES
+------------------------------ */
+.nav-links a.active {
+  background-color: var(--primary-color2);
+  color: #fff;
+}
+
+.dropdown.active > span {
+  background-color: var(--primary-color2);
+  color: #fff;
+  border-radius: 8px;
+  padding: 9px 18px;
+}
+
+.dropdown > span {
+  cursor: pointer;
+  color: var(--primary-color2);
+  font-weight: 500;
+  padding: 9px 18px;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.dropdown:hover > span {
+  background-color: var(--primary-color2);
+  color: #fff;
+}

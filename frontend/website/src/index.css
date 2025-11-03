@@ -1,0 +1,129 @@
+/* 🌐 Global  */
+:root {
+  font-family: "Inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  font-size: 16px;
+  --primary-color: #043873;
+  --primary-color2: #4f9cf9;
+  --secondary-color: #ffe492;
+  --bg-blue: #f3f7ff;
+  --footer-bg: #003087;
+  --footer-text: #ffffff;
+  --footer-link: #d3d8e0;
+  --text-dark: #333333;
+  --text-gray: #555555;
+  --text-light: #777777;
+  --hero-bg: #e6f0fa;
+  --services-bg: #ffffff;
+  --news-bg: #f8f9fa;
+  --about-bg: #e9ecef;
+  --contact-bg: #f0f8ff;
+  --container-max: 1320px;
+  --radius-large: 16px;
+  --transition-fast: 0.3s ease;
+}
+
+
+/* 🧱 Base Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 📄 Body */
+body {
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 🧭 Layout Helper */
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 🧠 Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-text);
+}
+
+
+label{
+ color: var(--primary-color);
+}
+
+p {
+  color: #444;
+  margin-bottom: 1rem;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+}
+
+/* 🎯 Buttons */
+button {
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: var(--color-primary);
+  color: white;
+  cursor: pointer;
+  transition: background-color var(--transition), transform var(--transition);
+}
+
+button:hover {
+  background-color: var(--color-primary-hover);
+  transform: translateY(-1px);
+}
+
+button:focus,
+button:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.5);
+  outline-offset: 2px;
+}
+
+/* 🌗 Light/Dark Mode (auto switch) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-text: #f4f4f4;
+    --color-bg: #121212;
+    --color-primary: #60a5fa;
+    --color-primary-hover: #3b82f6;
+    --color-border: #333;
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+  }
+
+  button {
+    background-color: var(--color-primary);
+  }
+
+  button:hover {
+    background-color: var(--color-primary-hover);
+  }
+}

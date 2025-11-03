@@ -1,0 +1,163 @@
+.login-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f9fafc;
+  font-family: "Inter", sans-serif;
+}
+
+.login-left {
+  flex: 1;
+  background-color: #f0f6ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-brand {
+  text-align: center;
+}
+
+.login-brand h1 {
+  font-size: 4.5rem;
+  color: var(--primary-color);
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.login-brand p {
+  font-size: 3.1rem;
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.login-right {
+  flex: 1;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-box {
+  width: 90%;
+  max-width: 460px;
+  background-color: #fff;
+  padding: 50px;
+  border-radius: 12px;
+}
+
+.login-box h2 {
+  text-align: center;
+  color: #043873;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+/* Inputs */
+.login-box form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-box label {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+
+/* Show Password Checkbox */
+.show-pass {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.show-pass label {
+  color: #333;
+  margin-left: 6px;
+}
+
+/* Consistent input styling for all states */
+.login-box input[type="email"],
+.login-box input[type="password"],
+.login-box input[type="text"] {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-bottom: 15px;
+  transition: all 0.2s ease-in-out;
+  width: 100%;
+  color: #333;
+  background-color: #fff;
+  outline: none;
+}
+
+.login-box input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 4px rgba(4, 56, 115, 0.2);
+}
+
+/* Prevent layout shift when toggling password visibility */
+.login-box input {
+  height: 40px; /* ensures height consistency */
+  line-height: 1.4;
+}
+
+/* Button */
+.login-box button {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.login-box button:hover {
+  background-color: var(--primary-color);
+}
+
+/* Forgot Password */
+.forgot {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.forgot a {
+  font-size: 13px;
+  color: #043873;
+  text-decoration: none;
+}
+
+.forgot a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .login-wrapper {
+    flex-direction: column;
+  }
+
+  .login-left {
+    display: none;
+  }
+
+  .login-right {
+    flex: unset;
+    width: 100%;
+  }
+
+  .login-box {
+    width: 100%;
+    max-width: 90%;
+    margin: 2rem auto;
+    padding: 2rem;
+  }
+}

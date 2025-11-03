@@ -1,0 +1,77 @@
+:root {
+  --primary-color: #043873;
+  --primary-color2: #4f9cf9;
+  --secondary-color: #ffe492;
+  --bg-blue: #f3f7ff;
+  --footer-bg: #003087;
+  --footer-text: #ffffff;
+  --footer-link: #d3d8e0;
+  --text-dark: #333;
+  --text-gray: #555;
+  --text-light: #666;
+  --hero-bg: #e6f0fa;
+  --services-bg: #ffffff;
+  --news-bg: #f8f9fa;
+  --about-bg: #e9ecef;
+  --contact-bg: #f0f8ff;
+  --container-max: 1320px;
+  --radius-large: 16px;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  padding-top: 130px; /* Prevents content hiding behind fixed header */
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  overflow-x: hidden; /* ✅ only here */
+  background-color: #ffffff;
+  font-family: "Poppins", sans-serif;
+}
+
+#root {
+  width: 100%;
+  min-height: 100%;
+  background-color: #ffffff;
+}
+
+
+/* Header style example */
+.header {
+  width: 100%;
+  background-color: #242424;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+}
+
+
+
+/* Button styling */
+.btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #0056b3;
+}
