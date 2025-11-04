@@ -10,6 +10,7 @@ import News from "./pages/News";
 import AnnouncementsArticle from "./pages/AnnouncementsArticle";
 import Announcements from "./pages/Announcements";
 import Careers from "./pages/Careers";
+import About from "./pages/About";
 import Contact from "./pages/Contact";
 import NewsArticle from "./pages/NewsArticle";
 
@@ -30,6 +31,7 @@ function App() {
         <Route path="/news" element={<News />} />
         <Route path="/announcements" element={<Announcements />} />
         <Route path="/careers" element={<Careers />} />
+        <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
 
         {/* Single article pages */}
