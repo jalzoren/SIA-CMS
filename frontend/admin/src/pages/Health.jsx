@@ -10,6 +10,12 @@ export default function Health() {
   const quillRef = useRef(null);
   const fileInputRef = useRef(null);
   const [fileInfo, setFileInfo] = useState(null);
+  const user = JSON.parse(localStorage.getItem("user")); 
+
+  if (!user) {
+    alert("Please log in first!");
+    return;
+  }
 
   // Initialize Quill editor
   useEffect(() => {
@@ -22,7 +28,7 @@ export default function Health() {
             [{ header: [1, 2, false] }],
             ["bold", "italic", "underline", "strike"],
             [{ list: "ordered" }, { list: "bullet" }],
-            ["link", "", "code-block"],
+            ["link", "code-block"],
             ["clean"],
           ],
         },
@@ -55,7 +61,7 @@ export default function Health() {
     }
   };
 
-  // Show disclaimer popup when clicked
+  // Show disclaimer popup
   const handleDisclaimerClick = async () => {
     await Swal.fire({
       title: "Medical Disclaimer & Privacy Policy",
@@ -73,6 +79,76 @@ export default function Health() {
     });
   };
 
+  // Handle form submission
+  const handleSubmit = async (status) => {
+    const quillEditor = quillRef.current.__quill;
+    const description = quillEditor.root.innerHTML;
+  
+    const short_title = document.getElementById("cms-short-title").value.trim();
+    const full_title = document.getElementById("cms-full-title").value.trim();
+    const topic_tags = document.getElementById("cms-tags").value.trim();
+  
+    if (!short_title || !full_title || !description) {
+      return Swal.fire({
+        icon: "warning",
+        title: "Missing Fields",
+        text: "Please fill out all required fields before submitting.",
+      });
+    }
+  
+    const formData = new FormData();
+    formData.append("short_title", short_title);
+    formData.append("full_title", full_title);
+    formData.append("topic_tags", topic_tags);
+    formData.append("description", description);
+    formData.append("status", status);
+    formData.append("author", user?.id || "Unknown");
+  
+    if (fileInputRef.current.files[0]) {
+      formData.append("image", fileInputRef.current.files[0]);
+    }
+  
+    try {
+      const res = await fetch("http://localhost:5000/api/health-tips", {
+        method: "POST",
+        body: formData,
+      });
+  
+      const data = await res.json();
+  
+      if (res.ok) {
+        Swal.fire({
+          icon: "success",
+          title: `Health Tip ${status} successfully!`,
+          timer: 2000,
+          showConfirmButton: false,
+        });
+  
+        // ✅ Reset form fields after success
+        document.getElementById("cms-short-title").value = "";
+        document.getElementById("cms-full-title").value = "";
+        document.getElementById("cms-tags").value = "";
+        quillEditor.setContents([]);
+        setFileInfo(null);
+        if (fileInputRef.current) fileInputRef.current.value = "";
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: data.message || "Something went wrong while saving the health tip.",
+        });
+      }
+    } catch (error) {
+      console.error("❌ Server error:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Server Error",
+        text: "Failed to connect to the backend.",
+      });
+    }
+  };
+  
+
   return (
     <div className="cms-announcement-page">
       {/* PAGE HEADER */}
@@ -88,14 +164,25 @@ export default function Health() {
         <div className="head">
           <h3 className="announcement-title">Create a Health Tips Article</h3>
           <div className="announcement-actions">
-            <button className="btn draft">Draft</button>
-            <button className="btn submit">Post</button>
+            <button
+              type="button"
+              className="btn draft"
+              onClick={() => handleSubmit("draft")}
+            >
+              Draft
+            </button>
+            <button
+              type="button"
+              className="btn submit"
+              onClick={() => handleSubmit("published")}
+            >
+              Post
+            </button>
           </div>
         </div>
       </div>
 
       {/* FORM BODY */}
-
       <div className="cms-card cms-form-card">
         <form className="cms-form">
           <span
@@ -111,24 +198,17 @@ export default function Health() {
             <IoMdInformationCircleOutline />
             Medical Disclaimer
           </span>
+
           {/* TITLE ROW */}
           <div className="cms-form-row">
             <div className="cms-form-group">
               <label htmlFor="cms-short-title">Short Title</label>
-              <input
-                type="text"
-                id="cms-short-title"
-                placeholder="Enter short title"
-              />
+              <input type="text" id="cms-short-title" placeholder="Enter short title" />
             </div>
 
             <div className="cms-form-group">
               <label htmlFor="cms-full-title">Full Title</label>
-              <input
-                type="text"
-                id="cms-full-title"
-                placeholder="Enter full title"
-              />
+              <input type="text" id="cms-full-title" placeholder="Enter full title" />
             </div>
 
             <div className="cms-form-group">
@@ -150,10 +230,7 @@ export default function Health() {
             </div>
 
             {/* Upload Box */}
-            <div
-              className="cms-form-group"
-              style={{ flex: 1, minWidth: "250px" }}
-            >
+            <div className="cms-form-group" style={{ flex: 1, minWidth: "250px" }}>
               <label>Upload Image</label>
               <div
                 className="file-upload-container"
