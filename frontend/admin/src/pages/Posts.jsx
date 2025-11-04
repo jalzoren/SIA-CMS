@@ -2,6 +2,7 @@ import "../css/Posts.css";
 import { useState, useEffect } from "react";
 import { IoFilter } from "react-icons/io5";
 import { IoMdSearch } from "react-icons/io";
+import Swal from "sweetalert2";
 
 export default function Posts() {
   const [activeTab, setActiveTab] = useState("All");
@@ -87,6 +88,48 @@ export default function Posts() {
     filterDate,
     searchQuery,
   ]);
+
+  // ✅ Handle delete (move to trash)
+const handleDelete = async (post) => {
+  Swal.fire({
+    title: "Move to Trash?",
+    text: `Are you sure you want to move "${post.title}" to trash?`,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, move to trash",
+  }).then(async (result) => {
+    if (result.isConfirmed) {
+      try {
+        const res = await fetch(
+          `http://localhost:5000/api/posts/trash/${encodeURIComponent(
+            post.category
+          )}/${post.id}`,
+          {
+            method: "PUT",
+          }
+        );
+
+        const data = await res.json();
+        if (res.ok) {
+          Swal.fire("Moved!", data.message, "success");
+          setPosts((prev) =>
+            prev.map((p) =>
+              p.id === post.id && p.category === post.category
+                ? { ...p, status: "trash" }
+                : p
+            )
+          );
+        } else {
+          Swal.fire("Error", data.message, "error");
+        }
+      } catch (error) {
+        Swal.fire("Error", "Failed to connect to backend.", "error");
+      }
+    }
+  });
+};
 
   // ✅ Dynamic dropdowns
   const authors = ["All", ...new Set(posts.map((p) => p.author))];
@@ -203,7 +246,7 @@ export default function Posts() {
                     <span className="divider">|</span>
                     <span className="table-action">[View]</span>
                     <span className="divider">|</span>
-                    <span className="table-action delete">[Delete]</span>
+                    <span className="table-action delete" onClick={() => handleDelete(post)}> [Delete] </span>
                   </td>
                 </tr>
               ))

@@ -3,6 +3,7 @@ import db from "../src/db.js";
 
 const router = express.Router();
 
+// ✅ Existing fetch route
 router.get("/", (req, res) => {
   const sql = `
     SELECT id, full_title AS title, author, 'News' AS category,
@@ -60,13 +61,34 @@ router.get("/", (req, res) => {
       return res.status(500).json({ message: "Failed to fetch posts" });
     }
 
-    // Optional: Filter to only include published items if needed
-    const normalizedResults = results.map(post => ({
-      ...post,
-      status: post.status?.toLowerCase(),
-    }));
+    res.json(results.map(p => ({ ...p, status: p.status?.toLowerCase() })));
+  });
+});
 
-    res.json(normalizedResults);
+router.put("/trash/:category/:id", (req, res) => {
+  const { category, id } = req.params;
+
+  // Match category to its actual table name
+  const tableMap = {
+    "News": "news",
+    "Announcements": "announcement",
+    "Events & Careers": "events_careers",
+    "Health Tips": "health_tips",
+  };
+
+  const table = tableMap[category];
+  if (!table) {
+    return res.status(400).json({ message: "Invalid category" });
+  }
+
+  const sql = `UPDATE ${table} SET status = 'trash' WHERE id = ?`;
+  db.query(sql, [id], (err, result) => {
+    if (err) {
+      console.error("❌ Error moving post to trash:", err);
+      return res.status(500).json({ message: "Failed to move post to trash" });
+    }
+
+    res.json({ message: "Post moved to trash successfully" });
   });
 });
 
