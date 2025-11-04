@@ -1,0 +1,237 @@
+.about-wrapper {
+  font-family: "Poppins", sans-serif;
+  color: #0c224b;
+  background-color: #f8f9fb;
+  line-height: 1.6;
+}
+
+/* --- Header Image --- */
+.about-header {
+  position: relative;
+  width: 100%;
+  background: linear-gradient(to bottom, #e8f4ff, #4a90e2);
+  padding-bottom: 60px;
+}
+
+.about-header img {
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+/* --- About Section --- */
+.about-intro {
+  padding: 60px 10%;
+  background: #f8f9fb;
+}
+
+.about-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.about-intro h1 {
+  color: #002c7c;
+  font-size: 2.5rem;
+  margin-bottom: 25px;
+  font-weight: 600;
+}
+
+.about-text {
+  flex: 1;
+  min-width: 300px;
+  text-align: left;
+}
+
+.about-text p {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 0.95rem;
+  text-align: justify;
+  line-height: 1.7;
+}
+
+.about-image {
+  flex: 1;
+  min-width: 300px;
+  text-align: center;
+}
+
+.about-image img {
+  width: 100%;
+  max-width: 450px;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+
+
+/* --- Trio Section --- */
+.about-trio {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  padding: 60px 10%;
+  
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.trio-card {
+  flex: 1;
+  min-width: 280px;
+  max-width: 350px;
+  
+  padding: 30px 25px;
+  border-radius: 8px;
+ 
+  text-align: left;
+}
+
+.trio-card h2 {
+  color: #002c7c;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.trio-card p {
+  color: #333;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  text-align: justify;
+}
+
+/* --- Core Values --- */
+.about-core {
+  padding: 60px 10%;
+  text-align: center;
+}
+
+.about-core h2 {
+  color: #002c7c;
+  margin-bottom: 40px;
+  font-size: 2.2rem;
+  font-weight: 600;
+}
+
+.core-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.core-card {
+  flex: 1;
+  min-width: 280px;
+  max-width: 350px;
+ 
+  border-radius: 8px;
+  padding: 30px 25px;
+ 
+  text-align: left;
+}
+
+.core-card p {
+  color: #333;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  text-align: justify;
+}
+
+/* --- History Section --- */
+.about-history {
+  padding: 60px 10%;
+  
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.about-history h2 {
+  text-align: center;
+  color: #002c7c;
+  margin-bottom: 30px;
+  font-size: 2.2rem;
+  font-weight: 600;
+}
+
+.about-history p {
+  text-align: justify;
+  color: #333;
+  line-height: 1.7;
+  font-size: 0.95rem;
+  max-width: 1200px;
+  margin: 0 auto 20px auto;
+}
+
+.about-history p:last-child {
+  margin-bottom: 0;
+}
+
+/* --- Privacy Policy --- */
+.about-privacy {
+  padding: 60px 10%;
+ 
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.about-privacy h2 {
+  text-align: center;
+  color: #002c7c;
+  margin-bottom: 30px;
+  font-size: 2.2rem;
+  font-weight: 600;
+}
+
+.about-privacy p {
+  text-align: justify;
+  color: #333;
+  line-height: 1.7;
+  font-size: 0.95rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+  .about-intro h1 {
+    font-size: 2rem;
+  }
+  
+  .trio-card h2,
+  .about-core h2,
+  .about-privacy h2 {
+    font-size: 1.8rem;
+  }
+  
+  .history-content {
+    flex-direction: column;
+  }
+  
+  .about-container {
+    flex-direction: column;
+  }
+  
+  .about-trio {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .core-content {
+    flex-direction: column;
+    align-items: center;
+  }
+}
