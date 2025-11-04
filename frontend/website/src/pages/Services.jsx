@@ -14,9 +14,6 @@ const servicesData = Array(12).fill({
 export default function Services() {
   return (
     <div>
-       
-
-
       <div className="container py-5">
         <h2 className="title-center mb-4">
           Our <span className="title-primary">Services</span>
