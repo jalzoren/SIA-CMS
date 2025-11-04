@@ -6,7 +6,7 @@ import db from "../src/db.js";
 const router = express.Router();
 const JWT_SECRET = "supersecretkey123"; 
 
-router.post("/login", async (req, res) => {
+router.post("/", async (req, res) => {
   console.log("📥 Received login request");
   console.log("➡ Raw body:", req.body);
 

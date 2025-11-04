@@ -7,42 +7,38 @@ import Home from "./pages/Home";
 import Services from "./pages/Services";
 import Doctors from "./pages/Doctors";
 import News from "./pages/News";
+import AnnouncementsArticle from "./pages/AnnouncementsArticle";
 import Announcements from "./pages/Announcements";
 import Careers from "./pages/Careers";
+import About from "./pages/About";
 import Contact from "./pages/Contact";
-import ComponentNews from "./components/ComponentNews";
-import ComponentAnnouncement from "./components/ComponentAnnouncement";
-import ComponentCareers from "./components/ComponentCareers";
-
 import NewsArticle from "./pages/NewsArticle";
-
 
 import "./App.css";
 
 function App() {
   return (
     <Router>
-      {/* ✅ This handles scroll to top on every route change */}
       <ScrollToTop />
 
       <Navbar />
+
       <Routes>
+        {/* Main pages */}
         <Route path="/" element={<Home />} />
         <Route path="/services" element={<Services />} />
         <Route path="/doctors" element={<Doctors />} />
         <Route path="/news" element={<News />} />
         <Route path="/announcements" element={<Announcements />} />
         <Route path="/careers" element={<Careers />} />
+        <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
 
-        {/* Sub components */}
+        {/* Single article pages */}
         <Route path="/news/:id" element={<NewsArticle />} />
-        <Route
-          path="/announcements/:id"
-          element={<ComponentAnnouncement />}
-        />
-        <Route path="/careers/:id" element={<ComponentCareers />} />
+        <Route path="/announcements/:id" element={<AnnouncementsArticle />} />
       </Routes>
+
       <Footer />
     </Router>
   );

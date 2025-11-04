@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import db from "../src/db.js";
 
-const emailToTest = "alpuerto_lynnczyla@plpasig.edu.ph";
+const emailToTest = "flavierlaurence01@gmail.com";
 const passwordToTest = "MyNewPassword123";
 
 const query = "SELECT * FROM users WHERE email = ?";
