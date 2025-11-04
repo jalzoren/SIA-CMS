@@ -7,11 +7,12 @@ import { IoMdCreate } from "react-icons/io";
 
 export default function AnnouncementAdmin() {
   const quillRef = useRef(null);
-  const fileInputRef = useRef(null);
-  const [fileInfo, setFileInfo] = useState(null); // ← Fixed: plain JS
+  const fileInputRef = useRef(null); // ← for file input click
+  const [fileInfo, setFileInfo] = useState(null); // ← store file info for preview
   const [shortTitle, setShortTitle] = useState("");
   const [fullTitle, setFullTitle] = useState("");
   const [tags, setTags] = useState("");
+  const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     if (quillRef.current && !quillRef.current.__quill) {
@@ -23,7 +24,7 @@ export default function AnnouncementAdmin() {
             [{ header: [1, 2, false] }],
             ["bold", "italic", "underline", "strike"],
             [{ list: "ordered" }, { list: "bullet" }],
-            ["link", "", "code-block"],
+            ["link", "code-block"],
             ["clean"],
           ],
         },
@@ -41,6 +42,7 @@ export default function AnnouncementAdmin() {
       const reader = new FileReader();
       reader.onload = (ev) => {
         setFileInfo({
+          file,
           name: file.name,
           preview: ev.target?.result,
           isImage: true,
@@ -48,10 +50,7 @@ export default function AnnouncementAdmin() {
       };
       reader.readAsDataURL(file);
     } else {
-      setFileInfo({
-        name: file.name,
-        isImage: false,
-      });
+      setFileInfo({ file, name: file.name, isImage: false });
     }
   };
 
@@ -60,59 +59,37 @@ export default function AnnouncementAdmin() {
     const description = quill.root.innerHTML;
 
     if (!shortTitle.trim() || !fullTitle.trim()) {
-      Swal.fire({
-        icon: "warning",
-        title: "Missing fields",
-        text: "Please fill out the short and full title fields.",
-      });
+      Swal.fire({ icon: "warning", title: "Missing fields", text: "Please fill out all required fields." });
       return;
     }
 
+    const formData = new FormData();
+    formData.append("short_title", shortTitle);
+    formData.append("full_title", fullTitle);
+    formData.append("topic_tags", tags);
+    formData.append("description", description);
+    formData.append("status", status);
+    // Dynamic author
+    if (user && user.id) {
+      formData.append("author", user.id); // <-- send the logged-in user ID
+    }
+
+    if (fileInfo?.file) formData.append("image", fileInfo.file);
+
     try {
-      const response = await fetch("http://localhost:5000/api/announcements", {
+      const res = await fetch("http://localhost:5000/api/announcements", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          short_title: shortTitle,
-          full_title: fullTitle,
-          topic_tags: tags,
-          description,
-          status,
-          author: 1, // default author
-        }),
+        body: formData,
       });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        Swal.fire({
-          icon: "success",
-          title:
-            status === "draft"
-              ? "Announcement saved as draft!"
-              : "Announcement published successfully!",
-          timer: 2000,
-          showConfirmButton: false,
-        });
-
-        setShortTitle("");
-        setFullTitle("");
-        setTags("");
-        quill.root.innerHTML = "";
+      const result = await res.json();
+      if (res.ok) {
+        Swal.fire({ icon: "success", title: "Announcement saved!", timer: 2000, showConfirmButton: false });
+        setShortTitle(""); setFullTitle(""); setTags(""); quill.root.innerHTML = ""; setFileInfo(null);
       } else {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: result.message || "Something went wrong.",
-        });
+        Swal.fire({ icon: "error", title: "Error", text: result.message || "Something went wrong" });
       }
     } catch (err) {
-      console.error("Error saving announcement:", err);
-      Swal.fire({
-        icon: "error",
-        title: "Server Error",
-        text: "Failed to connect to the backend.",
-      });
+      Swal.fire({ icon: "error", title: "Server Error", text: "Failed to connect to backend." });
     }
   };
 
@@ -132,22 +109,8 @@ export default function AnnouncementAdmin() {
             Create an Announcement
           </h3>
           <div className="announcement-actions">
-            <button className="btn draft">Draft</button>
-            <button className="btn submit">Post</button>
-            <button
-              className="btn draft"
-              type="button"
-              onClick={() => handleSubmit("draft")}
-            >
-              Draft
-            </button>
-            <button
-              className="btn submit"
-              type="button"
-              onClick={() => handleSubmit("published")}
-            >
-              Post
-            </button>
+            <button className="btn draft" type="button" onClick={() => handleSubmit("draft")}>Draft</button>
+            <button className="btn submit" type="button" onClick={() => handleSubmit("published")}>Post</button>
           </div>
         </div>
       </div>
@@ -157,37 +120,18 @@ export default function AnnouncementAdmin() {
           <div className="cms-form-row">
             <div className="cms-form-group">
               <label htmlFor="cms-short-title">Short Title</label>
-              <input type="text" id="cms-short-title" placeholder="Enter short title" />
-              <input
-                type="text"
-                id="cms-short-title"
-                placeholder="Enter short title"
-                value={shortTitle}
-                onChange={(e) => setShortTitle(e.target.value)}
-              />
+              <input type="text" id="cms-short-title" placeholder="Enter short title"
+                value={shortTitle} onChange={(e) => setShortTitle(e.target.value)} />
             </div>
-
             <div className="cms-form-group">
               <label htmlFor="cms-full-title">Full Title</label>
-              <input type="text" id="cms-full-title" placeholder="Enter full title" />
-              <input
-                type="text"
-                id="cms-full-title"
-                placeholder="Enter full title"
-                value={fullTitle}
-                onChange={(e) => setFullTitle(e.target.value)}
-              />
+              <input type="text" id="cms-full-title" placeholder="Enter full title"
+                value={fullTitle} onChange={(e) => setFullTitle(e.target.value)} />
             </div>
-
             <div className="cms-form-group">
               <label htmlFor="cms-tags">Topic Tags</label>
-              <input
-                type="text"
-                id="cms-tags"
-                placeholder="e.g. Event, Reminder, Holiday"
-                value={tags}
-                onChange={(e) => setTags(e.target.value)}
-              />
+              <input type="text" id="cms-tags" placeholder="e.g. Event, Reminder, Holiday"
+                value={tags} onChange={(e) => setTags(e.target.value)} />
             </div>
           </div>
 
@@ -202,37 +146,20 @@ export default function AnnouncementAdmin() {
             {/* Upload Box */}
             <div className="cms-form-group" style={{ flex: 1, minWidth: "250px" }}>
               <label>Upload Image</label>
-
-              <div
-                className="file-upload-container"
-                onClick={() => fileInputRef.current?.click()}
-              >
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*,.png, .jpg"
-                  onChange={handleFileChange}
-                  className="file-input-hidden"
-                />
-
+              <div className="file-upload-container" onClick={() => fileInputRef.current?.click()}>
+                <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileChange} className="file-input-hidden" />
                 <label className="upload-label">
-                  <IoMdCreate style={{ marginRight: "8px" }} />
-                  Choose Image
+                  <IoMdCreate style={{ marginRight: "8px" }} /> Choose Image
                 </label>
-
                 <div className="file-preview-area">
                   {fileInfo ? (
                     fileInfo.isImage && fileInfo.preview ? (
-                      <img
-                        src={fileInfo.preview}
-                        alt="preview"
-                        className="file-preview-img"
-                      />
+                      <img src={fileInfo.preview} alt="preview" className="file-preview-img" />
                     ) : (
                       <p className="file-name">{fileInfo.name}</p>
                     )
                   ) : (
-                    <p className="file-placeholder">No Image chosen</p>
+                    <p className="file-placeholder">No image chosen</p>
                   )}
                 </div>
               </div>

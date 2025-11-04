@@ -1,11 +1,21 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import Swal from "sweetalert2";
 import Quill from "quill";
 import "../css/Events.css";
 import "quill/dist/quill.snow.css";
+import { IoMdCreate } from "react-icons/io";
 
 export default function Events() {
   const quillRef = useRef(null);
+  const fileInputRef = useRef(null);
+  const [fileInfo, setFileInfo] = useState(null);
+  const user = JSON.parse(localStorage.getItem("user")); 
 
+    if (!user) {
+      alert("Please log in first!");
+      return;
+    }
+  // Initialize Quill
   useEffect(() => {
     if (quillRef.current && !quillRef.current.__quill) {
       const quill = new Quill(quillRef.current, {
@@ -25,41 +35,79 @@ export default function Events() {
     }
   }, []);
 
-  // SUBMIT HANDLER
+  // Handle file selection
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const isImage = file.type.startsWith("image/");
+    let preview = null;
+
+    if (isImage) {
+      preview = URL.createObjectURL(file); // preview URL
+    }
+
+    setFileInfo({ file, name: file.name, isImage, preview });
+  };
+
+  // Submit handler
   const handleSubmit = async (status) => {
     const quillEditor = quillRef.current.__quill;
     const description = quillEditor.root.innerHTML;
-
-    const postData = {
-      post_type: document.querySelector('input[name="postType"]:checked').value,
-      short_title: document.getElementById("cms-short-title").value,
-      full_title: document.getElementById("cms-full-title").value,
-      tags: document.getElementById("cms-tags").value,
-      description,
-      status, // "draft" or "posted"
-    };
-
+  
+    const formData = new FormData();
+    formData.append("short_title", document.getElementById("cms-short-title").value);
+    formData.append("full_title", document.getElementById("cms-full-title").value);
+    formData.append("topic_tags", document.getElementById("cms-tags").value);
+    formData.append("description", description);
+    formData.append("status", status);
+    formData.append("author", user.id); // logged-in author ID
+  
+    if (fileInfo?.file) {
+      formData.append("image", fileInfo.file);
+    }
+  
     try {
-      const res = await fetch("http://localhost:5000/api/events", {
+      const res = await fetch("http://localhost:5000/api/news", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(postData),
+        body: formData,
       });
       const data = await res.json();
+  
       if (data.success) {
-        alert(`Post ${status} successfully!`);
+        Swal.fire({
+          icon: "success",
+          title: `Events and career ${status} successfully!`,
+          timer: 2000,
+          showConfirmButton: false,
+        });
+  
+        // Reset all fields
+        setFileInfo(null);
+        quillEditor.setContents([]);
+        document.getElementById("cms-short-title").value = "";
+        document.getElementById("cms-full-title").value = "";
+        document.getElementById("cms-tags").value = "";
       } else {
-        alert("Error saving post.");
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: data.message || "Something went wrong while saving the news.",
+        });
       }
     } catch (err) {
-      console.error(err);
-      alert("Server error.");
+      console.error("❌ Server error:", err);
+      Swal.fire({
+        icon: "error",
+        title: "Server Error",
+        text: "Failed to connect to the backend.",
+      });
     }
   };
+  
 
   return (
     <div className="cms-announcement-page">
-      {/* PAGE HEADER */}
       <h2 className="title">Events and Careers</h2>
       <ul className="breadcrumbs">
         <li>Events and Careers</li>
@@ -96,39 +144,65 @@ export default function Events() {
           </label>
         </div>
         <br />
+
         <form className="cms-form">
           <div className="cms-form-row">
             <div className="cms-form-group">
               <label htmlFor="cms-short-title">Short Title</label>
-              <input
-                type="text"
-                id="cms-short-title"
-                placeholder="Enter short title"
-              />
+              <input type="text" id="cms-short-title" placeholder="Enter short title" />
             </div>
-
             <div className="cms-form-group">
               <label htmlFor="cms-full-title">Full Title</label>
-              <input
-                type="text"
-                id="cms-full-title"
-                placeholder="Enter full title"
-              />
+              <input type="text" id="cms-full-title" placeholder="Enter full title" />
             </div>
-
             <div className="cms-form-group">
               <label htmlFor="cms-tags">Topic Tags</label>
-              <input
-                type="text"
-                id="cms-tags"
-                placeholder="e.g. Event, Reminder, Holiday"
-              />
+              <input type="text" id="cms-tags" placeholder="e.g. Event, Reminder, Holiday" />
             </div>
           </div>
 
-          <div className="cms-form-group">
-            <label>Description Box</label>
-            <div ref={quillRef} className="cms-quill-editor"></div>
+          {/* DESCRIPTION + FILE UPLOAD ROW */}
+          <div className="cms-form-row" style={{ alignItems: "flex-start" }}>
+            {/* Description Box */}
+            <div className="cms-form-group" style={{ flex: 2 }}>
+              <label>Description Box</label>
+              <div ref={quillRef} className="cms-quill-editor"></div>
+            </div>
+
+            {/* Upload Box */}
+            <div className="cms-form-group" style={{ flex: 1, minWidth: "250px" }}>
+              <label>Upload Image</label>
+
+              <div
+                className="file-upload-container"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  className="file-input-hidden"
+                />
+
+                <label className="upload-label">
+                  <IoMdCreate style={{ marginRight: "8px" }} />
+                  Choose Image
+                </label>
+
+                <div className="file-preview-area">
+                  {fileInfo ? (
+                    fileInfo.isImage && fileInfo.preview ? (
+                      <img src={fileInfo.preview} alt="preview" className="file-preview-img" />
+                    ) : (
+                      <p className="file-name">{fileInfo.name}</p>
+                    )
+                  ) : (
+                    <p className="file-placeholder">No image chosen</p>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
         </form>
       </div>
