@@ -305,3 +305,37 @@
     gap: 6px;
   }
 }
+
+
+.table-actions button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.table-actions .view {
+  background: var(--primary-color2);
+  color: white;
+}
+
+.table-actions .assign {
+  background: var(--success);
+  color: white;
+}
+
+.table-actions .delete {
+  background: var(--danger);
+  color: white;
+}
+
+.table-actions button:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
