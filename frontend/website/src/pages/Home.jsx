@@ -38,7 +38,7 @@ function Home() {
     const timeout = setTimeout(() => setLoading(false), 2000);
     return () => clearTimeout(timeout);
   }, []);
-  
+
 // ✅ Fetch announcements from backend
 useEffect(() => {
   const fetchAnnouncements = async () => {
