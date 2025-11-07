@@ -97,7 +97,6 @@ export default function News() {
   
 
   
-  // Handle file change
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -168,7 +167,6 @@ export default function News() {
       <div className="card announcement-card">
         <div className="head">
           <h3 className="announcement-title">
-            <IoMdCreate style={{ marginRight: "6px" }} />
             {post ? "Edit News Article" : "Create a News Article"}
           </h3>
           <div className="announcement-actions">
