@@ -45,31 +45,34 @@ const News = () => {
 
       <div className="row g-4">
         {loading
-          ? Array(3).fill().map((_, i) => (
-              <div key={i} className="col-12 col-md-6 col-lg-4">
-                <div className="news-card card h-100 shadow-sm">
-                  <Skeleton height={200} borderRadius={8} />
-                  <div className="card-body text-center">
-                    <Skeleton height={25} width={250} className="mx-auto mb-2" />
-                    <Skeleton height={15} width={100} className="mx-auto mb-2" />
-                    <Skeleton count={3} height={10} width={`80%`} className="mx-auto" />
-                    <Skeleton height={35} width={120} className="mt-3 mx-auto rounded-pill" />
+          ? Array(3)
+              .fill()
+              .map((_, i) => (
+                <div key={i} className="col-12 col-md-6 col-lg-4">
+                  <div className="news-card card h-100 shadow-sm">
+                    <Skeleton height={200} borderRadius={8} />
+                    <div className="card-body text-center">
+                      <Skeleton height={25} width={250} className="mx-auto mb-2" />
+                      <Skeleton height={15} width={100} className="mx-auto mb-2" />
+                      <Skeleton count={3} height={10} width={`80%`} className="mx-auto" />
+                      <Skeleton height={35} width={120} className="mt-3 mx-auto rounded-pill" />
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))
+              ))
           : articles.map((article) => (
               <div key={article.id} className="col-12 col-md-6 col-lg-4">
                 <div className="news-card card h-100 shadow-sm">
                   <div
                     className="news-img rounded-top"
                     style={{
-                      backgroundImage: `url(https://via.placeholder.com/600x300?text=News)`,
+                      backgroundImage: `url(${article.image_url || "https://via.placeholder.com/600x300?text=News"})`,
                       backgroundSize: "cover",
                       backgroundPosition: "center",
                       height: "200px",
                     }}
                   ></div>
+
                   <div className="card-body text-center d-flex flex-column justify-content-between">
                     <div>
                       <h5 className="card-title fw-bold text-primary">{article.full_title}</h5>
@@ -86,6 +89,7 @@ const News = () => {
                         }}
                       ></p>
                     </div>
+
                     <Link
                       to={`/news/${article.id}`}
                       className="btn btn-primary mt-3 align-self-center"
