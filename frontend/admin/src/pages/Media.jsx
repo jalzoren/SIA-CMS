@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { FaUpload, FaSearch } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { FaUpload } from "react-icons/fa";
 import Swal from "sweetalert2";
 import "../css/Media.css";
 
@@ -7,52 +7,89 @@ export default function Media() {
   const [files, setFiles] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const filesPerPage = 5;
+  const API_BASE = "http://localhost:5000";
 
-  // handle file upload
-  const handleFileUpload = (e) => {
-    const uploaded = Array.from(e.target.files).map((file) => ({
-      fileObject: file,
-      name: file.name,
-      date: new Date().toLocaleDateString(),
-      size: (file.size / 1024).toFixed(1) + " KB",
-      status: "Active",
-      url: URL.createObjectURL(file),
-    }));
-    setFiles((prev) => [...prev, ...uploaded]);
-    setCurrentPage(1); // reset to first page
+  // === Load files on mount ===
+  useEffect(() => {
+    fetchFiles();
+  }, []);
+
+  const fetchFiles = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/api/files`);
+      const data = await res.json();
+      if (data.files) setFiles(data.files);
+    } catch (err) {
+      console.error("Fetch error:", err);
+    }
   };
 
-  // DELETE CONFIRMATION
-  const handleDelete = (index) => {
+  // === Handle file upload ===
+  const uploadFiles = async (fileList) => {
+    const formData = new FormData();
+    for (let file of fileList) {
+      formData.append("files", file);
+    }
+
+    try {
+      const response = await fetch(`${API_BASE}/api/upload`, {
+        method: "POST",
+        body: formData,
+      });
+      if (!response.ok) throw new Error("Upload failed");
+
+      const data = await response.json();
+      setFiles((prev) => [...data.files, ...prev]);
+      setCurrentPage(1);
+
+      Swal.fire({
+        title: "✅ Success!",
+        text: "Files uploaded successfully.",
+        icon: "success",
+        confirmButtonColor: "#043873",
+        background: "#f3f7ff",
+        color: "#043873",
+      });
+    } catch (error) {
+      console.error("Upload error:", error);
+      Swal.fire({
+        title: "Error!",
+        text: "There was a problem uploading your files.",
+        icon: "error",
+        confirmButtonColor: "#e11d48",
+        background: "#f3f7ff",
+        color: "#043873",
+      });
+    }
+  };
+
+  const handleFileUpload = (e) => {
+    uploadFiles(e.target.files);
+  };
+
+  // === Handle drag and drop ===
+  const handleDrop = (e) => {
+    e.preventDefault();
+    const dropped = e.dataTransfer.files;
+    if (dropped.length > 0) uploadFiles(dropped);
+  };
+
+  const handleDragOver = (e) => e.preventDefault();
+
+  // === View image ===
+  const handleView = (fileUrl, fileName) => {
     Swal.fire({
-      title: "Are you sure?",
-      text: "This file will be permanently deleted.",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#e11d48",
-      cancelButtonColor: "#4f9cf9",
-      confirmButtonText: "Yes, delete it",
-      cancelButtonText: "Cancel",
+      title: fileName,
+      imageUrl: `${API_BASE}${fileUrl}`,
+      imageAlt: fileName,
+      showCloseButton: true,
+      showConfirmButton: false,
       background: "#f3f7ff",
       color: "#043873",
-      scrollbarPadding: false,
-    }).then((result) => {
-      if (result.isConfirmed) {
-        URL.revokeObjectURL(files[index].url);
-        setFiles((prev) => prev.filter((_, i) => i !== index));
-        Swal.fire({
-          title: "Deleted!",
-          text: "Your file has been removed successfully.",
-          icon: "success",
-          confirmButtonColor: "#043873",
-          background: "#f3f7ff",
-          color: "#043873",
-        });
-      }
     });
   };
 
-  // ASSIGN FILE
+  // === Assign file ===
   const handleAssign = async (fileName) => {
     const { value: section } = await Swal.fire({
       title: "Assign File",
@@ -114,26 +151,57 @@ export default function Media() {
     }
   };
 
-  // VIEW IMAGE
-  const handleView = (fileUrl, fileName) => {
+  // === Delete file ===
+  const handleDelete = (filename) => {
     Swal.fire({
-      title: fileName,
-      imageUrl: fileUrl,
-      imageAlt: fileName,
-      showCloseButton: true,
-      showConfirmButton: false,
+      title: "Are you sure?",
+      text: "This file will be permanently deleted.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#e11d48",
+      cancelButtonColor: "#4f9cf9",
+      confirmButtonText: "Yes, delete it",
+      cancelButtonText: "Cancel",
       background: "#f3f7ff",
       color: "#043873",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await fetch(`${API_BASE}/api/delete/${filename}`, {
+            method: "DELETE",
+          });
+          if (!res.ok) throw new Error("Delete failed");
+
+          setFiles((prev) => prev.filter((f) => f.filename !== filename));
+
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your file has been removed successfully.",
+            icon: "success",
+            confirmButtonColor: "#043873",
+            background: "#f3f7ff",
+            color: "#043873",
+          });
+        } catch (err) {
+          console.error("Delete error:", err);
+          Swal.fire({
+            title: "Error!",
+            text: "Failed to delete file.",
+            icon: "error",
+            confirmButtonColor: "#e11d48",
+            background: "#f3f7ff",
+            color: "#043873",
+          });
+        }
+      }
     });
   };
 
-  // Pagination logic
+  // === Pagination ===
   const totalPages = Math.ceil(files.length / filesPerPage);
   const indexOfLastFile = currentPage * filesPerPage;
   const indexOfFirstFile = indexOfLastFile - filesPerPage;
   const currentFiles = files.slice(indexOfFirstFile, indexOfLastFile);
-
-  const goToPage = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div className="cms-media-page">
@@ -144,7 +212,12 @@ export default function Media() {
         <li>Admin Dashboard</li>
       </ul>
 
-      <div className="cms-card media-upload-card">
+      {/* Upload Section */}
+      <div
+        className="cms-card media-upload-card"
+        onDrop={handleDrop}
+        onDragOver={handleDragOver}
+      >
         <div className="upload-area">
           <input
             type="file"
@@ -152,6 +225,7 @@ export default function Media() {
             multiple
             accept=".jpg,.jpeg,.png"
             onChange={handleFileUpload}
+            style={{ display: "none" }}
           />
           <label htmlFor="mediaUpload" className="upload-box">
             <FaUpload className="upload-icon" />
@@ -163,32 +237,12 @@ export default function Media() {
         </div>
       </div>
 
-      <div className="cms-card media-filter-card">
-        <div className="media-filters">
-          <div className="search-bar">
-            <input type="text" placeholder="Search" />
-            <FaSearch className="search-icon" />
-          </div>
-          <select>
-            <option>Active Uploads</option>
-            <option>Archived</option>
-          </select>
-          <select>
-            <option>Sort by Upload: Manual</option>
-            <option>Sort by Upload: Automatic</option>
-          </select>
-          <select>
-            <option>Sort by: Newest First</option>
-            <option>Sort by: Oldest First</option>
-          </select>
-        </div>
-      </div>
-
+      {/* Table */}
       <div className="cms-card media-table-card">
         <table className="media-table">
           <thead>
             <tr>
-              <th>Upload Date</th>
+              <th>Date</th>
               <th>File Name</th>
               <th>Size</th>
               <th>Status</th>
@@ -197,53 +251,28 @@ export default function Media() {
           </thead>
           <tbody>
             {currentFiles.length > 0 ? (
-              currentFiles.map((file, i) => (
-                <tr key={indexOfFirstFile + i}>
-                  <td>{file.date}</td>
+              currentFiles.map((file) => (
+                <tr key={file.id || file.filename}>
+                  <td>{new Date(file.date_uploaded).toLocaleDateString()}</td>
                   <td>{file.name}</td>
                   <td>{file.size}</td>
                   <td>{file.status}</td>
-                  <td className="table-actions">
+                  <td>
                     <button
                       onClick={() => handleView(file.url, file.name)}
-                      style={{
-                        backgroundColor: "#4f9cf9",
-                        color: "#fff",
-                        border: "none",
-                        borderRadius: "6px",
-                        padding: "6px 10px",
-                        marginRight: "8px",
-                        cursor: "pointer",
-                      }}
+                      className="btn-view"
                     >
                       View
                     </button>
                     <button
-                      className="assign"
                       onClick={() => handleAssign(file.name)}
-                      style={{
-                        backgroundColor: "#043873",
-                        color: "#fff",
-                        border: "none",
-                        borderRadius: "6px",
-                        padding: "6px 10px",
-                        marginRight: "8px",
-                        cursor: "pointer",
-                      }}
+                      className="btn-assign"
                     >
                       Assign
                     </button>
                     <button
-                      className="delete"
-                      onClick={() => handleDelete(indexOfFirstFile + i)}
-                      style={{
-                        backgroundColor: "#e11d48",
-                        color: "#fff",
-                        border: "none",
-                        borderRadius: "6px",
-                        padding: "6px 10px",
-                        cursor: "pointer",
-                      }}
+                      onClick={() => handleDelete(file.filename)}
+                      className="btn-delete"
                     >
                       Delete
                     </button>
@@ -260,36 +289,28 @@ export default function Media() {
           </tbody>
         </table>
 
-        {/* Custom Pagination */}
+        {/* Pagination */}
         <div className="media-pagination">
           <span
             className={currentPage === 1 ? "disabled" : ""}
-            onClick={() => currentPage > 1 && goToPage(currentPage - 1)}
+            onClick={() => currentPage > 1 && setCurrentPage(currentPage - 1)}
           >
             ← Previous
           </span>
 
-          {[...Array(totalPages)].map((_, i) => {
-            if (i < 3 || i === totalPages - 1 || (i >= currentPage - 2 && i <= currentPage)) {
-              return (
-                <span
-                  key={i}
-                  className={`page ${currentPage === i + 1 ? "active" : ""}`}
-                  onClick={() => goToPage(i + 1)}
-                >
-                  {i + 1}
-                </span>
-              );
-            } else if (i === 3 && currentPage > 4) {
-              return <span key="dots1">...</span>;
-            } else if (i === totalPages - 2 && currentPage < totalPages - 3) {
-              return <span key="dots2">...</span>;
-            } else return null;
-          })}
+          {[...Array(totalPages)].map((_, i) => (
+            <span
+              key={i}
+              className={`page ${currentPage === i + 1 ? "active" : ""}`}
+              onClick={() => setCurrentPage(i + 1)}
+            >
+              {i + 1}
+            </span>
+          ))}
 
           <span
             className={currentPage === totalPages ? "disabled" : ""}
-            onClick={() => currentPage < totalPages && goToPage(currentPage + 1)}
+            onClick={() => currentPage < totalPages && setCurrentPage(currentPage + 1)}
           >
             Next →
           </span>

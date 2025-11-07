@@ -51,7 +51,7 @@ export default function News() {
           [{ header: [1, 2, false] }],
           ["bold", "italic", "underline", "strike"],
           [{ list: "ordered" }, { list: "bullet" }],
-          ["link", "image", "code-block"],
+          ["link", "", "code-block"],
           ["clean"],
         ],
       },
@@ -97,7 +97,6 @@ export default function News() {
   
 
   
-  // Handle file change
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -168,7 +167,6 @@ export default function News() {
       <div className="card announcement-card">
         <div className="head">
           <h3 className="announcement-title">
-            <IoMdCreate style={{ marginRight: "6px" }} />
             {post ? "Edit News Article" : "Create a News Article"}
           </h3>
           <div className="announcement-actions">
@@ -188,15 +186,15 @@ export default function News() {
           <div className="cms-form-row">
             <div className="cms-form-group">
               <label>Short Title</label>
-              <input type="text" value={shortTitle} onChange={(e) => setShortTitle(e.target.value)} />
+              <input placeholder="Enter Short Title" type="text" value={shortTitle} onChange={(e) => setShortTitle(e.target.value)} />
             </div>
             <div className="cms-form-group">
               <label>Full Title</label>
-              <input type="text" value={fullTitle} onChange={(e) => setFullTitle(e.target.value)} />
+              <input  placeholder="Enter Full Title"type="text" value={fullTitle} onChange={(e) => setFullTitle(e.target.value)} />
             </div>
             <div className="cms-form-group">
               <label>Topic Tags</label>
-              <input type="text" value={tags} onChange={(e) => setTags(e.target.value)} />
+              <input placeholder="Enter Topic Tags" type="text" value={tags} onChange={(e) => setTags(e.target.value)} />
             </div>
           </div>
 

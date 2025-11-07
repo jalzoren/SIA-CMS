@@ -105,7 +105,6 @@ export default function AnnouncementAdmin() {
       <div className="card announcement-card">
         <div className="head">
           <h3 className="announcement-title">
-            <IoMdCreate style={{ marginRight: "6px" }} />
             Create an Announcement
           </h3>
           <div className="announcement-actions">

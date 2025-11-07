@@ -1,126 +1,177 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { FaArrowLeft, FaTag } from "react-icons/fa";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import "../components/components-css/ComponentNews.css";
 
 const ComponentAnnouncement = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  const [announcement, setAnnouncement] = useState(null);
+  const [allAnnouncements, setAllAnnouncements] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [sidebarLoading, setSidebarLoading] = useState(true);
+
+  // Fetch single announcement
+  useEffect(() => {
+    const fetchAnnouncement = async () => {
+      try {
+        const res = await fetch(`http://localhost:5000/api/announcements/${id}`);
+        const data = await res.json();
+        setAnnouncement(data);
+      } catch (error) {
+        console.error("Error fetching announcement:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAnnouncement();
+  }, [id]);
+
+  // Fetch all announcements for sidebar
+  useEffect(() => {
+    const fetchAllAnnouncements = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/announcements");
+        const data = await res.json();
+        setAllAnnouncements(data);
+      } catch (error) {
+        console.error("Error fetching announcements list:", error);
+      } finally {
+        setSidebarLoading(false);
+      }
+    };
+    fetchAllAnnouncements();
+  }, []);
+
+  // Scroll to top on ID change
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [id]);
 
-  const announcements = {
-    1: {
-      shortTitle: "New Hospital Wing",
-      title: "New Hospital Wing Opening",
-      date: "March 2, 2025",
-      author: "The Medical City",
-      tags: ["Infrastructure", "Patient Care", "Innovation"],
-      description:
-        "We’re thrilled to announce the grand opening of our new hospital wing — a major step in enhancing our capacity to serve more patients comfortably and efficiently.",
-      content: `
-        The new hospital wing is equipped with state-of-the-art facilities and modern patient rooms.
-        This milestone expansion strengthens our mission to deliver world-class healthcare
-        to every Filipino family.
-      `,
-    },
-    2: {
-      shortTitle: "Free Flu Shots",
-      title: "Free Flu Vaccination Drive",
-      date: "February 10, 2025",
-      author: "Public Health Department",
-      tags: ["Community Health", "Vaccination", "Wellness"],
-      description:
-        "Join our hospital’s free flu vaccination campaign, open to all members of the community — because prevention is better than cure!",
-      content: `
-        Protect yourself and your loved ones this flu season.
-        Our vaccination drive will be held at the hospital main lobby from 9 AM to 5 PM.
-      `,
-    },
-  };
+  if (loading) {
+    return (
+      <div className="container py-5">
+        <Skeleton height={40} width={300} className="mb-3" />
+        <Skeleton height={20} width={200} className="mb-4" />
+        <Skeleton height={400} />
+      </div>
+    );
+  }
 
-  const announcement = announcements[id] || announcements[1];
+  if (!announcement) {
+    return (
+      <div className="container py-5 text-center">
+        <h3>Announcement not found 😢</h3>
+        <Link to="/announcements" className="btn btn-primary mt-3">
+          Back to Announcements
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="news-container">
+      {/* Back Button */}
       <button className="back-btn" onClick={() => navigate("/announcements")}>
         <FaArrowLeft className="back-icon" /> Back
       </button>
 
+      {/* Breadcrumb */}
       <div className="breadcrumb">
         <Link to="/announcements">Latest Announcements</Link>
         <span>/</span>
-        <span className="active">{announcement.shortTitle}</span>
+        <span className="active">
+          {announcement.short_title || announcement.full_title}
+        </span>
       </div>
 
       <h2 className="news-section-title">ANNOUNCEMENT</h2>
 
       <div className="news-layout">
-        {/* MAIN ARTICLE */}
+        {/* MAIN CONTENT */}
         <div className="news-main">
-          <h4 className="news-short-title">{announcement.shortTitle}</h4>
-          <h3 className="news-title">{announcement.title}</h3>
+          <h4 className="news-short-title">{announcement.short_title}</h4>
+          <h3 className="news-title">{announcement.full_title}</h3>
 
-          <div className="news-tags">
-            {announcement.tags.map((tag, index) => (
-              <span key={index} className="tag">
-                <FaTag className="tag-icon" /> {tag}
-              </span>
-            ))}
-          </div>
+          {/* Tags */}
+          {announcement.topic_tags && (
+            <div className="news-tags">
+              {announcement.topic_tags.split(",").map((tag, index) => (
+                <span key={index} className="tag">
+                  <FaTag className="tag-icon" /> {tag.trim()}
+                </span>
+              ))}
+            </div>
+          )}
 
-          <p className="news-description">{announcement.description}</p>
-          <p className="news-date">{announcement.date}</p>
+          <p className="news-date">
+            Published:{" "}
+            {announcement.created_at
+              ? new Date(announcement.created_at).toLocaleDateString()
+              : "N/A"}
+          </p>
           <hr />
 
-          <div className="news-image"></div>
-          <p className="photo-credit">Photo by: {announcement.author}</p>
+          {/* Image */}
+          {announcement.image && (
+            <div className="news-image">
+              <img
+                src={announcement.image}
+                alt={announcement.full_title}
+                className="news-img"
+              />
+            </div>
+          )}
 
-          <div className="news-body">
-            <p>{announcement.content}</p>
-          </div>
+          <p className="photo-credit">
+            Author: {announcement.author || "TMC News Desk"}
+          </p>
+
+          {/* Main Body */}
+          <div
+            className="news-body"
+            dangerouslySetInnerHTML={{ __html: announcement.description }}
+          ></div>
         </div>
 
         {/* SIDEBAR */}
         <aside className="news-sidebar">
           <div className="sidebar-box">
             <h4 className="sidebar-title">More Announcements</h4>
-            <ul className="sidebar-list">
-              <li className="sidebar-item">
-                <Link to="/announcements/1" className="sidebar-link">
-                  <h5>New Hospital Wing Opening</h5>
-                  <p className="sidebar-date">March 2, 2025</p>
-                </Link>
-              </li>
-              <li className="sidebar-item">
-                <Link to="/announcements/2" className="sidebar-link">
-                  <h5>Free Flu Vaccination Drive</h5>
-                  <p className="sidebar-date">February 10, 2025</p>
-                </Link>
-              </li>
-              <li className="sidebar-item">
-                <a href="#" className="sidebar-link">
-                  <h5>Updated Visitor Guidelines</h5>
-                  <p className="sidebar-date">May 5, 2025</p>
-                </a>
-              </li>
-              <li className="sidebar-item">
-                <a href="#" className="sidebar-link">
-                  <h5>New Parking Area Available</h5>
-                  <p className="sidebar-date">April 28, 2025</p>
-                </a>
-              </li>
-              <li className="sidebar-item">
-                <a href="#" className="sidebar-link">
-                  <h5>Health Awareness Week Activities</h5>
-                  <p className="sidebar-date">January 14, 2025</p>
-                </a>
-              </li>
-            </ul>
+            <div className="sidebar-scroll">
+              {sidebarLoading ? (
+                <Skeleton count={5} height={60} className="mb-2" />
+              ) : (
+                <ul className="sidebar-list">
+                  {allAnnouncements
+                    .filter((a) => a.id !== announcement.id)
+                    .slice(0, 6)
+                    .map((a) => (
+                      <li key={a.id} className="sidebar-item">
+                        <Link
+                          to={`/announcements/${a.id}`}
+                          className="sidebar-link"
+                        >
+                          <div className="sidebar-content">
+                            <h5 className="sidebar-title-text">
+                              {a.short_title || a.full_title}
+                            </h5>
+                            <p className="sidebar-date">
+                              {new Date(a.created_at).toLocaleDateString()}
+                            </p>
+                          </div>
+                        </Link>
+                      </li>
+                    ))}
+                </ul>
+              )}
+            </div>
           </div>
 
+          {/* Ad Box */}
           <div className="ad-box">
             <h4 className="ad-title">Sponsored</h4>
             <div className="ad-placeholder">Ad Space</div>
