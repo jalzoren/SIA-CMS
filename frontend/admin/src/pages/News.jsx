@@ -51,7 +51,7 @@ export default function News() {
           [{ header: [1, 2, false] }],
           ["bold", "italic", "underline", "strike"],
           [{ list: "ordered" }, { list: "bullet" }],
-          ["link", "image", "code-block"],
+          ["link", "", "code-block"],
           ["clean"],
         ],
       },
