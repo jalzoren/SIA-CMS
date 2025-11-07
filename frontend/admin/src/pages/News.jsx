@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 import Quill from "quill";
 import Swal from "sweetalert2";
 import "../css/News.css";
@@ -6,10 +7,12 @@ import "quill/dist/quill.snow.css";
 import { IoMdCreate } from "react-icons/io";
 
 export default function News() {
+  const location = useLocation();
+  const post = location.state?.post; // post data passed via navigate
   const quillRef = useRef(null);
   const fileInputRef = useRef(null);
 
-  const user = JSON.parse(localStorage.getItem("user")); 
+  const user = JSON.parse(localStorage.getItem("user"));
   if (!user) {
     alert("Please log in first!");
     return null;
@@ -19,28 +22,82 @@ export default function News() {
   const [fullTitle, setFullTitle] = useState("");
   const [tags, setTags] = useState("");
   const [fileInfo, setFileInfo] = useState(null);
+  const [quillReady, setQuillReady] = useState(false);
 
   // Initialize Quill editor
+  // Initialize Quill once
   useEffect(() => {
-    if (quillRef.current && !quillRef.current.__quill) {
-      const quill = new Quill(quillRef.current, {
-        theme: "snow",
-        placeholder: "Write your news article here...",
-        modules: {
-          toolbar: [
-            [{ header: [1, 2, false] }],
-            ["bold", "italic", "underline", "strike"],
-            [{ list: "ordered" }, { list: "bullet" }],
-            ["link", "image", "code-block"],
-            ["clean"],
-          ],
-        },
-      });
-      quillRef.current.__quill = quill;
+    console.log("🚀 Location state:", location.state);
+    console.log("🚀 Post from state:", location.state?.post);
+  }, [location.state]);
+  
+  useEffect(() => {
+    if (!quillRef.current) {
+      console.log("❌ Quill ref not ready yet");
+      return;
     }
+  
+    if (quillRef.current.__quill) {
+      console.log("✅ Quill already initialized");
+      return;
+    }
+  
+    console.log("⚡ Initializing Quill...");
+    const quill = new Quill(quillRef.current, {
+      theme: "snow",
+      placeholder: "Write your news article here...",
+      modules: {
+        toolbar: [
+          [{ header: [1, 2, false] }],
+          ["bold", "italic", "underline", "strike"],
+          [{ list: "ordered" }, { list: "bullet" }],
+          ["link", "image", "code-block"],
+          ["clean"],
+        ],
+      },
+    });
+  
+    quillRef.current.__quill = quill;
+    setQuillReady(true);
+    console.log("✅ Quill initialized");
+  
   }, []);
+  
+  useEffect(() => {
+    console.log("📝 Pre-fill useEffect", { post, quillReady });
+  
+    if (!post) {
+      console.log("❌ No post to pre-fill");
+      return;
+    }
+  
+    if (!quillReady) {
+      console.log("⏳ Quill not ready yet, waiting...");
+      return;
+    }
+  
+    console.log("✅ Pre-filling form fields...");
+  
+    setShortTitle(post.short_title || "");
+    setFullTitle(post.full_title || "");
+    setTags(post.topic_tags || "");
+  
+    quillRef.current.__quill.clipboard.dangerouslyPasteHTML(post.description || "");
+  
+    if (post.image_url) {
+      setFileInfo({
+        file: null,
+        name: post.image_name || "Existing Image",
+        isImage: true,
+        preview: post.image_url,
+      });
+    }
+  
+  }, [post, quillReady]);
+  
 
-  // Handle image selection
+  
+  // Handle file change
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -51,39 +108,44 @@ export default function News() {
     setFileInfo({ file, name: file.name, isImage, preview });
   };
 
-  // Submit news post
+  // Handle form submit
   const handleSubmit = async (status) => {
     const description = quillRef.current.__quill.root.innerHTML;
-
     const formData = new FormData();
+
     formData.append("short_title", shortTitle);
     formData.append("full_title", fullTitle);
     formData.append("topic_tags", tags);
     formData.append("description", description);
     formData.append("status", status);
-    formData.append("author", user.id); // logged-in author
+    formData.append("author", user.id);
 
     if (fileInfo?.file) formData.append("image", fileInfo.file);
 
     try {
-      const res = await fetch("http://localhost:5000/api/news", {
-        method: "POST",
-        body: formData,
-      });
+      const url = post
+        ? `http://localhost:5000/api/news/${post.id}` // PUT for edit
+        : "http://localhost:5000/api/news";          // POST for create
+      const method = post ? "PUT" : "POST";
+
+      const res = await fetch(url, { method, body: formData });
       const data = await res.json();
 
       if (data.success) {
         Swal.fire({
           icon: "success",
-          title: `News ${status} successfully!`,
+          title: `News ${post ? "updated" : status === "posted" ? "posted" : "saved"} successfully!`,
           timer: 2000,
           showConfirmButton: false,
         });
-        setShortTitle("");
-        setFullTitle("");
-        setTags("");
-        quillRef.current.__quill.setContents([]);
-        setFileInfo(null);
+        if (!post) {
+          // Reset form only for new posts
+          setShortTitle("");
+          setFullTitle("");
+          setTags("");
+          quillRef.current.__quill.setContents([]);
+          setFileInfo(null);
+        }
       } else {
         Swal.fire({ icon: "error", title: "Error", text: data.message || "Something went wrong" });
       }
@@ -95,19 +157,19 @@ export default function News() {
 
   return (
     <div className="cms-announcement-page">
-      <h2 className="title">News</h2>
+      <h2 className="title">{post ? "Edit News Article" : "Create News Article"}</h2>
       <ul className="breadcrumbs">
         <li>News</li>
         <li className="divider">/</li>
         <li>Admin Panel</li>
       </ul>
 
-      {/* CREATE POST HEADER CARD */}
+      {/* Header Card */}
       <div className="card announcement-card">
         <div className="head">
           <h3 className="announcement-title">
             <IoMdCreate style={{ marginRight: "6px" }} />
-            Create a News Article
+            {post ? "Edit News Article" : "Create a News Article"}
           </h3>
           <div className="announcement-actions">
             <button className="btn draft" onClick={() => handleSubmit("draft")}>
@@ -120,51 +182,30 @@ export default function News() {
         </div>
       </div>
 
-      {/* FORM BODY */}
+      {/* Form Body */}
       <div className="cms-card cms-form-card">
         <form className="cms-form" onSubmit={(e) => e.preventDefault()}>
           <div className="cms-form-row">
             <div className="cms-form-group">
-              <label htmlFor="cms-short-title">Short Title</label>
-              <input
-                type="text"
-                id="cms-short-title"
-                placeholder="Enter short title"
-                value={shortTitle}
-                onChange={(e) => setShortTitle(e.target.value)}
-              />
+              <label>Short Title</label>
+              <input type="text" value={shortTitle} onChange={(e) => setShortTitle(e.target.value)} />
             </div>
-
             <div className="cms-form-group">
-              <label htmlFor="cms-full-title">Full Title</label>
-              <input
-                type="text"
-                id="cms-full-title"
-                placeholder="Enter full title"
-                value={fullTitle}
-                onChange={(e) => setFullTitle(e.target.value)}
-              />
+              <label>Full Title</label>
+              <input type="text" value={fullTitle} onChange={(e) => setFullTitle(e.target.value)} />
             </div>
-
             <div className="cms-form-group">
-              <label htmlFor="cms-tags">Topic Tags</label>
-              <input
-                type="text"
-                id="cms-tags"
-                placeholder="e.g. Event, Reminder, Holiday"
-                value={tags}
-                onChange={(e) => setTags(e.target.value)}
-              />
+              <label>Topic Tags</label>
+              <input type="text" value={tags} onChange={(e) => setTags(e.target.value)} />
             </div>
           </div>
 
-          {/* DESCRIPTION + FILE UPLOAD ROW */}
+          {/* Description + Image Upload */}
           <div className="cms-form-row" style={{ alignItems: "flex-start" }}>
             <div className="cms-form-group" style={{ flex: 2 }}>
               <label>Description Box</label>
               <div ref={quillRef} className="cms-quill-editor"></div>
             </div>
-
             <div className="cms-form-group" style={{ flex: 1, minWidth: "250px" }}>
               <label>Upload Image</label>
               <div className="file-upload-container" onClick={() => fileInputRef.current?.click()}>
@@ -175,12 +216,10 @@ export default function News() {
                   onChange={handleFileChange}
                   className="file-input-hidden"
                 />
-
                 <label className="upload-label">
                   <IoMdCreate style={{ marginRight: "8px" }} />
                   Choose Image
                 </label>
-
                 <div className="file-preview-area">
                   {fileInfo ? (
                     fileInfo.isImage && fileInfo.preview ? (

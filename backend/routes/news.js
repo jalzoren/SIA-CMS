@@ -7,7 +7,6 @@ import { v4 as uuidv4 } from "uuid";
 
 const router = express.Router();
 
-// ✅ Configure multer for image uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "uploads/news/");
