@@ -288,8 +288,7 @@ function Home() {
        <section className="news-section py-5">
         <div className="container">
           <h2 className="news-title text-center mb-5">
-            <span className="highlight text-primary">Latest</span> Events and
-            Careers
+            <span className="highlight text-primary">Latest</span> News
           </h2>
 
           <div className="news-grid row flex-nowrap overflow-auto pb-3 px-2 px-lg-0">
@@ -356,7 +355,7 @@ function Home() {
           {!loading && (
             <div className="text-center mt-4">
               <button className="news-btn">
-                View All Events and Careers <MdOutlineArrowForward />
+                View All News <MdOutlineArrowForward />
               </button>
             </div>
           )}
