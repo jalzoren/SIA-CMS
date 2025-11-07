@@ -21,6 +21,11 @@ function Home() {
   const [current, setCurrent] = useState(0);
   const [loading, setLoading] = useState(true);
 
+  // ✅ Announcements state
+  const [announcements, setAnnouncements] = useState([]);
+  const [newsLoading, setNewsLoading] = useState(true);
+
+  // Carousel auto-rotate
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
@@ -28,11 +33,29 @@ function Home() {
     return () => clearInterval(timer);
   }, [slides.length]);
 
-  // Simulate content loading
+  // Simulate overall content loading
   useEffect(() => {
     const timeout = setTimeout(() => setLoading(false), 2000);
     return () => clearTimeout(timeout);
   }, []);
+  
+// ✅ Fetch announcements from backend
+useEffect(() => {
+  const fetchAnnouncements = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/announcements"); // your Node endpoint
+      const data = await res.json();
+      setAnnouncements(data);
+    } catch (err) {
+      console.error("Error fetching announcements:", err);
+    } finally {
+      setNewsLoading(false);
+    }
+  };
+
+  fetchAnnouncements();
+}, []);
+
 
   const services = [
     {
@@ -169,67 +192,64 @@ function Home() {
           </h2>
 
           <div className="news-grid row flex-nowrap overflow-auto pb-3 px-2 px-lg-0">
-            {loading
-              ? Array(4)
-                  .fill()
-                  .map((_, i) => (
-                    <div
-                      className="col-lg-3 col-md-6 col-sm-8 flex-shrink-0"
-                      key={i}
-                      style={{ minWidth: "260px" }}
-                    >
-                      <Skeleton height={220} borderRadius={20} />
-                    </div>
-                  ))
-              : [
-                  {
-                    title:
-                      "Online Mother's Breastfeeding Class: From Overwhelmed...",
-                    date: "Oct 07, 2025",
-                  },
-                  {
-                    title: "Palliative Lay Forum: Achieving the Miracle...",
-                    date: "Oct 04, 2025",
-                  },
-                  {
-                    title:
-                      "CARMI Reunion 2025: Growing Forward: 15 Years...",
-                    date: "Oct 18, 2025",
-                  },
-                  {
-                    title: "Brain Connects 2025",
-                    date: "Oct 06–12, 2025",
-                  },
-                ].map((item, i) => (
+            {newsLoading ? (
+              Array(4)
+                .fill()
+                .map((_, i) => (
                   <div
                     className="col-lg-3 col-md-6 col-sm-8 flex-shrink-0"
                     key={i}
                     style={{ minWidth: "260px" }}
                   >
-                    <div className="news-card bg-white rounded-4 shadow-sm h-100 d-flex flex-column">
-                      <div
-                        className="news-image bg-light d-flex align-items-center justify-content-center rounded-top-4"
-                        style={{ height: "180px" }}
-                      >
+                    <Skeleton height={220} borderRadius={20} />
+                  </div>
+                ))
+            ) : announcements.length > 0 ? (
+              announcements.slice(0, 4).map((item) => (
+                <div
+                  className="col-lg-3 col-md-6 col-sm-8 flex-shrink-0"
+                  key={item.id}
+                  style={{ minWidth: "260px" }}
+                >
+                  <div className="news-card bg-white rounded-4 shadow-sm h-100 d-flex flex-column">
+                    <div
+                      className="news-image bg-light d-flex align-items-center justify-content-center rounded-top-4 overflow-hidden"
+                      style={{ height: "180px" }}
+                    >
+                      {item.image ? (
+                        <img
+                          src={item.image}
+                          alt={item.short_title}
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                          }}
+                        />
+                      ) : (
                         <span className="text-secondary fw-semibold">
-                          Event {i + 1}
+                          No Image
                         </span>
-                      </div>
+                      )}
+                    </div>
 
-                      <div className="news-content p-3 flex-grow-1">
-                        <h5 className="news-heading mb-2 text-primary">
-                          {item.title}
-                        </h5>
-                        <p className="news-date text-muted small mb-0">
-                          {item.date}
-                        </p>
-                      </div>
+                    <div className="news-content p-3 flex-grow-1">
+                      <h5 className="news-heading mb-2 text-primary">
+                        {item.short_title}
+                      </h5>
+                      <p className="news-date text-muted small mb-0">
+                        {new Date(item.created_at).toLocaleDateString()}
+                      </p>
                     </div>
                   </div>
-                ))}
+                </div>
+              ))
+            ) : (
+              <p className="text-center text-muted">No announcements yet.</p>
+            )}
           </div>
 
-          {!loading && (
+          {!newsLoading && announcements.length > 0 && (
             <div className="text-center mt-4">
               <button className="news-btn">
                 View All Announcements <MdOutlineArrowForward />
@@ -373,8 +393,7 @@ function Home() {
                 ) : (
                   <>
                     <h2 className="fw-bold mb-4">
-                      <span className="text-primary2">Contact</span>{" "}
-                      Information
+                      <span className="text-primary2">Contact</span> Information
                     </h2>
                     <div className="info-item mb-3">
                       <h5 className="fw-semibold">Address:</h5>
