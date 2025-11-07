@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 import "../css/Login.css";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -100,7 +101,7 @@ export default function Login() {
             <button type="submit">LOG IN</button>
 
             <div className="forgot">
-              <a href="#">Forgot Password?</a>
+              <Link to="/forgot-password">Forgot Password?</Link>
             </div>
           </form>
         </div>
