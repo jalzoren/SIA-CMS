@@ -65,7 +65,9 @@ const Announcements = () => {
                   <div
                     className="announcement-img rounded-top"
                     style={{
-                      backgroundImage: `url(https://via.placeholder.com/600x300?text=Announcement)`,
+                      backgroundImage: announcement.image
+                        ? `url(${announcement.image})`
+                        : `url(https://via.placeholder.com/600x300?text=Announcement)`,
                       backgroundSize: "cover",
                       backgroundPosition: "center",
                       height: "200px",
