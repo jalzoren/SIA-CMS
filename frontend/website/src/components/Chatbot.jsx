@@ -43,7 +43,7 @@ function Chatbot() {
           <div className="chatbot-header">
             <div className="chatbot-info">
               <img
-                src="lunax-avatar.png"
+                src="lunax.svg"
                 alt="Lunax"
                 className="chatbot-avatar"
               />
