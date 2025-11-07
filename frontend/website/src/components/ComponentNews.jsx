@@ -1,152 +1,81 @@
-import React from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import { FaArrowLeft, FaTag } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "../components/components-css/ComponentNews.css";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
-const ComponentNews = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
+const NewsArticle = () => {
+  const { id } = useParams(); // get the article id from the URL
+  const [article, setArticle] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const articles = {
-    1: {
-      shortTitle: "Accessible Liver Transplantation",
-      title:
-        "Hope at Home: The Medical City Champions Accessible Liver Transplantation for Filipinos",
-      date: "February 18, 2025",
-      author: "CMS",
-      tags: ["Transplant", "Accessibility", "Health Innovation"],
-      description:
-        "The Medical City takes a leap forward in making liver transplantation more accessible and affordable for Filipinos nationwide.",
-      content: `
-        The Medical City champions accessibility by offering cost-efficient liver transplantation options.
-        This initiative bridges the gap between innovation and inclusivity, ensuring every Filipino
-        has a chance at life-saving medical care.
-      `,
-    },
-    2: {
-      shortTitle: "Breakthrough in Cancer Care",
-      title: "The Medical City Leads Breakthrough in Cancer Care for Filipinos",
-      date: "March 12, 2025",
-      author: "Health Desk",
-      tags: ["Cancer", "Medical Research", "Wellness"],
-      description:
-        "A major advancement in cancer care brings new hope for patients, enhancing survival and recovery through precision medicine.",
-      content: `
-        The Medical City announces a groundbreaking advancement in cancer treatment through precision medicine and targeted therapy.
-        This innovation enhances survival rates and improves patient recovery experiences.
-      `,
-    },
-    3: {
-      shortTitle: "Expanding Pediatric Care",
-      title: "TMC Expands Pediatric Services for the Next Generation",
-      date: "April 2, 2025",
-      author: "TMC Communications",
-      tags: ["Pediatrics", "Child Health", "Community Care"],
-      description:
-        "The Medical City strengthens its family-centered care approach with expanded pediatric services and specialized facilities.",
-      content: `
-        The Medical City continues its commitment to family-centered care by expanding its pediatric services.
-        The new wing provides a holistic environment for children and their families.
-      `,
-    },
-  };
+  useEffect(() => {
+    const fetchArticle = async () => {
+      try {
+        const res = await fetch(`http://localhost:5000/api/news/${id}`);
+        const data = await res.json();
+        setArticle(data);
+      } catch (error) {
+        console.error("Error fetching article:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const article = articles[id] || articles[1];
+    fetchArticle();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="container py-5">
+        <Skeleton height={40} width={300} className="mb-3" />
+        <Skeleton height={20} width={200} className="mb-4" />
+        <Skeleton height={400} />
+      </div>
+    );
+  }
+
+  if (!article) {
+    return (
+      <div className="container py-5 text-center">
+        <h3>Article not found 😢</h3>
+        <Link to="/news" className="btn btn-primary mt-3">
+          Back to News
+        </Link>
+      </div>
+    );
+  }
 
   return (
-    <div className="news-container">
-      {/* Back Button */}
-      <button className="back-btn" onClick={() => navigate("/news")}>
-        <FaArrowLeft className="back-icon" /> Back
-      </button>
-
-      {/* Breadcrumb */}
-      <div className="breadcrumb">
-        <Link to="/news">Latest News and Health Tips</Link>
-        <span>/</span>
-        <span className="active">{article.shortTitle}</span>
+    <div className="container py-5">
+      <div className="mb-4">
+        <Link to="/news" className="btn btn-outline-primary mb-3">
+          ← Back to News
+        </Link>
       </div>
 
-      <h2 className="news-section-title">NEWS</h2>
+      <div className="news-article">
+        <h2 className="fw-bold text-primary mb-3">{article.full_title}</h2>
+        <p className="text-muted small">
+          Published: {new Date(article.created_at).toLocaleDateString()}
+        </p>
 
-      <div className="news-layout">
-        {/* MAIN ARTICLE */}
-        <div className="news-main">
-          <h4 className="news-short-title">{article.shortTitle}</h4>
-          <h3 className="news-title">{article.title}</h3>
+        {/* You can display tags if they exist */}
+        {article.topic_tags && (
+          <p className="text-secondary small mb-4">
+            <strong>Tags:</strong> {article.topic_tags}
+          </p>
+        )}
 
-          <div className="news-tags">
-            {article.tags.map((tag, index) => (
-              <span key={index} className="tag">
-                <FaTag className="tag-icon" /> {tag}
-              </span>
-            ))}
-          </div>
-
-          <p className="news-description">{article.description}</p>
-          <p className="news-date">{article.date}</p>
-          <hr />
-
-          <div className="news-image"></div>
-          <p className="photo-credit">Photo by: {article.author}</p>
-
-          <div className="news-body">
-            <p>{article.content}</p>
-          </div>
-        </div>
-
-        {/* SIDEBAR */}
-        <aside className="news-sidebar">
-          <div className="sidebar-box">
-            <h4 className="sidebar-title">More News</h4>
-
-            {/* SCROLLABLE HARD-CODED SECTION */}
-            <div className="sidebar-scroll">
-              <ul className="sidebar-list">
-                <li className="sidebar-item">
-                  <Link to="/news/2" className="sidebar-link">
-                    <h5>Breakthrough in Cancer Care</h5>
-                    <p className="sidebar-date">March 12, 2025</p>
-                  </Link>
-                </li>
-                <li className="sidebar-item">
-                  <Link to="/news/3" className="sidebar-link">
-                    <h5>Expanding Pediatric Care</h5>
-                    <p className="sidebar-date">April 2, 2025</p>
-                  </Link>
-                </li>
-                <li className="sidebar-item">
-                  <Link to="/news/1" className="sidebar-link">
-                    <h5>Accessible Liver Transplantation</h5>
-                    <p className="sidebar-date">February 18, 2025</p>
-                  </Link>
-                </li>
-                <li className="sidebar-item">
-                  <a href="#" className="sidebar-link">
-                    <h5>Wellness Tips for Summer</h5>
-                    <p className="sidebar-date">May 10, 2025</p>
-                  </a>
-                </li>
-                <li className="sidebar-item">
-                  <a href="#" className="sidebar-link">
-                    <h5>Emergency Response Upgrades</h5>
-                    <p className="sidebar-date">May 20, 2025</p>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="ad-box">
-            <h4 className="ad-title">Sponsored</h4>
-            <div className="ad-placeholder">
-              💙 I MISS YOU HANNI & NEW JEANS 💙
-            </div>
-          </div>
-        </aside>
+        {/* Quill description output */}
+        <div
+          className="article-content"
+          dangerouslySetInnerHTML={{ __html: article.description }}
+        ></div>
       </div>
     </div>
   );
 };
 
-export default ComponentNews;
+export default NewsArticle;

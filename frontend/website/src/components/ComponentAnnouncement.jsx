@@ -1,134 +1,82 @@
-import React, { useEffect } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import { FaArrowLeft, FaTag } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "../components/components-css/ComponentNews.css";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
+import Chatbot from "../components/Chatbot";
 
-const ComponentAnnouncement = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
+const AnnouncementArticle = () => {
+  const { id } = useParams(); // get the announcement id from URL
+  const [announcement, setAnnouncement] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    const fetchAnnouncement = async () => {
+      try {
+        const res = await fetch(`http://localhost:5000/api/announcements/${id}`);
+        const data = await res.json();
+        setAnnouncement(data);
+      } catch (error) {
+        console.error("Error fetching announcement:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAnnouncement();
   }, [id]);
 
-  const announcements = {
-    1: {
-      shortTitle: "New Hospital Wing",
-      title: "New Hospital Wing Opening",
-      date: "March 2, 2025",
-      author: "The Medical City",
-      tags: ["Infrastructure", "Patient Care", "Innovation"],
-      description:
-        "We’re thrilled to announce the grand opening of our new hospital wing — a major step in enhancing our capacity to serve more patients comfortably and efficiently.",
-      content: `
-        The new hospital wing is equipped with state-of-the-art facilities and modern patient rooms.
-        This milestone expansion strengthens our mission to deliver world-class healthcare
-        to every Filipino family.
-      `,
-    },
-    2: {
-      shortTitle: "Free Flu Shots",
-      title: "Free Flu Vaccination Drive",
-      date: "February 10, 2025",
-      author: "Public Health Department",
-      tags: ["Community Health", "Vaccination", "Wellness"],
-      description:
-        "Join our hospital’s free flu vaccination campaign, open to all members of the community — because prevention is better than cure!",
-      content: `
-        Protect yourself and your loved ones this flu season.
-        Our vaccination drive will be held at the hospital main lobby from 9 AM to 5 PM.
-      `,
-    },
-  };
+  if (loading) {
+    return (
+      <div className="container py-5">
+        <Skeleton height={40} width={300} className="mb-3" />
+        <Skeleton height={20} width={200} className="mb-4" />
+        <Skeleton height={400} />
+      </div>
+    );
+  }
 
-  const announcement = announcements[id] || announcements[1];
+  if (!announcement) {
+    return (
+      <div className="container py-5 text-center">
+        <h3>Announcement not found 😢</h3>
+        <Link to="/announcements" className="btn btn-primary mt-3">
+          Back to Announcements
+        </Link>
+      </div>
+    );
+  }
 
   return (
-    <div className="news-container">
-      <button className="back-btn" onClick={() => navigate("/announcements")}>
-        <FaArrowLeft className="back-icon" /> Back
-      </button>
-
-      <div className="breadcrumb">
-        <Link to="/announcements">Latest Announcements</Link>
-        <span>/</span>
-        <span className="active">{announcement.shortTitle}</span>
+    <div className="container py-5">
+      <div className="mb-4">
+        <Link to="/announcements" className="btn btn-outline-primary mb-3">
+          ← Back to Announcements
+        </Link>
       </div>
 
-      <h2 className="news-section-title">ANNOUNCEMENT</h2>
+      <div className="announcement-article">
+        <h2 className="fw-bold text-primary mb-3">{announcement.full_title}</h2>
+        <p className="text-muted small">
+          Published: {new Date(announcement.created_at).toLocaleDateString()}
+        </p>
 
-      <div className="news-layout">
-        {/* MAIN ARTICLE */}
-        <div className="news-main">
-          <h4 className="news-short-title">{announcement.shortTitle}</h4>
-          <h3 className="news-title">{announcement.title}</h3>
+        {announcement.topic_tags && (
+          <p className="text-secondary small mb-4">
+            <strong>Tags:</strong> {announcement.topic_tags}
+          </p>
+        )}
 
-          <div className="news-tags">
-            {announcement.tags.map((tag, index) => (
-              <span key={index} className="tag">
-                <FaTag className="tag-icon" /> {tag}
-              </span>
-            ))}
-          </div>
-
-          <p className="news-description">{announcement.description}</p>
-          <p className="news-date">{announcement.date}</p>
-          <hr />
-
-          <div className="news-image"></div>
-          <p className="photo-credit">Photo by: {announcement.author}</p>
-
-          <div className="news-body">
-            <p>{announcement.content}</p>
-          </div>
-        </div>
-
-        {/* SIDEBAR */}
-        <aside className="news-sidebar">
-          <div className="sidebar-box">
-            <h4 className="sidebar-title">More Announcements</h4>
-            <ul className="sidebar-list">
-              <li className="sidebar-item">
-                <Link to="/announcements/1" className="sidebar-link">
-                  <h5>New Hospital Wing Opening</h5>
-                  <p className="sidebar-date">March 2, 2025</p>
-                </Link>
-              </li>
-              <li className="sidebar-item">
-                <Link to="/announcements/2" className="sidebar-link">
-                  <h5>Free Flu Vaccination Drive</h5>
-                  <p className="sidebar-date">February 10, 2025</p>
-                </Link>
-              </li>
-              <li className="sidebar-item">
-                <a href="#" className="sidebar-link">
-                  <h5>Updated Visitor Guidelines</h5>
-                  <p className="sidebar-date">May 5, 2025</p>
-                </a>
-              </li>
-              <li className="sidebar-item">
-                <a href="#" className="sidebar-link">
-                  <h5>New Parking Area Available</h5>
-                  <p className="sidebar-date">April 28, 2025</p>
-                </a>
-              </li>
-              <li className="sidebar-item">
-                <a href="#" className="sidebar-link">
-                  <h5>Health Awareness Week Activities</h5>
-                  <p className="sidebar-date">January 14, 2025</p>
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div className="ad-box">
-            <h4 className="ad-title">Sponsored</h4>
-            <div className="ad-placeholder">Ad Space</div>
-          </div>
-        </aside>
+        <div
+          className="article-content mb-5"
+          dangerouslySetInnerHTML={{ __html: announcement.description }}
+        />
       </div>
+
+      <Chatbot />
     </div>
   );
 };
 
-export default ComponentAnnouncement;
+export default AnnouncementArticle;
