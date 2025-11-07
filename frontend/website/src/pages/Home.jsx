@@ -21,6 +21,11 @@ function Home() {
   const [current, setCurrent] = useState(0);
   const [loading, setLoading] = useState(true);
 
+  // ✅ Announcements state
+  const [announcements, setAnnouncements] = useState([]);
+  const [newsLoading, setNewsLoading] = useState(true);
+
+  // Carousel auto-rotate
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
@@ -28,11 +33,29 @@ function Home() {
     return () => clearInterval(timer);
   }, [slides.length]);
 
-  // Simulate content loading
+  // Simulate overall content loading
   useEffect(() => {
     const timeout = setTimeout(() => setLoading(false), 2000);
     return () => clearTimeout(timeout);
   }, []);
+
+// ✅ Fetch announcements from backend
+useEffect(() => {
+  const fetchAnnouncements = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/announcements"); // your Node endpoint
+      const data = await res.json();
+      setAnnouncements(data);
+    } catch (err) {
+      console.error("Error fetching announcements:", err);
+    } finally {
+      setNewsLoading(false);
+    }
+  };
+
+  fetchAnnouncements();
+}, []);
+
 
   const services = [
     {
@@ -169,6 +192,126 @@ function Home() {
           </h2>
 
           <div className="news-grid row flex-nowrap overflow-auto pb-3 px-2 px-lg-0">
+            {newsLoading ? (
+              Array(4)
+                .fill()
+                .map((_, i) => (
+                  <div
+                    className="col-lg-3 col-md-6 col-sm-8 flex-shrink-0"
+                    key={i}
+                    style={{ minWidth: "260px" }}
+                  >
+                    <Skeleton height={220} borderRadius={20} />
+                  </div>
+                ))
+            ) : announcements.length > 0 ? (
+              announcements.slice(0, 4).map((item) => (
+                <div
+                  className="col-lg-3 col-md-6 col-sm-8 flex-shrink-0"
+                  key={item.id}
+                  style={{ minWidth: "260px" }}
+                >
+                  <div className="news-card bg-white rounded-4 shadow-sm h-100 d-flex flex-column">
+                    <div
+                      className="news-image bg-light d-flex align-items-center justify-content-center rounded-top-4 overflow-hidden"
+                      style={{ height: "180px" }}
+                    >
+                      {item.image ? (
+                        <img
+                          src={item.image}
+                          alt={item.short_title}
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                          }}
+                        />
+                      ) : (
+                        <span className="text-secondary fw-semibold">
+                          No Image
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="news-content p-3 flex-grow-1">
+                      <h5 className="news-heading mb-2 text-primary">
+                        {item.short_title}
+                      </h5>
+                      <p className="news-date text-muted small mb-0">
+                        {new Date(item.created_at).toLocaleDateString()}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p className="text-center text-muted">No announcements yet.</p>
+            )}
+          </div>
+
+          {!newsLoading && announcements.length > 0 && (
+            <div className="text-center mt-4">
+              <button className="news-btn">
+                View All Announcements <MdOutlineArrowForward />
+              </button>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* --- Section 4: Services --- */}
+      <section className="services-section py-5">
+        <div className="container text-center">
+          <div className="services-header mb-5">
+            <h2 className="fw-bold">
+              Provide our <span className="text-primary2">Best Services</span>
+            </h2>
+            <p className="text">
+              Comprehensive medical care with state-of-the-art facilities and
+              expert healthcare professionals dedicated to your well-being.
+            </p>
+          </div>
+
+          <div className="row g-4 justify-content-center">
+            {loading
+              ? Array(4)
+                  .fill()
+                  .map((_, i) => (
+                    <div className="col-lg-3 col-md-6 col-sm-10" key={i}>
+                      <Skeleton height={250} borderRadius={20} />
+                    </div>
+                  ))
+              : services.map((service, i) => (
+                  <div className="col-lg-3 col-md-6 col-sm-10" key={i}>
+                    <div className="service-card bg-white rounded-4 shadow-sm p-4 h-100">
+                      {service.icon}
+                      <h3 className="service-title mt-3">{service.title}</h3>
+                      <p className="service-text">{service.text}</p>
+                      <strong className="service-stat text-primary2">
+                        {service.stat}
+                      </strong>
+                    </div>
+                  </div>
+                ))}
+          </div>
+
+          {!loading && (
+            <div className="services-footer text-center mt-5">
+              <button className="view-services-btn">
+                View All Services <MdOutlineArrowForward />
+              </button>
+            </div>
+          )}
+        </div>
+      </section>
+
+       <section className="news-section py-5">
+        <div className="container">
+          <h2 className="news-title text-center mb-5">
+            <span className="highlight text-primary">Latest</span> News
+          </h2>
+
+          <div className="news-grid row flex-nowrap overflow-auto pb-3 px-2 px-lg-0">
             {loading
               ? Array(4)
                   .fill()
@@ -232,53 +375,7 @@ function Home() {
           {!loading && (
             <div className="text-center mt-4">
               <button className="news-btn">
-                View All Announcements <MdOutlineArrowForward />
-              </button>
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* --- Section 4: Services --- */}
-      <section className="services-section py-5">
-        <div className="container text-center">
-          <div className="services-header mb-5">
-            <h2 className="fw-bold">
-              Provide our <span className="text-primary2">Best Services</span>
-            </h2>
-            <p className="text">
-              Comprehensive medical care with state-of-the-art facilities and
-              expert healthcare professionals dedicated to your well-being.
-            </p>
-          </div>
-
-          <div className="row g-4 justify-content-center">
-            {loading
-              ? Array(4)
-                  .fill()
-                  .map((_, i) => (
-                    <div className="col-lg-3 col-md-6 col-sm-10" key={i}>
-                      <Skeleton height={250} borderRadius={20} />
-                    </div>
-                  ))
-              : services.map((service, i) => (
-                  <div className="col-lg-3 col-md-6 col-sm-10" key={i}>
-                    <div className="service-card bg-white rounded-4 shadow-sm p-4 h-100">
-                      {service.icon}
-                      <h3 className="service-title mt-3">{service.title}</h3>
-                      <p className="service-text">{service.text}</p>
-                      <strong className="service-stat text-primary2">
-                        {service.stat}
-                      </strong>
-                    </div>
-                  </div>
-                ))}
-          </div>
-
-          {!loading && (
-            <div className="services-footer text-center mt-5">
-              <button className="view-services-btn">
-                View All Services <MdOutlineArrowForward />
+                View All News <MdOutlineArrowForward />
               </button>
             </div>
           )}
@@ -296,8 +393,7 @@ function Home() {
                 ) : (
                   <>
                     <h2 className="fw-bold mb-4">
-                      <span className="text-primary2">Contact</span>{" "}
-                      Information
+                      <span className="text-primary2">Contact</span> Information
                     </h2>
                     <div className="info-item mb-3">
                       <h5 className="fw-semibold">Address:</h5>

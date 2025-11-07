@@ -31,7 +31,6 @@ router.post("/", async (req, res) => {
     const user = results[0];
     console.log("✅ User found:", user.email);
     console.log("🧾 Role in DB:", user.role || "none");
-    console.log("🔐 Hashed password:", user.password);
 
     try {
       const isMatch = await bcrypt.compare(password, user.password);
@@ -41,6 +40,16 @@ router.post("/", async (req, res) => {
         console.log("❌ Password mismatch");
         return res.status(401).json({ success: false, message: "Invalid credentials" });
       }
+
+      // ✅ Update last_login timestamp
+      const updateQuery = "UPDATE users SET last_login = NOW() WHERE id = ?";
+      db.query(updateQuery, [user.id], (updateErr) => {
+        if (updateErr) {
+          console.error("⚠️ Failed to update last_login:", updateErr);
+        } else {
+          console.log(`🕒 Updated last_login for ${user.email}`);
+        }
+      });
 
       // ✅ Create JWT token
       const token = jwt.sign(
@@ -60,6 +69,7 @@ router.post("/", async (req, res) => {
           full_name: user.full_name,
           email: user.email,
           role: user.role,
+          last_login: new Date().toISOString(), // optional for immediate frontend use
         },
       });
     } catch (error) {

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 04, 2025 at 06:14 PM
+-- Generation Time: Nov 07, 2025 at 07:33 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -65,7 +65,7 @@ CREATE TABLE `events_careers` (
   `full_title` varchar(500) NOT NULL,
   `tags` varchar(255) DEFAULT NULL,
   `description` text DEFAULT NULL,
-  `status` enum('draft','posted') NOT NULL DEFAULT 'draft',
+  `status` enum('draft','posted','trash') NOT NULL DEFAULT 'draft',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `image` varchar(255) DEFAULT NULL,
@@ -95,7 +95,7 @@ CREATE TABLE `health_tips` (
   `full_title` varchar(255) NOT NULL,
   `topic_tags` varchar(255) DEFAULT NULL,
   `description` text NOT NULL,
-  `status` enum('draft','published') DEFAULT 'draft',
+  `status` enum('draft','published','trash') DEFAULT 'draft',
   `author` varchar(100) DEFAULT 'admin',
   `image` varchar(255) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
@@ -110,7 +110,7 @@ INSERT INTO `health_tips` (`id`, `short_title`, `full_title`, `topic_tags`, `des
 (2, 'fnwef', 'kjwebjhwe', 'jbjfjwfhb', '<p>nrjjr4h44t</p>', 'draft', '12', '1762273385851-834789004.png', '2025-11-04 16:23:05'),
 (3, 'fbjfb', 'jhbfjeb', 'jbefjbwe', '<p>jbfjhwfe</p>', 'published', '12', '1762273586258-482025715.webp', '2025-11-04 16:26:26'),
 (4, 'fejwe', 'nefjhb', 'kbjhbef', '<p>fkjnwejf</p>', 'draft', '12', NULL, '2025-11-04 16:26:39'),
-(5, 'bjehfjhqe', 'kjbjbfej', 'kjbjhbfe', '<p>jwfjhbef</p>', 'published', '12', '1762275325006-808796661.jpg', '2025-11-04 16:55:25');
+(5, 'bjehfjhqe', 'kjbjbfej', 'kjbjhbfe', '<p>jwfjhbef</p>', 'trash', '12', '1762275325006-808796661.jpg', '2025-11-04 16:55:25');
 
 -- --------------------------------------------------------
 
@@ -142,10 +142,11 @@ INSERT INTO `news` (`id`, `short_title`, `full_title`, `topic_tags`, `descriptio
 ('3457a777-b996-11f0-b748-c018509200f9', 'dvfhwvefh', 'kbfjebj', 'jbfjwbe', '<p>bdjhjbdqw</p>', 'draft', NULL, NULL, '2025-11-04 23:51:44', '2025-11-04 23:51:44', 12),
 ('5e3c2a48-b997-11f0-b748-c018509200f9', 'jbfjwbfj', 'jhbfjbej', 'jhhbjefhb', '<p>wbdhwbdjwd</p>', 'posted', NULL, NULL, '2025-11-05 00:00:04', '2025-11-05 00:00:04', 12),
 ('60822222-b995-11f0-b748-c018509200f9', 'bfjhewfj', 'jhbfejwe', 'jbfjhwe', '<p>jfbjwvef</p>', 'posted', '03be2231-bd50-4c12-96d6-19a245f3904f.webp', NULL, '2025-11-04 23:45:49', '2025-11-04 23:45:49', 12),
+('99ef8bc9-b9ae-11f0-b748-c018509200f9', 'wnmqdbqjw', 'jhbjfb', 'jhbjf', '<p>fejwejhbwfe</p>', 'posted', NULL, NULL, '2025-11-05 02:46:22', '2025-11-05 02:46:22', 12),
 ('a07b21c5-b996-11f0-b748-c018509200f9', 'mbfjwhebf', 'kjjfbwjeb', 'kjbjbfe', '<p>jbfjhwef</p>', 'posted', 'd1fb21d9-8525-4cf7-8ac6-8ef1dee824ef.gif', NULL, '2025-11-04 23:54:45', '2025-11-04 23:54:45', 12),
 ('b332d70a-b995-11f0-b748-c018509200f9', 'bfjhewfj', 'jhbfejwe', 'jbfjhwe', '<p>jfbjwvef</p>', 'posted', 'd28dffe7-3b06-4adc-bbc1-7ba3aa1e3e49.webp', NULL, '2025-11-04 23:48:07', '2025-11-04 23:48:07', 12),
 ('c38afae1-b996-11f0-b748-c018509200f9', 'kjfbjhebj', 'kjbjefbwefb', 'kjbqbf', '<p>jfbjwfeb</p>', 'posted', 'c9853452-a0db-45d1-97e3-60b4240ecd74.webp', NULL, '2025-11-04 23:55:44', '2025-11-04 23:55:44', 12),
-('dae6dc1f-b99e-11f0-b748-c018509200f9', 'fmwbejb', 'kjnjwfe', 'jbfjhbe', '<p>fbwjehbfwe</p>', 'draft', NULL, NULL, '2025-11-05 00:53:39', '2025-11-05 00:53:39', 12),
+('dae6dc1f-b99e-11f0-b748-c018509200f9', 'fmwbejb', 'kjnjwfe', 'jbfjhbe', '<p>fbwjehbfwe</p>', 'trash', NULL, NULL, '2025-11-05 00:53:39', '2025-11-05 01:44:23', 12),
 ('e0b4921a-b996-11f0-b748-c018509200f9', 'd qjbdjw', 'kjbjbfej', 'jbjfehw', '<p><br></p>', 'posted', NULL, NULL, '2025-11-04 23:56:33', '2025-11-04 23:56:33', 12),
 ('eb30e588-b996-11f0-b748-c018509200f9', 'ebfjbwe', 'kbjfehb', 'jbfjhwe', '<p>jbfjhew</p>', 'draft', NULL, NULL, '2025-11-04 23:56:51', '2025-11-04 23:56:51', 12);
 
@@ -162,6 +163,7 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `role` varchar(100) DEFAULT NULL,
+  `last_login` datetime DEFAULT NULL,
   `reset_code` varchar(100) DEFAULT NULL,
   `code_expiry` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -170,10 +172,10 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `full_name`, `email`, `password`, `created_at`, `role`, `reset_code`, `code_expiry`) VALUES
-(8, 'Lynn', 'lynnzylameczdo@gmail.com', '$2b$10$ADe2OQ01nBT9Udz1/wJZaOc2XXdJ.OyPChMfN/PSD8x3Z2wzHkyOq', '2025-10-17 21:31:06', 'hr_administrator', '514594', '2025-10-25 10:41:31'),
-(11, 'Lynn Czyla Alpuerto', 'alpuerto_lynnczyla@plpasig.edu.ph', '$2b$10$ADe2OQ01nBT9Udz1/wJZaOc2XXdJ.OyPChMfN/PSD8x3Z2wzHkyOq', '2025-10-18 03:32:20', 'content_administrator', NULL, NULL),
-(12, 'James', 'flavierlaurence01@gmail.com', '$2b$10$ADe2OQ01nBT9Udz1/wJZaOc2XXdJ.OyPChMfN/PSD8x3Z2wzHkyOq', '2025-10-18 03:40:35', 'super_administrator', NULL, NULL);
+INSERT INTO `users` (`id`, `full_name`, `email`, `password`, `created_at`, `role`, `last_login`, `reset_code`, `code_expiry`) VALUES
+(8, 'Lynn', 'lynnzylameczdo@gmail.com', '$2b$10$ADe2OQ01nBT9Udz1/wJZaOc2XXdJ.OyPChMfN/PSD8x3Z2wzHkyOq', '2025-10-17 21:31:06', 'hr_administrator', '2025-11-08 02:03:38', '514594', '2025-10-25 10:41:31'),
+(11, 'Lynn Czyla Alpuerto', 'alpuerto_lynnczyla@plpasig.edu.ph', '$2b$10$ADe2OQ01nBT9Udz1/wJZaOc2XXdJ.OyPChMfN/PSD8x3Z2wzHkyOq', '2025-10-18 03:32:20', 'content_administrator', NULL, NULL, NULL),
+(12, 'James', 'flavierlaurence01@gmail.com', '$2b$10$ADe2OQ01nBT9Udz1/wJZaOc2XXdJ.OyPChMfN/PSD8x3Z2wzHkyOq', '2025-10-18 03:40:35', 'super_administrator', '2025-11-08 02:04:09', NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -230,7 +232,7 @@ ALTER TABLE `health_tips`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

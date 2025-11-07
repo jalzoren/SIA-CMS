@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../components/components-css/ComponentNews.css";
+import { Link, useParams, useNavigate } from "react-router-dom";
+import { FaArrowLeft, FaTag } from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import Chatbot from "../components/Chatbot";
+import "../components/components-css/ComponentNews.css";
 
-const AnnouncementArticle = () => {
-  const { id } = useParams(); // get the announcement id from URL
+const ComponentAnnouncement = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+
   const [announcement, setAnnouncement] = useState(null);
+  const [allAnnouncements, setAllAnnouncements] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [sidebarLoading, setSidebarLoading] = useState(true);
 
+  // Fetch single announcement
   useEffect(() => {
     const fetchAnnouncement = async () => {
       try {
@@ -23,8 +27,28 @@ const AnnouncementArticle = () => {
         setLoading(false);
       }
     };
-
     fetchAnnouncement();
+  }, [id]);
+
+  // Fetch all announcements for sidebar
+  useEffect(() => {
+    const fetchAllAnnouncements = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/announcements");
+        const data = await res.json();
+        setAllAnnouncements(data);
+      } catch (error) {
+        console.error("Error fetching announcements list:", error);
+      } finally {
+        setSidebarLoading(false);
+      }
+    };
+    fetchAllAnnouncements();
+  }, []);
+
+  // Scroll to top on ID change
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [id]);
 
   if (loading) {
@@ -49,34 +73,113 @@ const AnnouncementArticle = () => {
   }
 
   return (
-    <div className="container py-5">
-      <div className="mb-4">
-        <Link to="/announcements" className="btn btn-outline-primary mb-3">
-          ← Back to Announcements
-        </Link>
+    <div className="news-container">
+      {/* Back Button */}
+      <button className="back-btn" onClick={() => navigate("/announcements")}>
+        <FaArrowLeft className="back-icon" /> Back
+      </button>
+
+      {/* Breadcrumb */}
+      <div className="breadcrumb">
+        <Link to="/announcements">Latest Announcements</Link>
+        <span>/</span>
+        <span className="active">
+          {announcement.short_title || announcement.full_title}
+        </span>
       </div>
 
-      <div className="announcement-article">
-        <h2 className="fw-bold text-primary mb-3">{announcement.full_title}</h2>
-        <p className="text-muted small">
-          Published: {new Date(announcement.created_at).toLocaleDateString()}
-        </p>
+      <h2 className="news-section-title">ANNOUNCEMENT</h2>
 
-        {announcement.topic_tags && (
-          <p className="text-secondary small mb-4">
-            <strong>Tags:</strong> {announcement.topic_tags}
+      <div className="news-layout">
+        {/* MAIN CONTENT */}
+        <div className="news-main">
+          <h4 className="news-short-title">{announcement.short_title}</h4>
+          <h3 className="news-title">{announcement.full_title}</h3>
+
+          {/* Tags */}
+          {announcement.topic_tags && (
+            <div className="news-tags">
+              {announcement.topic_tags.split(",").map((tag, index) => (
+                <span key={index} className="tag">
+                  <FaTag className="tag-icon" /> {tag.trim()}
+                </span>
+              ))}
+            </div>
+          )}
+
+          <p className="news-date">
+            Published:{" "}
+            {announcement.created_at
+              ? new Date(announcement.created_at).toLocaleDateString()
+              : "N/A"}
           </p>
-        )}
+          <hr />
 
-        <div
-          className="article-content mb-5"
-          dangerouslySetInnerHTML={{ __html: announcement.description }}
-        />
+          {/* Image */}
+          {announcement.image && (
+            <div className="news-image">
+              <img
+                src={announcement.image}
+                alt={announcement.full_title}
+                className="news-img"
+              />
+            </div>
+          )}
+
+          <p className="photo-credit">
+            Author: {announcement.author || "TMC News Desk"}
+          </p>
+
+          {/* Main Body */}
+          <div
+            className="news-body"
+            dangerouslySetInnerHTML={{ __html: announcement.description }}
+          ></div>
+        </div>
+
+        {/* SIDEBAR */}
+        <aside className="news-sidebar">
+          <div className="sidebar-box">
+            <h4 className="sidebar-title">More Announcements</h4>
+            <div className="sidebar-scroll">
+              {sidebarLoading ? (
+                <Skeleton count={5} height={60} className="mb-2" />
+              ) : (
+                <ul className="sidebar-list">
+                  {allAnnouncements
+                    .filter((a) => a.id !== announcement.id)
+                    .slice(0, 6)
+                    .map((a) => (
+                      <li key={a.id} className="sidebar-item">
+                        <Link
+                          to={`/announcements/${a.id}`}
+                          className="sidebar-link"
+                        >
+                          <div className="sidebar-content">
+                            <h5 className="sidebar-title-text">
+                              {a.short_title || a.full_title}
+                            </h5>
+                            <p className="sidebar-date">
+                              {new Date(a.created_at).toLocaleDateString()}
+                            </p>
+                          </div>
+                        </Link>
+                      </li>
+                    ))}
+                </ul>
+              )}
+            </div>
+          </div>
+
+          {/* Ad Box */}
+          <div className="ad-box">
+            <h4 className="ad-title">Sponsored</h4>
+            <div className="ad-placeholder">Ad Space</div>
+          </div>
+        </aside>
       </div>
-
-      <Chatbot />
     </div>
   );
 };
 
-export default AnnouncementArticle;
+export default ComponentAnnouncement;
