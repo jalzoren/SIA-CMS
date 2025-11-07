@@ -1,6 +1,5 @@
-// backend/routes/news.js
 import express from "express";
-import db from "../src/db.js"; // MySQL connection
+import db from "../src/db.js";
 import multer from "multer";
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
@@ -18,9 +17,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-/* -------------------------
-   CREATE NEWS POST
--------------------------- */
 router.post("/", upload.single("image"), (req, res) => {
   const {
     short_title,
@@ -35,10 +31,7 @@ router.post("/", upload.single("image"), (req, res) => {
   const image = req.file ? req.file.filename : null;
 
   if (!short_title || !full_title || !description) {
-    return res.status(400).json({
-      success: false,
-      message: "Missing required fields (short_title, full_title, description)",
-    });
+    return res.status(400).json({ success: false, message: "Missing required fields" });
   }
 
   const sql = `
@@ -60,55 +53,37 @@ router.post("/", upload.single("image"), (req, res) => {
       author || "Admin",
     ],
     (err) => {
-      if (err) {
-        console.error("❌ Error inserting news:", err);
-        return res.status(500).json({
-          success: false,
-          message: "Database error",
-          error: err.message,
-        });
-      }
-      res.json({ success: true, message: "✅ News post created successfully" });
+      if (err) return res.status(500).json({ success: false, message: err.message });
+      res.json({ success: true, message: "News post created" });
     }
   );
 });
 
-/* -------------------------
-   GET ALL NEWS (for website)
--------------------------- */
 router.get("/", (req, res) => {
   const sql = "SELECT * FROM news WHERE status='posted' ORDER BY created_at DESC";
   db.query(sql, (err, results) => {
-    if (err) {
-      console.error("❌ Error fetching news:", err);
-      return res.status(500).json({
-        success: false,
-        message: "Database error",
-        error: err.message,
-      });
-    }
-    res.json(results);
+    if (err) return res.status(500).json({ success: false, message: err.message });
+    res.json(
+      results.map((r) => ({
+        ...r,
+        image_url: r.image ? `http://localhost:5000/uploads/news/${r.image}` : null,
+      }))
+    );
   });
 });
 
-/* -------------------------
-   GET SINGLE NEWS ARTICLE
--------------------------- */
 router.get("/:id", (req, res) => {
   const sql = "SELECT * FROM news WHERE id = ?";
   db.query(sql, [req.params.id], (err, results) => {
-    if (err) {
-      console.error("❌ Error fetching single article:", err);
-      return res.status(500).json({
-        success: false,
-        message: "Database error",
-        error: err.message,
-      });
-    }
-    if (results.length === 0) {
-      return res.status(404).json({ success: false, message: "Article not found" });
-    }
-    res.json(results[0]);
+    if (err) return res.status(500).json({ success: false, message: err.message });
+    if (results.length === 0) return res.status(404).json({ success: false, message: "Not found" });
+
+    const article = results[0];
+    article.image_url = article.image
+      ? `http://localhost:5000/uploads/news/${article.image}`
+      : null;
+
+    res.json(article);
   });
 });
 

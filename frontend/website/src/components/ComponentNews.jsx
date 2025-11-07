@@ -14,7 +14,7 @@ const ComponentNews = () => {
   const [loading, setLoading] = useState(true);
   const [sidebarLoading, setSidebarLoading] = useState(true);
 
-  // Fetch single article
+  // Fetch single news article
   useEffect(() => {
     const fetchArticle = async () => {
       try {
@@ -27,11 +27,10 @@ const ComponentNews = () => {
         setLoading(false);
       }
     };
-
     fetchArticle();
   }, [id]);
 
-  // Fetch all articles for sidebar
+  // Fetch all news for sidebar
   useEffect(() => {
     const fetchAllNews = async () => {
       try {
@@ -44,11 +43,15 @@ const ComponentNews = () => {
         setSidebarLoading(false);
       }
     };
-
     fetchAllNews();
   }, []);
 
-  // --- LOADING STATES ---
+  // Scroll to top on article change
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [id]);
+
+  // Loading skeleton
   if (loading) {
     return (
       <div className="container py-5">
@@ -70,7 +73,6 @@ const ComponentNews = () => {
     );
   }
 
-  // --- MAIN RENDER ---
   return (
     <div className="news-container">
       {/* Back Button */}
@@ -82,9 +84,7 @@ const ComponentNews = () => {
       <div className="breadcrumb">
         <Link to="/news">Latest News and Health Tips</Link>
         <span>/</span>
-        <span className="active">
-          {article.short_title || article.full_title}
-        </span>
+        <span className="active">{article.short_title || article.full_title}</span>
       </div>
 
       <h2 className="news-section-title">NEWS</h2>
@@ -95,7 +95,6 @@ const ComponentNews = () => {
           <h4 className="news-short-title">{article.short_title}</h4>
           <h3 className="news-title">{article.full_title}</h3>
 
-          {/* Tags */}
           {article.topic_tags && (
             <div className="news-tags">
               {article.topic_tags.split(",").map((tag, index) => (
@@ -106,23 +105,24 @@ const ComponentNews = () => {
             </div>
           )}
 
-          <p className="news-description">{article.short_description}</p>
           <p className="news-date">
             Published: {new Date(article.created_at).toLocaleDateString()}
           </p>
           <hr />
 
-          {/* Image Placeholder */}
-          {article.image_url && (
+          {(article.image_url || article.image) && (
             <div className="news-image">
-              <img src={article.image_url} alt={article.full_title} />
+              <img
+                src={article.image_url || article.image}
+                alt={article.full_title}
+              />
             </div>
           )}
+
           <p className="photo-credit">
             Author: {article.author || "TMC News Desk"}
           </p>
 
-          {/* Rich HTML content */}
           <div
             className="news-body"
             dangerouslySetInnerHTML={{ __html: article.description }}
@@ -136,19 +136,23 @@ const ComponentNews = () => {
 
             <div className="sidebar-scroll">
               {sidebarLoading ? (
-                <Skeleton count={5} height={60} className="mb-2" />
+                <Skeleton count={5} height={60} className="mb-3" />
               ) : (
                 <ul className="sidebar-list">
                   {allNews
-                    .filter((news) => news._id !== article._id) // exclude current article
-                    .slice(0, 6) // limit number shown
+                    .filter((news) => news.id !== article.id)
+                    .slice(0, 6)
                     .map((news) => (
-                      <li key={news._id} className="sidebar-item">
-                        <Link to={`/news/${news._id}`} className="sidebar-link">
-                          <h5>{news.short_title || news.full_title}</h5>
-                          <p className="sidebar-date">
-                            {new Date(news.created_at).toLocaleDateString()}
-                          </p>
+                      <li key={news.id} className="sidebar-item">
+                        <Link to={`/news/${news.id}`} className="sidebar-link">
+                          <div className="sidebar-content">
+                            <h5 className="sidebar-title-text">
+                              {news.full_title}
+                            </h5>
+                            <p className="sidebar-date">
+                              {new Date(news.created_at).toLocaleDateString()}
+                            </p>
+                          </div>
                         </Link>
                       </li>
                     ))}
@@ -157,6 +161,7 @@ const ComponentNews = () => {
             </div>
           </div>
 
+          {/* Sponsor box */}
           <div className="ad-box">
             <h4 className="ad-title">Sponsored</h4>
             <div className="ad-placeholder">

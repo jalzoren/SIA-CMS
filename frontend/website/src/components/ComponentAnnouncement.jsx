@@ -14,7 +14,7 @@ const ComponentAnnouncement = () => {
   const [loading, setLoading] = useState(true);
   const [sidebarLoading, setSidebarLoading] = useState(true);
 
-  // Fetch the main announcement
+  // Fetch single announcement
   useEffect(() => {
     const fetchAnnouncement = async () => {
       try {
@@ -27,7 +27,6 @@ const ComponentAnnouncement = () => {
         setLoading(false);
       }
     };
-
     fetchAnnouncement();
   }, [id]);
 
@@ -44,16 +43,14 @@ const ComponentAnnouncement = () => {
         setSidebarLoading(false);
       }
     };
-
     fetchAllAnnouncements();
   }, []);
 
-  // Scroll to top when changing announcement
+  // Scroll to top on ID change
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [id]);
 
-  // Loading screen
   if (loading) {
     return (
       <div className="container py-5">
@@ -110,26 +107,30 @@ const ComponentAnnouncement = () => {
             </div>
           )}
 
-          <p className="news-description">{announcement.short_description}</p>
           <p className="news-date">
-            Published: {new Date(announcement.created_at).toLocaleDateString()}
+            Published:{" "}
+            {announcement.created_at
+              ? new Date(announcement.created_at).toLocaleDateString()
+              : "N/A"}
           </p>
           <hr />
 
           {/* Image */}
-          {(announcement.image_url || announcement.image) && (
+          {announcement.image && (
             <div className="news-image">
               <img
-                src={announcement.image_url || announcement.image}
+                src={announcement.image}
                 alt={announcement.full_title}
+                className="news-img"
               />
             </div>
           )}
+
           <p className="photo-credit">
             Author: {announcement.author || "TMC News Desk"}
           </p>
 
-          {/* Main Content */}
+          {/* Main Body */}
           <div
             className="news-body"
             dangerouslySetInnerHTML={{ __html: announcement.description }}
@@ -146,32 +147,18 @@ const ComponentAnnouncement = () => {
               ) : (
                 <ul className="sidebar-list">
                   {allAnnouncements
-                    .filter((a) => a._id !== announcement._id)
+                    .filter((a) => a.id !== announcement.id)
                     .slice(0, 6)
                     .map((a) => (
-                      <li key={a._id} className="sidebar-item">
+                      <li key={a.id} className="sidebar-item">
                         <Link
-                          to={`/announcements/${a._id}`}
+                          to={`/announcements/${a.id}`}
                           className="sidebar-link"
                         >
-                          {(a.image_url || a.image) && (
-                            <div className="sidebar-thumb">
-                              <img
-                                src={a.image_url || a.image}
-                                alt={a.full_title}
-                                className="sidebar-thumb-img"
-                              />
-                            </div>
-                          )}
-                          <div className="sidebar-text">
-                            <h5>{a.short_title || a.full_title}</h5>
-                            {a.short_description && (
-                              <p className="sidebar-desc">
-                                {a.short_description.length > 60
-                                  ? a.short_description.substring(0, 60) + "..."
-                                  : a.short_description}
-                              </p>
-                            )}
+                          <div className="sidebar-content">
+                            <h5 className="sidebar-title-text">
+                              {a.short_title || a.full_title}
+                            </h5>
                             <p className="sidebar-date">
                               {new Date(a.created_at).toLocaleDateString()}
                             </p>
@@ -184,7 +171,7 @@ const ComponentAnnouncement = () => {
             </div>
           </div>
 
-          {/* Ad box */}
+          {/* Ad Box */}
           <div className="ad-box">
             <h4 className="ad-title">Sponsored</h4>
             <div className="ad-placeholder">Ad Space</div>
