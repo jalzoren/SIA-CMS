@@ -305,6 +305,83 @@ useEffect(() => {
         </div>
       </section>
 
+       <section className="news-section py-5">
+        <div className="container">
+          <h2 className="news-title text-center mb-5">
+            <span className="highlight text-primary">Latest</span> News
+          </h2>
+
+          <div className="news-grid row flex-nowrap overflow-auto pb-3 px-2 px-lg-0">
+            {loading
+              ? Array(4)
+                  .fill()
+                  .map((_, i) => (
+                    <div
+                      className="col-lg-3 col-md-6 col-sm-8 flex-shrink-0"
+                      key={i}
+                      style={{ minWidth: "260px" }}
+                    >
+                      <Skeleton height={220} borderRadius={20} />
+                    </div>
+                  ))
+              : [
+                  {
+                    title:
+                      "Online Mother's Breastfeeding Class: From Overwhelmed...",
+                    date: "Oct 07, 2025",
+                  },
+                  {
+                    title: "Palliative Lay Forum: Achieving the Miracle...",
+                    date: "Oct 04, 2025",
+                  },
+                  {
+                    title:
+                      "CARMI Reunion 2025: Growing Forward: 15 Years...",
+                    date: "Oct 18, 2025",
+                  },
+                  {
+                    title: "Brain Connects 2025",
+                    date: "Oct 06–12, 2025",
+                  },
+                ].map((item, i) => (
+                  <div
+                    className="col-lg-3 col-md-6 col-sm-8 flex-shrink-0"
+                    key={i}
+                    style={{ minWidth: "260px" }}
+                  >
+                    <div className="news-card bg-white rounded-4 shadow-sm h-100 d-flex flex-column">
+                      <div
+                        className="news-image bg-light d-flex align-items-center justify-content-center rounded-top-4"
+                        style={{ height: "180px" }}
+                      >
+                        <span className="text-secondary fw-semibold">
+                          Event {i + 1}
+                        </span>
+                      </div>
+
+                      <div className="news-content p-3 flex-grow-1">
+                        <h5 className="news-heading mb-2 text-primary">
+                          {item.title}
+                        </h5>
+                        <p className="news-date text-muted small mb-0">
+                          {item.date}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+          </div>
+
+          {!loading && (
+            <div className="text-center mt-4">
+              <button className="news-btn">
+                View All News <MdOutlineArrowForward />
+              </button>
+            </div>
+          )}
+        </div>
+      </section>
+
       {/* --- Section 5: Contact --- */}
       <section className="contact-section py-5 bg-light">
         <div className="container">
