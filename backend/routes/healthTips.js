@@ -12,6 +12,7 @@ if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
 
 // Multer config
 const storage = multer.diskStorage({
+  
   destination: (req, file, cb) => cb(null, uploadDir),
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
@@ -20,7 +21,49 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// CREATE health tip
+/* ============================================================
+   🟡 GET ALL HEALTH TIPS (ONLY PUBLISHED)
+   ============================================================ */
+router.get("/", (req, res) => {
+  const sql = "SELECT * FROM health_tips WHERE status='published' ORDER BY created_at DESC";
+  db.query(sql, (err, results) => {
+    if (err)
+      return res.status(500).json({ success: false, message: err.sqlMessage });
+
+    res.json(
+      results.map((r) => ({
+        ...r,
+        image_url: r.image
+          ? `http://localhost:5000/uploads/health_tips/${r.image}`
+          : null,
+      }))
+    );
+  });
+});
+
+/* ============================================================
+   🟠 GET SINGLE HEALTH TIP BY ID
+   ============================================================ */
+router.get("/:id", (req, res) => {
+  const sql = "SELECT * FROM health_tips WHERE id = ?";
+  db.query(sql, [req.params.id], (err, results) => {
+    if (err)
+      return res.status(500).json({ success: false, message: err.sqlMessage });
+    if (results.length === 0)
+      return res.status(404).json({ success: false, message: "Not found" });
+
+    const article = results[0];
+    article.image_url = article.image
+      ? `http://localhost:5000/uploads/health_tips/${article.image}`
+      : null;
+
+    res.json(article);
+  });
+});
+
+/* ============================================================
+   🟢 CREATE HEALTH TIP
+   ============================================================ */
 router.post("/", upload.single("image"), (req, res) => {
   const { short_title, full_title, topic_tags, description, status, author } = req.body;
   const image = req.file ? req.file.filename : null;
