@@ -35,7 +35,7 @@ const News = () => {
       ) : (
         <>
           <h2 className="title-center mb-4">
-            Latest <span className="title-primary">News and Health Tips</span>
+            Latest <span className="title-primary">News</span>
           </h2>
           <p className="intro-text text-center mb-5">
             Stay updated with the latest health news, innovations, and inspiring stories.
