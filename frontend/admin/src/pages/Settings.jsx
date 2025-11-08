@@ -2,16 +2,223 @@
   import { FaUpload } from "react-icons/fa";
   import "../css/Settings.css";
   import "bootstrap/dist/css/bootstrap.min.css";
+  import Swal from "sweetalert2";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+
 
   export default function Settings() {
     const [activeTab, setActiveTab] = useState("general");
     const [selectedLayout, setSelectedLayout] = useState("classic");
     const [userSubTab, setUserSubTab] = useState("users");
+const [showPassword, setShowPassword] = useState(false);
+
+    const [fullName, setFullName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [role, setRole] = useState("");
+    const [searchTerm, setSearchTerm] = useState("");
+    const [users, setUsers] = useState([]);
+    const totalUsers = users.length;
+    const contentAdmins = users.filter(u => u.role === "content_administrator").length;
+    const superAdmins = users.filter(u => u.role === "super_administrator").length;
+    const [isEditMode, setIsEditMode] = useState(false);
+    const [editingUserId, setEditingUserId] = useState(null);
+
+
+
+    const handleCreateUser = async () => {
+      if (!fullName || !email || !password || !role) {
+        Swal.fire({
+          icon: "warning",
+          title: "Missing Information",
+          text: "Please fill in all fields before submitting.",
+        });
+        return;
+      }
+    
+      try {
+        const response = await fetch("http://localhost:5000/api/users/add", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            full_name: fullName,
+            email,
+            password,
+            role,
+          }),
+        });
+    
+        const data = await response.json();
+    
+        if (response.ok) {
+          Swal.fire({
+            icon: "success",
+            title: "User Added!",
+            text: data.message || "The new user has been successfully created.",
+            showConfirmButton: false,
+            timer: 2000,
+          });
+    
+          // Clear form after success
+          clearForm();
+          fetchUsers();
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: data.message || "Failed to add user.",
+          });
+        }
+      } catch (error) {
+        console.error("Error:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Connection Error",
+          text: "Could not connect to the server. Please make sure the backend is running.",
+        });
+      }
+    };
+//jhghfhfhgf
+
+    const handleEditClick = (user) => {
+      setFullName(user.full_name);
+      setEmail(user.email);
+      setPassword(""); // optional: leave empty for security
+      setRole(user.role);
+      setEditingUserId(user.id);
+      setIsEditMode(true);
+      setUserSubTab("adduser"); // switch to Add User tab
+    };
+
+    const handleUpdateUser = async () => {
+      if (!fullName || !email || !role) {
+        Swal.fire({
+          icon: "warning",
+          title: "Missing Information",
+          text: "Please fill in all fields before updating.",
+        });
+        return;
+      }
+    
+      try {
+        // Build payload dynamically
+        const payload = { full_name: fullName, email, role };
+        if (password) payload.password = password; // only include password if not empty
+    
+        const response = await fetch(`http://localhost:5000/api/users/${editingUserId}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+    
+        const data = await response.json();
+    
+        if (response.ok) {
+          Swal.fire({
+            icon: "success",
+            title: "User Updated!",
+            text: data.message,
+            showConfirmButton: false,
+            timer: 2000,
+          });
+    
+          // Update local state
+          setUsers(users.map(u =>
+            u.id === editingUserId
+              ? { ...u, full_name: fullName, email, role }
+              : u
+          ));
+    
+          clearForm();
+          setIsEditMode(false);
+          setPassword(""); // reset password field after update
+          setUserSubTab("users"); // optional: go back to users list
+        } else {
+          Swal.fire({ icon: "error", title: "Error", text: data.message });
+        }
+      } catch (error) {
+        console.error("Error updating user:", error);
+        Swal.fire({ icon: "error", title: "Error", text: "Server error" });
+      }
+    };
+
+    const handleDeleteUser = async (userId) => {
+      const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "This action cannot be undone!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Yes, delete it!",
+      });
+    
+      if (result.isConfirmed) {
+        try {
+          const response = await fetch(`http://localhost:5000/api/users/${userId}`, {
+            method: "DELETE",
+          });
+    
+          const data = await response.json();
+    
+          if (response.ok) {
+            Swal.fire({
+              icon: "success",
+              title: "Deleted!",
+              text: data.message || "User has been deleted.",
+              timer: 2000,
+              showConfirmButton: false,
+            });
+    
+            // Update local state
+            setUsers(users.filter((user) => user.id !== userId));
+          } else {
+            Swal.fire({ icon: "error", title: "Error", text: data.message });
+          }
+        } catch (error) {
+          console.error("Error deleting user:", error);
+          Swal.fire({ icon: "error", title: "Error", text: "Server error" });
+        }
+      }
+    };
+    
+    
+    
+    
+    const clearForm = () => {
+      setFullName("");
+      setEmail("");
+      setPassword("");
+      setRole("");
+    };
+
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/users");
+        const data = await response.json();
+        setUsers(data);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Connection Error",
+          text: "Could not load users. Please make sure the backend is running.",
+        });
+      }
+    };
+    
+    
+
 
     // Scroll to top whenever a main tab changes
     useEffect(() => {
       window.scrollTo({ top: 0, behavior: "smooth" });
+    
+      if (activeTab === "user" && userSubTab === "users") {
+        fetchUsers();
+      }
     }, [activeTab, userSubTab]);
+    
 
     return (
       <div className="cms-settings-page">
@@ -262,15 +469,15 @@
 
               <div className="role-summary">
                 <div className="summary-card">
-                  <h2>10</h2>
+                <h2>{totalUsers}</h2>
                   <p>Users</p>
                 </div>
                 <div className="summary-card">
-                  <h2>9</h2>
+                  <h2>{contentAdmins}</h2>
                   <p>Content Administrator</p>
                 </div>
                 <div className="summary-card">
-                  <h2>1</h2>
+                  <h2>{superAdmins}</h2>
                   <p>Super Administrator</p>
                 </div>
               </div>
@@ -278,7 +485,7 @@
               {/* SUB NAVIGATION */}
               <div className="role-subnav">
                 <div className="tabs">
-                  {["users", "permissions", "adduser"].map((sub) => (
+                  {["users", "adduser"].map((sub) => (
                     <span
                       key={sub}
                       className={userSubTab === sub ? "active" : ""}
@@ -286,21 +493,19 @@
                     >
                       {sub === "users"
                         ? "Users"
-                        : sub === "permissions"
-                        ? "Role Permissions"
                         : "Add New User"}
                     </span>
                   ))}
                 </div>
 
                 <div className="filters">
-                  <select>
-                    <option>Role</option>
-                    <option>Administrator</option>
-                    <option>Editor</option>
-                  </select>
                   <div className="search-bar">
-                    <input type="text" placeholder="Search" />
+                  <input
+                      type="text"
+                      placeholder="Search user..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                    />
                     <button>🔍</button>
                   </div>
                 </div>
@@ -321,37 +526,48 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>admin1</td>
-                        <td>admin1@example.com</td>
-                        <td>Super Administrator</td>
-                        <td>Oct 18, 2025 - 04:32 PM</td>
-                        <td>
-                          [<span className="edit">Edit</span>] [
-                          <span className="delete">Delete</span>]
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>content_user</td>
-                        <td>content@example.com</td>
-                        <td>Content Administrator</td>
-                        <td>Oct 17, 2025 - 03:15 PM</td>
-                        <td>
-                          [<span className="edit">Edit</span>] [
-                          <span className="delete">Delete</span>]
-                        </td>
-                      </tr>
-                    </tbody>
+                        {users.length > 0 ? (
+                          users
+                            .filter((user) => {
+                              const query = searchTerm.toLowerCase();
+                              return (
+                                user.full_name.toLowerCase().includes(query) ||
+                                user.email.toLowerCase().includes(query) ||
+                                (user.role && user.role.toLowerCase().includes(query))
+                              );
+                            })
+                            .map((user) => (
+                              <tr key={user.id}>
+                                <td>{user.full_name}</td>
+                                <td>{user.email}</td>
+                                <td>{user.role}</td>
+                                <td>
+                                  {user.last_login
+                                    ? new Date(user.last_login).toLocaleString("en-US", {
+                                        month: "short",
+                                        day: "2-digit",
+                                        year: "numeric",
+                                        hour: "2-digit",
+                                        minute: "2-digit",
+                                      })
+                                    : "Never"}
+                                </td>
+                                <td>
+                                  [<span className="edit" onClick={() => handleEditClick(user)}>Edit</span>] 
+                                  [<span className="delete" onClick={() => handleDeleteUser(user.id)} style={{ cursor: "pointer", color: "red" }}>Delete</span>]
+                                </td>
+                              </tr>
+                            ))
+                        ) : (
+                          <tr>
+                            <td colSpan="5" className="text-center">
+                              No users found.
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
                   </table>
                 </>
-              )}
-
-              {/* PERMISSIONS */}
-              {userSubTab === "permissions" && (
-                <div className="mt-3">
-                  <h5>Role Permissions Management</h5>
-                  <p>Manage which roles can access different parts of the system.</p>
-                </div>
               )}
 
               {/* ADD USER */}
@@ -360,28 +576,54 @@
                   <h5>Add New User</h5>
                   <div className="row">
                     <div className="col-md-6">
-                      <label>Username</label>
-                      <input type="text" placeholder="Enter username" />
+                      <label>Full name</label>
+                      <input type="text" placeholder="Enter Full name" 
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)} />
                     </div>
                     <div className="col-md-6">
                       <label>Email</label>
-                      <input type="email" placeholder="Enter email" />
+                      <input type="email" placeholder="Enter email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}  />
                     </div>
-                    <div className="col-md-6 mt-3">
-                      <label>Password</label>
-                      <input type="password" placeholder="Enter password" />
-                    </div>
-                    <div className="col-md-6 mt-3">
-                      <label>Role</label>
-                      <select>
-                        <option>Administrator</option>
-                        <option>Editor</option>
-                        <option>Viewer</option>
-                      </select>
-                    </div>
+                    <div className="col-md-6 mt-3 password-field" style={{ position: "relative" }}>
+  <label>Password</label>
+  <input
+    type={showPassword ? "text" : "password"}
+    placeholder="Enter password"
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+  />
+  <button
+    type="button"
+    className="toggle-password"
+    onClick={() => setShowPassword(!showPassword)}
+  >
+    {showPassword ? <FaEyeSlash /> : <FaEye />}
+  </button>
+</div>
+
+                  <div className="col-md-6 mt-3">
+                    <label>Role</label>
+                    <select value={role} onChange={(e) => setRole(e.target.value)}>
+                      <option value="">Select Role</option>
+                      <option value="content_administrator">Content Administrator</option>
+                      <option value="super_administrator">Super Administrator</option>
+                      <option value="hr_administrator">HR Administrator</option>
+                    </select>
+                  </div>
                     <div className="mt-4 d-flex gap-3">
-                      <button className="btn btn-primary">Create User</button>
-                      <button className="btn btn-secondary">Cancel</button>
+                    <button
+                      className="btn btn-primary"
+                      onClick={isEditMode ? handleUpdateUser : handleCreateUser}>
+                      {isEditMode ? "Update User" : "Create User"}
+                    </button>
+                    <button
+                      className="btn btn-secondary"
+                      onClick={clearForm}>
+                      Cancel
+                    </button>
                     </div>
                   </div>
                 </div>

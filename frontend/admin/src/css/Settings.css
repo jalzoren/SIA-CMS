@@ -120,7 +120,8 @@ label {
 
 input[type="text"],
 input[type="email"],
-input[type="number"],
+input[type="number"],input[type="password"],
+
 select,
 textarea {
   width: 100%;
@@ -518,4 +519,43 @@ h1, h2, h3, h4, h5, h6,
   .summary-card {
     flex: 1 1 100%;
   }
+}
+.password-field {
+  position: relative;
+  width: 100%;
+}
+
+.password-field input {
+  width: 100%;
+  padding-right: 42px;
+  box-sizing: border-box;
+}
+
+.password-field .toggle-password {
+  position: absolute;
+  top: 70%;
+  right: 20px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-gray);
+  width: 24px;   /* fixed width */
+  height: 24px;  /* fixed height */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  line-height: 0;
+  transition: color 0.2s ease;
+}
+
+.password-field .toggle-password svg {
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+}
+
+.password-field .toggle-password:hover {
+  color: var(--primary-color2);
 }

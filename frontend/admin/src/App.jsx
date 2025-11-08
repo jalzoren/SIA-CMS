@@ -10,6 +10,7 @@ import Health from "./pages/Health";
 import Posts from "./pages/Posts";
 import Settings from "./pages/Settings";
 import Media from "./pages/Media";
+import ForgotPassword from "./pages/ForgotPassword";
 
 export default function App() {
   return (
@@ -19,6 +20,9 @@ export default function App() {
 
         {/* Login */}
         <Route path="/login" element={<Login />} />
+
+        {/* Forgot Password */}
+        <Route path="/forgot-password" element={<ForgotPassword />} />
 
         {/* Layout */}
         <Route path="/" element={<DashboardLayout />}>

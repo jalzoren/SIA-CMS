@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaUpload } from "react-icons/fa";
+import { FaUpload, FaEye, FaTrash, FaTag } from "react-icons/fa";
 import Swal from "sweetalert2";
 import "../css/Media.css";
 
@@ -9,14 +9,13 @@ export default function Media() {
   const filesPerPage = 5;
   const API_BASE = "http://localhost:5000";
 
-  // === Load files on mount ===
   useEffect(() => {
     fetchFiles();
   }, []);
 
   const fetchFiles = async () => {
     try {
-      const res = await fetch(`${API_BASE}/api/files`);
+      const res = await fetch(`${API_BASE}/api/media/files`);
       const data = await res.json();
       if (data.files) setFiles(data.files);
     } catch (err) {
@@ -24,24 +23,18 @@ export default function Media() {
     }
   };
 
-  // === Handle file upload ===
   const uploadFiles = async (fileList) => {
     const formData = new FormData();
-    for (let file of fileList) {
-      formData.append("files", file);
-    }
-
+    for (let file of fileList) formData.append("files", file);
     try {
-      const response = await fetch(`${API_BASE}/api/upload`, {
+      const response = await fetch(`${API_BASE}/api/media/upload`, {
         method: "POST",
         body: formData,
       });
       if (!response.ok) throw new Error("Upload failed");
-
       const data = await response.json();
       setFiles((prev) => [...data.files, ...prev]);
       setCurrentPage(1);
-
       Swal.fire({
         title: "✅ Success!",
         text: "Files uploaded successfully.",
@@ -63,25 +56,17 @@ export default function Media() {
     }
   };
 
-  const handleFileUpload = (e) => {
-    uploadFiles(e.target.files);
-  };
-
-  // === Handle drag and drop ===
+  const handleFileUpload = (e) => uploadFiles(e.target.files);
   const handleDrop = (e) => {
     e.preventDefault();
-    const dropped = e.dataTransfer.files;
-    if (dropped.length > 0) uploadFiles(dropped);
+    if (e.dataTransfer.files.length > 0) uploadFiles(e.dataTransfer.files);
   };
-
   const handleDragOver = (e) => e.preventDefault();
 
-  // === View image ===
   const handleView = (fileUrl, fileName) => {
     Swal.fire({
       title: fileName,
-      imageUrl: `${API_BASE}${fileUrl}`,
-      imageAlt: fileName,
+      html: `<img src="${fileUrl}" alt="${fileName}" style="max-width:100%; border-radius:10px;" />`,
       showCloseButton: true,
       showConfirmButton: false,
       background: "#f3f7ff",
@@ -89,31 +74,13 @@ export default function Media() {
     });
   };
 
-  // === Assign file ===
   const handleAssign = async (fileName) => {
     const { value: section } = await Swal.fire({
       title: "Assign File",
       html: `
-        <div style="
-          font-family: Inter, sans-serif;
-          display: flex;
-          flex-direction: column;
-          align-items: stretch;
-          text-align: left;
-        ">
-          <label style="font-weight: 600; color: #043873; margin-bottom: 8px;">
-            Choose Section:
-          </label>
-          <select id="assignSelect" style="
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #4f9cf9;
-            border-radius: 8px;
-            background-color: #ffffff;
-            font-size: 14px;
-            color: #043873;
-            outline: none;
-          ">
+        <div style="font-family: Inter, sans-serif;">
+          <label style="font-weight: 600; color: #043873;">Choose Section:</label>
+          <select id="assignSelect" style="width: 100%; padding: 10px; border: 1px solid #4f9cf9; border-radius: 8px;">
             <option value="">-- Select a Section --</option>
             <option value="section1">Section 1 - Home Carousel</option>
             <option value="section2">Section 2 - Picture</option>
@@ -122,26 +89,22 @@ export default function Media() {
       `,
       showCancelButton: true,
       confirmButtonText: "Assign",
-      cancelButtonText: "Cancel",
-      confirmButtonColor: "#043873",
-      cancelButtonColor: "#4f9cf9",
-      background: "#f3f7ff",
-      color: "#043873",
       preConfirm: () => {
-        const selected = document.getElementById("assignSelect").value;
-        if (!selected) {
-          Swal.showValidationMessage("⚠️ Please select a section before assigning.");
+        const val = document.getElementById("assignSelect").value;
+        if (!val) {
+          Swal.showValidationMessage("⚠️ Please select a section.");
           return false;
         }
-        return selected;
+        return val;
       },
     });
-
     if (section) {
       Swal.fire({
         title: "Assigned!",
-        text: `${fileName} has been assigned to ${
-          section === "section1" ? "Section 1 - Home Carousel" : "Section 2 - Picture"
+        text: `${fileName} assigned to ${
+          section === "section1"
+            ? "Section 1 - Home Carousel"
+            : "Section 2 - Picture"
         }.`,
         icon: "success",
         confirmButtonColor: "#043873",
@@ -151,7 +114,6 @@ export default function Media() {
     }
   };
 
-  // === Delete file ===
   const handleDelete = (filename) => {
     Swal.fire({
       title: "Are you sure?",
@@ -167,13 +129,11 @@ export default function Media() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const res = await fetch(`${API_BASE}/api/delete/${filename}`, {
+          const res = await fetch(`${API_BASE}/api/media/delete/${filename}`, {
             method: "DELETE",
           });
           if (!res.ok) throw new Error("Delete failed");
-
           setFiles((prev) => prev.filter((f) => f.filename !== filename));
-
           Swal.fire({
             title: "Deleted!",
             text: "Your file has been removed successfully.",
@@ -197,11 +157,11 @@ export default function Media() {
     });
   };
 
-  // === Pagination ===
   const totalPages = Math.ceil(files.length / filesPerPage);
-  const indexOfLastFile = currentPage * filesPerPage;
-  const indexOfFirstFile = indexOfLastFile - filesPerPage;
-  const currentFiles = files.slice(indexOfFirstFile, indexOfLastFile);
+  const currentFiles = files.slice(
+    (currentPage - 1) * filesPerPage,
+    currentPage * filesPerPage
+  );
 
   return (
     <div className="cms-media-page">
@@ -212,7 +172,6 @@ export default function Media() {
         <li>Admin Dashboard</li>
       </ul>
 
-      {/* Upload Section */}
       <div
         className="cms-card media-upload-card"
         onDrop={handleDrop}
@@ -237,7 +196,6 @@ export default function Media() {
         </div>
       </div>
 
-      {/* Table */}
       <div className="cms-card media-table-card">
         <table className="media-table">
           <thead>
@@ -253,29 +211,35 @@ export default function Media() {
             {currentFiles.length > 0 ? (
               currentFiles.map((file) => (
                 <tr key={file.id || file.filename}>
-                  <td>{new Date(file.date_uploaded).toLocaleDateString()}</td>
+                  <td>
+                    {file.date_uploaded
+                      ? new Date(file.date_uploaded).toLocaleDateString()
+                      : "—"}
+                  </td>
                   <td>{file.name}</td>
                   <td>{file.size}</td>
                   <td>{file.status}</td>
                   <td>
-                    <button
-                      onClick={() => handleView(file.url, file.name)}
-                      className="btn-view"
-                    >
-                      View
-                    </button>
-                    <button
-                      onClick={() => handleAssign(file.name)}
-                      className="btn-assign"
-                    >
-                      Assign
-                    </button>
-                    <button
-                      onClick={() => handleDelete(file.filename)}
-                      className="btn-delete"
-                    >
-                      Delete
-                    </button>
+                    <div className="table-actions">
+                      <button
+                        className="view"
+                        onClick={() => handleView(file.url, file.name)}
+                      >
+                        <FaEye /> View
+                      </button>
+                      <button
+                        className="assign"
+                        onClick={() => handleAssign(file.name)}
+                      >
+                        <FaTag /> Assign
+                      </button>
+                      <button
+                        className="delete"
+                        onClick={() => handleDelete(file.filename)}
+                      >
+                        <FaTrash /> Delete
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))
@@ -289,32 +253,35 @@ export default function Media() {
           </tbody>
         </table>
 
-        {/* Pagination */}
-        <div className="media-pagination">
-          <span
-            className={currentPage === 1 ? "disabled" : ""}
-            onClick={() => currentPage > 1 && setCurrentPage(currentPage - 1)}
-          >
-            ← Previous
-          </span>
-
-          {[...Array(totalPages)].map((_, i) => (
+        {totalPages > 1 && (
+          <div className="media-pagination">
             <span
-              key={i}
-              className={`page ${currentPage === i + 1 ? "active" : ""}`}
-              onClick={() => setCurrentPage(i + 1)}
+              className={currentPage === 1 ? "disabled" : ""}
+              onClick={() =>
+                currentPage > 1 && setCurrentPage(currentPage - 1)
+              }
             >
-              {i + 1}
+              ← Previous
             </span>
-          ))}
-
-          <span
-            className={currentPage === totalPages ? "disabled" : ""}
-            onClick={() => currentPage < totalPages && setCurrentPage(currentPage + 1)}
-          >
-            Next →
-          </span>
-        </div>
+            {[...Array(totalPages)].map((_, i) => (
+              <span
+                key={i}
+                className={`page ${currentPage === i + 1 ? "active" : ""}`}
+                onClick={() => setCurrentPage(i + 1)}
+              >
+                {i + 1}
+              </span>
+            ))}
+            <span
+              className={currentPage === totalPages ? "disabled" : ""}
+              onClick={() =>
+                currentPage < totalPages && setCurrentPage(currentPage + 1)
+              }
+            >
+              Next →
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );

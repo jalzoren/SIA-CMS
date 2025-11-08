@@ -28,9 +28,9 @@ db.query(query, [emailToTest], async (err, results) => {
   console.log("🔹 Password match:", isMatch);
 
   if (isMatch) {
-    console.log("✅ Login successful for:", emailToTest);
+    console.log("Login successful for:", emailToTest);
   } else {
-    console.log("❌ Invalid credentials for:", emailToTest);
+    console.log("Invalid credentials for:", emailToTest);
   }
 
   process.exit(0);
