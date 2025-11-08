@@ -12,8 +12,6 @@ import healthTipsRouter from "../routes/healthTips.js";
 import postsRoute from "../routes/posts.js"; 
 import addUserRoute from "../routes/add_user.js"; 
 
-import healthTipsRouter from "../routes/healthTips.js";
-import postsRoute from "../routes/posts.js";
 import mediaRoute from "../routes/media.js"; // ✅ Added media routes
 
 dotenv.config({ path: "../.env" });
