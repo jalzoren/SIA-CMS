@@ -3,12 +3,14 @@
   import "../css/Settings.css";
   import "bootstrap/dist/css/bootstrap.min.css";
   import Swal from "sweetalert2";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 
   export default function Settings() {
     const [activeTab, setActiveTab] = useState("general");
     const [selectedLayout, setSelectedLayout] = useState("classic");
     const [userSubTab, setUserSubTab] = useState("users");
+const [showPassword, setShowPassword] = useState(false);
 
     const [fullName, setFullName] = useState("");
     const [email, setEmail] = useState("");
@@ -585,15 +587,23 @@
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}  />
                     </div>
-                    <div className="col-md-6 mt-3">
-                    <label>Password</label>
-                    <input
-                      type="password"
-                      placeholder="Enter password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                    />
-                  </div>
+                    <div className="col-md-6 mt-3 password-field" style={{ position: "relative" }}>
+  <label>Password</label>
+  <input
+    type={showPassword ? "text" : "password"}
+    placeholder="Enter password"
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+  />
+  <button
+    type="button"
+    className="toggle-password"
+    onClick={() => setShowPassword(!showPassword)}
+  >
+    {showPassword ? <FaEyeSlash /> : <FaEye />}
+  </button>
+</div>
+
                   <div className="col-md-6 mt-3">
                     <label>Role</label>
                     <select value={role} onChange={(e) => setRole(e.target.value)}>
