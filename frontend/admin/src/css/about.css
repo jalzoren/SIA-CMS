@@ -1,0 +1,104 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+:root {
+  --primary-color: #043873;
+  --primary-color2: #4f9cf9;
+  --bg-blue: #f3f7ff;
+  --white: #ffffff;
+  --text-dark: #1a1a1a;
+  --text-gray: #6b7280;
+}
+
+.cms-announcement-page {
+  padding: 20px;
+  background-color: var(--bg-blue);
+  font-family: "Inter", sans-serif;
+  color: var(--text-dark);
+}
+
+/* HEADER */
+.cms-header-left h2.cms-page-title {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin: 0;
+}
+
+.cms-breadcrumb {
+  font-size: 14px;
+  color: #6c7a91;
+  margin-top: 6px;
+}
+
+/* MAIN CARD */
+.cms-card {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 20px 25px;
+  margin-top: 25px;
+  box-shadow: 0 2px 10px rgba(4, 56, 115, 0.08);
+  border: 1px solid #e2e8f0;
+}
+
+.announcement-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  margin-bottom: 15px;
+}
+
+/* SECTIONS */
+.hospital-section {
+  margin-bottom: 25px;
+}
+
+.section-title {
+  font-weight: 700;
+  color: var(--primary-color);
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.section-box {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 15px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-dark);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.publish-btn-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+/* BUTTON */
+.btn {
+  font-family: "Inter", sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: 0.6rem 1.2rem;
+  border-radius: 0.5rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn.submit {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+.btn.submit:hover {
+  background: #172554;
+}
+
+@media (max-width: 768px) {
+  .cms-card {
+    padding: 15px;
+  }
+}
