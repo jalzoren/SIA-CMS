@@ -227,7 +227,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #043873 !important;
+  background-color: #043873;
   color: white !important;
 }
 
@@ -601,3 +601,22 @@
   }
 }
 
+.carousel-nav-btn svg {
+  font-size: 6rem !important;  /* 6rem ≈ 96px — huge! */
+  color: white !important;
+}
+
+.carousel-nav-btn {
+  width: 60px !important;
+  margin: 15px;
+  height: 60px !important;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-nav-btn:hover svg {
+  transform: scale(1.1);
+}
