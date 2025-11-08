@@ -66,12 +66,14 @@ function Home() {
     return () => clearTimeout(timeout);
   }, []);
 
-// ✅ Fetch announcements from backend
+// ✅ Fetch announcements (only published)
 useEffect(() => {
   const fetchAnnouncements = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/announcements"); // your Node endpoint
-      const data = await res.json();
+      const res = await fetch("http://localhost:5000/api/announcements");
+      let data = await res.json();
+      // Filter only published announcements
+      data = data.filter((item) => item.status === "published"); 
       setAnnouncements(data);
     } catch (err) {
       console.error("Error fetching announcements:", err);
