@@ -11,7 +11,7 @@ function Navbar() {
 
   const isNewsActive =
     location.pathname.startsWith("/news") ||
-    location.pathname.startsWith("/announcements");
+    location.pathname.startsWith("/announcements") ||
     location.pathname.startsWith("/health");
 
   // ✅ Universal scroll + navigate function
@@ -84,18 +84,19 @@ function Navbar() {
           {/* Dropdown */}
           <li className={`dropdown ${isNewsActive ? "active" : ""}`}>
             <span>
-              News <IoMdArrowDropdown />
+              Updates <IoMdArrowDropdown />
             </span>
             <div className="dropdown-content">
-              <NavLink to="/news" onClick={(e) => handleNavClick(e, "/news")}>
-                Latest News
-              </NavLink>
               <NavLink
                 to="/announcements"
                 onClick={(e) => handleNavClick(e, "/announcements")}
               >
                 Announcements
               </NavLink>
+              <NavLink to="/news" onClick={(e) => handleNavClick(e, "/news")}>
+                Latest News
+              </NavLink>
+              
               <NavLink
                 to="/health"
                 onClick={(e) => handleNavClick(e, "/health")}

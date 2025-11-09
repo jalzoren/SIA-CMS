@@ -12,9 +12,12 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import Chatbot from "../components/Chatbot";
 import "bootstrap/dist/css/bootstrap.min.css";
+import useAppearance from "../hooks/useAppearance"; // <-- hook
 
 function Home() {
   const navigate = useNavigate();
+  const { appearance, loading: appearanceLoading } = useAppearance();
+
   const slides = [
     { title: "Emergency Care", image: "doc.jpg" },
     { title: "24/7 Support", image: "doc.jpg" },
@@ -23,36 +26,26 @@ function Home() {
 
   const [current, setCurrent] = useState(0);
   const [loading, setLoading] = useState(true);
-
-  // ✅ Announcements state
   const [announcements, setAnnouncements] = useState([]);
   const [newsLoading, setNewsLoading] = useState(true);
-
-  // ✅ News state
   const [news, setNews] = useState([]);
   const [newsSectionLoading, setNewsSectionLoading] = useState(true);
 
-  // ✅ Refs for carousel containers
   const announcementsCarouselRef = useRef(null);
   const newsCarouselRef = useRef(null);
 
-  // ✅ Carousel navigation functions
   const scrollCarousel = (carouselRef, direction) => {
     if (carouselRef.current) {
-      const scrollAmount = 300; // Adjust scroll distance
+      const scrollAmount = 300;
       const currentScroll = carouselRef.current.scrollLeft;
       const newScroll =
         direction === "next"
           ? currentScroll + scrollAmount
           : currentScroll - scrollAmount;
-      carouselRef.current.scrollTo({
-        left: newScroll,
-        behavior: "smooth",
-      });
+      carouselRef.current.scrollTo({ left: newScroll, behavior: "smooth" });
     }
   };
 
-  // Carousel auto-rotate
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
@@ -60,48 +53,41 @@ function Home() {
     return () => clearInterval(timer);
   }, [slides.length]);
 
-  // Simulate overall content loading
   useEffect(() => {
     const timeout = setTimeout(() => setLoading(false), 2000);
     return () => clearTimeout(timeout);
   }, []);
 
-// ✅ Fetch announcements (only published)
-useEffect(() => {
-  const fetchAnnouncements = async () => {
-    try {
-      const res = await fetch("http://localhost:5000/api/announcements");
-      let data = await res.json();
-      // Filter only published announcements
-      data = data.filter((item) => item.status === "published"); 
-      setAnnouncements(data);
-    } catch (err) {
-      console.error("Error fetching announcements:", err);
-    } finally {
-      setNewsLoading(false);
-    }
-  };
+  useEffect(() => {
+    const fetchAnnouncements = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/announcements");
+        let data = await res.json();
+        data = data.filter((item) => item.status === "published");
+        setAnnouncements(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setNewsLoading(false);
+      }
+    };
+    fetchAnnouncements();
+  }, []);
 
-  fetchAnnouncements();
-}, []);
-
-// ✅ Fetch news from backend
-useEffect(() => {
-  const fetchNews = async () => {
-    try {
-      const res = await fetch("http://localhost:5000/api/news");
-      const data = await res.json();
-      setNews(data);
-    } catch (err) {
-      console.error("Error fetching news:", err);
-    } finally {
-      setNewsSectionLoading(false);
-    }
-  };
-
-  fetchNews();
-}, []);
-
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/news");
+        const data = await res.json();
+        setNews(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setNewsSectionLoading(false);
+      }
+    };
+    fetchNews();
+  }, []);
 
   const services = [
     {
@@ -130,8 +116,30 @@ useEffect(() => {
     },
   ];
 
+  if (appearanceLoading) {
+    return <p>Loading appearance...</p>;
+  }
+
   return (
-    <div>
+    <div
+      style={{
+        fontFamily: appearance.fontFamily,
+        fontSize:
+          appearance.fontSize === "Small"
+            ? "14px"
+            : appearance.fontSize === "Medium"
+            ? "18px"
+            : "22px",
+        color: appearance.fontColor === "Header" ? "#000" : "#555",
+        background:
+          appearance.themeColor === "bg-primary"
+            ? "#007bff"
+            : appearance.themeColor === "bg-info"
+            ? "#17a2b8"
+            : "#ffffff",
+      }}
+    >
+
       {/* --- Section 1: Home --- */}
       <section className="home-section py-lg-5 py-1">
         <div className="container py-lg-4 py-3">

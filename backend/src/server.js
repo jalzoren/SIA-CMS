@@ -12,6 +12,7 @@ import healthTipsRouter from "../routes/healthTips.js";
 import postsRoute from "../routes/posts.js"; 
 import addUserRoute from "../routes/add_user.js"; 
 import jobsRoute from "../routes/jobs.js";
+import appearanceRoute from "../routes/settings.js"; // Import appearance route
 
 import mediaRoute from "../routes/media.js"; // ✅ Added media routes
 
@@ -22,6 +23,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use("/api/settings", appearanceRoute); 
 
 app.use("/uploads", express.static(path.join(path.resolve(), "uploads")));
 
