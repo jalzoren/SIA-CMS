@@ -1,9 +1,12 @@
+// routes/posts.js
 import express from "express";
 import db from "../src/db.js";
 
 const router = express.Router();
 
-// ✅ Existing fetch route
+// -----------------------------
+// GET: Fetch all posts combined
+// -----------------------------
 router.get("/", (req, res) => {
   const sql = `
     SELECT id, full_title AS title, author, 'News' AS category,
@@ -42,6 +45,18 @@ router.get("/", (req, res) => {
 
     UNION ALL
 
+    SELECT id, job_title AS title, author, 'Jobs' AS category,
+      CASE
+        WHEN status IN ('posted', 'publish', 'published') THEN 'published'
+        WHEN status IN ('draft', 'pending') THEN 'draft'
+        WHEN status IN ('trash', 'deleted', 'archived') THEN 'trash'
+        ELSE status
+      END AS status,
+      created_at AS date
+    FROM jobs
+
+    UNION ALL
+
     SELECT id, full_title AS title, author, 'Health Tips' AS category,
       CASE
         WHEN status IN ('posted', 'publish', 'published') THEN 'published'
@@ -65,14 +80,17 @@ router.get("/", (req, res) => {
   });
 });
 
+// -----------------------------
+// PUT: Move post to trash
+// -----------------------------
 router.put("/trash/:category/:id", (req, res) => {
   const { category, id } = req.params;
 
-  // Match category to its actual table name
   const tableMap = {
     "News": "news",
     "Announcements": "announcement",
     "Events & Careers": "events_careers",
+    "Jobs": "jobs",
     "Health Tips": "health_tips",
   };
 

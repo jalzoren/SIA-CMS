@@ -46,8 +46,8 @@ const Sidebar = ({ isOpen }) => {
       { icon: <FaBullhorn />, label: "Announcements", path: "/announcements" },
       { icon: <FaNewspaper />, label: "News", path: "/news" },
       { icon: <FaBriefcase />, label: "Careers", path: "/careers" },
-      { icon: <FaHeart />, label: "Health Tips", path: "/health" },
-      { icon: <FaEdit />, label: "Post Log", path: "/posts" },
+      { icon: <FaHeart />, label: "HealthTips", path: "/health" },
+      { icon: <FaEdit />, label: "PostsLog", path: "/posts" },
     ],
   };
 
@@ -58,7 +58,7 @@ const Sidebar = ({ isOpen }) => {
   const settings = { icon: <FaCog />, label: "Settings", path: "/settings" };
 
   const hrMenu = [
-    { icon: <FaBriefcase />, label: "Events & Careers", path: "/events" },
+    { icon: <FaBriefcase />, label: "HR & Careers", path: "/careers" },
     { icon: <FaUserMd />, label: "Doctors", path: "/doctors" },
     { icon: <FaEdit />, label: "Post Log", path: "/posts" },
   ];

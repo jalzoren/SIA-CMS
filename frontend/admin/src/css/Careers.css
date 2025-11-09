@@ -245,3 +245,61 @@ label{
     font-weight: 600;
   color: #043873; 
 }
+
+.cms-form-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.add-department {
+  display: flex;
+  margin-top: 5px;
+  gap: 5px;
+}
+
+.add-department input {
+  flex: 1;
+  padding: 5px;
+  font-size: 0.9rem;
+}
+
+.add-department .add-dept-btn {
+  padding: 5px 10px;
+  font-size: 0.9rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.add-department .add-dept-btn:hover {
+  opacity: 0.9;
+}
+
+.cms-quill-editor {
+  height: 250px;
+}
+
+.file-upload-container {
+  border: 1px dashed #ccc;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 6px;
+  text-align: center;
+}
+
+.file-input-hidden {
+  display: none;
+}
+
+.file-preview-img {
+  max-width: 100%;
+  margin-top: 10px;
+  border-radius: 4px;
+}
+
+.file-placeholder {
+  color: #888;
+}

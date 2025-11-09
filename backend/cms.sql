@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 07, 2025 at 07:33 PM
+-- Generation Time: Nov 09, 2025 at 12:14 PM
 -- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -115,6 +115,31 @@ INSERT INTO `health_tips` (`id`, `short_title`, `full_title`, `topic_tags`, `des
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `jobs`
+--
+
+CREATE TABLE `jobs` (
+  `id` int(11) NOT NULL,
+  `post_type` enum('event','career') NOT NULL DEFAULT 'career',
+  `job_title` varchar(255) NOT NULL,
+  `full_title` varchar(500) NOT NULL,
+  `department` varchar(255) NOT NULL,
+  `job_type` enum('Full-time','Part-time','Contract') NOT NULL DEFAULT 'Full-time',
+  `location` varchar(255) NOT NULL,
+  `qualifications` varchar(500) NOT NULL,
+  `application_deadline` date NOT NULL,
+  `tags` varchar(255) DEFAULT NULL,
+  `description` text DEFAULT NULL,
+  `status` enum('draft','posted','trash') NOT NULL DEFAULT 'draft',
+  `image` varchar(255) DEFAULT NULL,
+  `author` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `news`
 --
 
@@ -175,7 +200,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `full_name`, `email`, `password`, `created_at`, `role`, `last_login`, `reset_code`, `code_expiry`) VALUES
 (8, 'Lynn', 'lynnzylameczdo@gmail.com', '$2b$10$ADe2OQ01nBT9Udz1/wJZaOc2XXdJ.OyPChMfN/PSD8x3Z2wzHkyOq', '2025-10-17 21:31:06', 'hr_administrator', '2025-11-08 02:03:38', '514594', '2025-10-25 10:41:31'),
 (11, 'Lynn Czyla Alpuerto', 'alpuerto_lynnczyla@plpasig.edu.ph', '$2b$10$ADe2OQ01nBT9Udz1/wJZaOc2XXdJ.OyPChMfN/PSD8x3Z2wzHkyOq', '2025-10-18 03:32:20', 'content_administrator', NULL, NULL, NULL),
-(12, 'James', 'flavierlaurence01@gmail.com', '$2b$10$ADe2OQ01nBT9Udz1/wJZaOc2XXdJ.OyPChMfN/PSD8x3Z2wzHkyOq', '2025-10-18 03:40:35', 'super_administrator', '2025-11-08 02:04:09', NULL, NULL);
+(12, 'James', 'flavierlaurence01@gmail.com', '$2b$10$ADe2OQ01nBT9Udz1/wJZaOc2XXdJ.OyPChMfN/PSD8x3Z2wzHkyOq', '2025-10-18 03:40:35', 'super_administrator', '2025-11-09 19:04:25', NULL, NULL),
+(26, 'Laurence HR', 'dumpblj@gmail.com', '$2b$10$Kx3YJuI3AzNiqMq/88FSUuuowi7bRwEJGU3AnyTzoEVT8QFwZ6VrK', '2025-11-09 11:04:50', 'hr_administrator', '2025-11-09 19:05:00', NULL, NULL);
 
 --
 -- Indexes for dumped tables
@@ -197,6 +223,12 @@ ALTER TABLE `events_careers`
 -- Indexes for table `health_tips`
 --
 ALTER TABLE `health_tips`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `jobs`
+--
+ALTER TABLE `jobs`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -229,10 +261,16 @@ ALTER TABLE `health_tips`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT for table `jobs`
+--
+ALTER TABLE `jobs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

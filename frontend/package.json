@@ -1,6 +1,8 @@
 {
   "dependencies": {
     "bootstrap": "^5.3.8",
-    "react-bootstrap": "^2.10.10"
+    "quill": "^2.0.3",
+    "react-bootstrap": "^2.10.10",
+    "sweetalert2": "^11.26.3"
   }
 }

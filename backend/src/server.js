@@ -11,6 +11,7 @@ import eventsRoute from "../routes/events.js";
 import healthTipsRouter from "../routes/healthTips.js"; 
 import postsRoute from "../routes/posts.js"; 
 import addUserRoute from "../routes/add_user.js"; 
+import jobsRoute from "../routes/jobs.js";
 
 import mediaRoute from "../routes/media.js"; // ✅ Added media routes
 
@@ -28,9 +29,10 @@ app.use("/uploads", express.static(path.join(path.resolve(), "uploads")));
 app.use("/api/login", loginRoute);
 app.use("/api/news", newsRoute);
 app.use("/api/events", eventsRoute);
+app.use("/api/jobs", jobsRoute);
+
 app.use("/api/announcements", announcementsRoute);
 app.use("/api/health-tips", healthTipsRouter); 
-app.use("/api/health-tips", healthTipsRouter);
 app.use("/api/posts", postsRoute);
 app.use("/api/users", addUserRoute);
 

@@ -9,7 +9,15 @@ export default function Careers() {
   const quillRef = useRef(null);
   const fileInputRef = useRef(null);
   const [fileInfo, setFileInfo] = useState(null);
-  const user = JSON.parse(localStorage.getItem("user")); 
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const [departments, setDepartments] = useState([
+    "Administration",
+    "Nursing",
+    "Radiology",
+    "Pharmacy",
+  ]);
+  const [newDepartment, setNewDepartment] = useState("");
 
   if (!user) {
     alert("Please log in first!");
@@ -84,7 +92,7 @@ export default function Careers() {
         setFileInfo(null);
         quillEditor.setContents([]);
         document.getElementById("cms-job-title").value = "";
-        document.getElementById("cms-department").value = "";
+        document.getElementById("cms-department").value = departments[0] || "";
         document.getElementById("cms-job-type").value = "Full-time";
         document.getElementById("cms-location").value = "";
         document.getElementById("cms-qualifications").value = "";
@@ -139,15 +147,41 @@ export default function Careers() {
               <label htmlFor="cms-job-title">Job Title</label>
               <input type="text" id="cms-job-title" placeholder="Enter job title" />
             </div>
+
+            {/* Dynamic Department */}
             <div className="cms-form-group">
               <label htmlFor="cms-department">Department</label>
               <select id="cms-department">
-                <option>Administration</option>
-                <option>Nursing</option>
-                <option>Radiology</option>
-                <option>Pharmacy</option>
+                {departments.map((dept, idx) => (
+                  <option key={idx} value={dept}>
+                    {dept}
+                  </option>
+                ))}
               </select>
+
+              <div className="add-department">
+                <input
+                  type="text"
+                  placeholder="Add new department"
+                  value={newDepartment}
+                  onChange={(e) => setNewDepartment(e.target.value)}
+                />
+                <button
+                  type="button"
+                  className="btn add-dept-btn"
+                  onClick={() => {
+                    const trimmed = newDepartment.trim();
+                    if (trimmed && !departments.includes(trimmed)) {
+                      setDepartments([...departments, trimmed]);
+                      setNewDepartment("");
+                    }
+                  }}
+                >
+                  Add
+                </button>
+              </div>
             </div>
+
             <div className="cms-form-group">
               <label htmlFor="cms-job-type">Job Type</label>
               <select id="cms-job-type">
@@ -162,7 +196,7 @@ export default function Careers() {
           <div className="cms-form-row">
             <div className="cms-form-group">
               <label htmlFor="cms-location">Location</label>
-              <input type="text" id="cms-location" placeholder="e.g. Quezon City, Pasig Cty" />
+              <input type="text" id="cms-location" placeholder="e.g. Quezon City, Pasig City" />
             </div>
             <div className="cms-form-group">
               <label htmlFor="cms-qualifications">Qualifications</label>

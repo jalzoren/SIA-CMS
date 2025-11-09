@@ -8,67 +8,42 @@ import Chatbot from "../components/Chatbot";
 
 const Careers = () => {
   const [loading, setLoading] = useState(true);
+  const [jobs, setJobs] = useState([]);
+  const [keyword, setKeyword] = useState("");
+  const [jobField, setJobField] = useState("");
+  const [location, setLocation] = useState("");
+  const [filteredJobs, setFilteredJobs] = useState([]);
 
-  // Simulate API loading
+  // Fetch jobs from backend
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 2000);
-    return () => clearTimeout(timer);
+    const fetchJobs = async () => {
+      try {
+        const res = await fetch("http://localhost:5000/api/jobs"); // adjust endpoint if needed
+        const data = await res.json();
+        setJobs(data.jobs || []);
+      } catch (err) {
+        console.error("Error fetching jobs:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchJobs();
   }, []);
 
-  const jobs = [
-    {
-      id: 1,
-      title: "Registered Nurse",
-      image: "https://via.placeholder.com/600x300?text=Registered+Nurse",
-      date: "October 10, 2025",
-      description:
-        "Provide quality nursing care and support to patients in a compassionate hospital environment.",
-    },
-    {
-      id: 2,
-      title: "Medical Technologist",
-      image: "https://via.placeholder.com/600x300?text=Medical+Technologist",
-      date: "October 8, 2025",
-      description:
-        "Perform diagnostic laboratory tests and assist in the early detection of diseases.",
-    },
-    {
-      id: 3,
-      title: "Radiologic Technologist",
-      image: "https://via.placeholder.com/600x300?text=Radiologic+Technologist",
-      date: "October 5, 2025",
-      description:
-        "Operate imaging equipment and ensure safety and accuracy in radiologic procedures.",
-    },
-    {
-      id: 4,
-      title: "Pharmacist",
-      image: "https://via.placeholder.com/600x300?text=Pharmacist",
-      date: "October 3, 2025",
-      description:
-        "Prepare, dispense, and review medications while maintaining compliance with medical standards.",
-    },
-    {
-      id: 5,
-      title: "Front Desk Officer",
-      image: "https://via.placeholder.com/600x300?text=Front+Desk+Officer",
-      date: "October 1, 2025",
-      description:
-        "Serve as the first point of contact for patients, providing excellent customer service.",
-    },
-    {
-      id: 6,
-      title: "HR Assistant",
-      image: "https://via.placeholder.com/600x300?text=HR+Assistant",
-      date: "September 25, 2025",
-      description:
-        "Assist in recruitment, employee engagement, and HR administrative tasks.",
-    },
-  ];
+  // Filter jobs based on all inputs
+  useEffect(() => {
+    const results = jobs.filter((job) => {
+      const matchesKeyword = keyword === "" || job.job_title.toLowerCase().includes(keyword.toLowerCase());
+      const matchesField = jobField === "" || job.department === jobField;
+      const matchesLocation = location === "" || job.location === location;
+      return matchesKeyword && matchesField && matchesLocation;
+    });
+    setFilteredJobs(results);
+  }, [keyword, jobField, location, jobs]);
 
   return (
     <div className="news-section container py-5">
-      {/* Title with Skeleton */}
+      {/* Title */}
       {loading ? (
         <div className="text-center mb-5">
           <Skeleton height={40} width={350} className="mx-auto mb-3" />
@@ -76,8 +51,8 @@ const Careers = () => {
         </div>
       ) : (
         <>
-          <h2 className="title-center mb-4">
-            Latest <span className="title-primary">Careers & Events</span>
+          <h2 className="title-center mb-4 text-primary">
+            Latest <span className="title-primary">Careers</span>
           </h2>
           <p className="intro-text text-center mb-5">
             Join our healthcare team and be part of an organization where you can make a meaningful impact on people's lives.
@@ -89,7 +64,7 @@ const Careers = () => {
       {/* Why Choose Us */}
       {!loading && (
         <div className="why-choose-us mb-5">
-          <h3>Why choose us?</h3>
+          <h3 className="text-primary">Why choose us?</h3>
           <ul>
             <li><strong>Commitment to excellence:</strong> We have a strong tradition of delivering trusted and effective healthcare services.</li>
             <li><strong>Supportive culture:</strong> Our workplace fosters collaboration, respect, and positivity.</li>
@@ -99,48 +74,74 @@ const Careers = () => {
         </div>
       )}
 
+      {/* Search Filters */}
+      {!loading && (
+        <div className="mb-5">
+          <h4 className="mb-3 text-primary">Search for Job Openings</h4>
+          <div className="row g-3">
+            <div className="col-md-4">
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Search by keyword"
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+              />
+            </div>
+            <div className="col-md-4">
+              <select className="form-select" value={jobField} onChange={(e) => setJobField(e.target.value)}>
+                <option value="">All Departments</option>
+                {/* Dynamically populate departments from jobs */}
+                {[...new Set(jobs.map((job) => job.department))].map((dept, idx) => (
+                  <option key={idx} value={dept}>{dept}</option>
+                ))}
+              </select>
+            </div>
+            <div className="col-md-4">
+              <select className="form-select" value={location} onChange={(e) => setLocation(e.target.value)}>
+                <option value="">All Locations</option>
+                {[...new Set(jobs.map((job) => job.location))].map((loc, idx) => (
+                  <option key={idx} value={loc}>{loc}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Job Grid */}
       <div className="career-scroll row g-4">
         {loading
-          ? // Skeleton Cards
-            Array(6)
-              .fill()
-              .map((_, i) => (
-                <div key={i} className="col-12 col-md-6 col-lg-4">
-                  <div className="news-card card h-100 shadow-sm">
-                    <Skeleton height={200} borderRadius={8} />
-                    <div className="card-body text-center">
-                      <Skeleton height={25} width={200} className="mx-auto mb-2" />
-                      <Skeleton height={15} width={100} className="mx-auto mb-2" />
-                      <Skeleton count={3} height={10} width={`80%`} className="mx-auto" />
-                      <Skeleton
-                        height={35}
-                        width={120}
-                        className="mt-3 mx-auto rounded-pill"
-                      />
-                    </div>
+          ? Array(6).fill().map((_, i) => (
+              <div key={i} className="col-12 col-md-6 col-lg-4">
+                <div className="news-card card h-100 shadow-sm">
+                  <Skeleton height={200} borderRadius={8} />
+                  <div className="card-body text-center">
+                    <Skeleton height={25} width={200} className="mx-auto mb-2" />
+                    <Skeleton height={15} width={100} className="mx-auto mb-2" />
+                    <Skeleton count={3} height={10} width={`80%`} className="mx-auto" />
+                    <Skeleton height={35} width={120} className="mt-3 mx-auto rounded-pill" />
                   </div>
                 </div>
-              ))
-          : // Real Job Cards
-            jobs.map((job) => (
+              </div>
+            ))
+          : filteredJobs.map((job) => (
               <div key={job.id} className="col-12 col-md-6 col-lg-4">
                 <div className="news-card card h-100 shadow-sm">
                   <div
                     className="news-img rounded-top"
                     style={{
-                      backgroundImage: `url(${job.image})`,
+                      backgroundImage: `url(${job.image ? `http://localhost:5000/uploads/jobs/${job.image}` : "https://via.placeholder.com/600x300"})`,
                       backgroundSize: "cover",
                       backgroundPosition: "center",
                       height: "200px",
                     }}
                   ></div>
-
                   <div className="card-body text-center d-flex flex-column justify-content-between">
                     <div>
-                      <h5 className="card-title fw-bold text-primary">{job.title}</h5>
-                      <p className="text-muted small mb-2">{job.date}</p>
-                      <p className="card-text text-secondary small">{job.description}</p>
+                      <h5 className="card-title fw-bold text-primary">{job.job_title}</h5>
+                      <p className="text-muted small mb-2">{new Date(job.application_deadline).toLocaleDateString()}</p>
+                      <p className="card-text text-secondary small" dangerouslySetInnerHTML={{ __html: job.description }}></p>
                     </div>
                     <Link
                       to={`/careers/${job.id}`}
