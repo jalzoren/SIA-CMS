@@ -384,3 +384,21 @@ abbr {
 li {
   list-style: none;
 }
+
+
+.calendar-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* vertical center */
+  align-items: center;     /* horizontal center */
+  background: #fff;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  flex: 1; /* allows it to stretch if needed */
+}
+
+.react-calendar {
+  border: none;
+  border-radius: 10px;
+}

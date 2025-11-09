@@ -38,7 +38,10 @@ app.use("/api/users", addUserRoute);
 
 app.use("/api/media", mediaRoute); // ✅ Added media route here
 
+app.use("/uploads", express.static(path.join(path.resolve(), "uploads")));
 
+// ✅ Media route
+app.use("/api/media", mediaRoute);
 app.get("/api/test", (req, res) => {
   res.json({ message: "✅ Backend working perfectly!" });
 });

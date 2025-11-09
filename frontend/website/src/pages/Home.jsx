@@ -1,3 +1,4 @@
+// frontend/website/src/pages/Home.jsx
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "../css/Home.css";
@@ -7,101 +8,95 @@ import {
   MdOutlineArrowForward,
   MdOutlineBookmarkBorder,
 } from "react-icons/md";
-import { FaHeart, FaChild, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import {
+  FaHeart,
+  FaChild,
+  FaChevronLeft,
+  FaChevronRight,
+} from "react-icons/fa";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import Chatbot from "../components/Chatbot";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { fetchMedia, fetchAnnouncements, fetchNews } from "../api/api";
+
+const POLL_INTERVAL = 5000; // 5 seconds
 
 function Home() {
   const navigate = useNavigate();
-  const slides = [
-    { title: "Emergency Care", image: "doc.jpg" },
-    { title: "24/7 Support", image: "doc.jpg" },
-    { title: "Qualified Doctors", image: "doc.jpg" },
-  ];
 
-  const [current, setCurrent] = useState(0);
+  const [carouselSlides, setCarouselSlides] = useState([]);
+  const [heroSlides, setHeroSlides] = useState([]);
+  const [currentCarousel, setCurrentCarousel] = useState(0);
+  const [currentHero, setCurrentHero] = useState(0);
   const [loading, setLoading] = useState(true);
 
-  // ✅ Announcements state
   const [announcements, setAnnouncements] = useState([]);
-  const [newsLoading, setNewsLoading] = useState(true);
-
-  // ✅ News state
   const [news, setNews] = useState([]);
   const [newsSectionLoading, setNewsSectionLoading] = useState(true);
+  const [newsLoading, setNewsLoading] = useState(true);
 
-  // ✅ Refs for carousel containers
   const announcementsCarouselRef = useRef(null);
   const newsCarouselRef = useRef(null);
 
-  // ✅ Carousel navigation functions
+  // Scroll helper
   const scrollCarousel = (carouselRef, direction) => {
     if (carouselRef.current) {
-      const scrollAmount = 300; // Adjust scroll distance
+      const scrollAmount = 300;
       const currentScroll = carouselRef.current.scrollLeft;
       const newScroll =
         direction === "next"
           ? currentScroll + scrollAmount
           : currentScroll - scrollAmount;
-      carouselRef.current.scrollTo({
-        left: newScroll,
-        behavior: "smooth",
-      });
+      carouselRef.current.scrollTo({ left: newScroll, behavior: "smooth" });
     }
   };
 
-  // Carousel auto-rotate
+  // --- Polling to dynamically fetch all data ---
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % slides.length);
-    }, 4000);
-    return () => clearInterval(timer);
-  }, [slides.length]);
+    const fetchAll = async () => {
+      try {
+        const mediaFiles = await fetchMedia();
+        setCarouselSlides(mediaFiles.filter((f) => f.section === "home-carousel"));
+        setHeroSlides(mediaFiles.filter((f) => f.section === "hero-image"));
 
-  // Simulate overall content loading
-  useEffect(() => {
-    const timeout = setTimeout(() => setLoading(false), 2000);
-    return () => clearTimeout(timeout);
+        const announcementsData = await fetchAnnouncements();
+        setAnnouncements(announcementsData);
+
+        const newsData = await fetchNews();
+        setNews(newsData);
+      } catch (err) {
+        console.error("Error fetching data:", err);
+      } finally {
+        setLoading(false);
+        setNewsLoading(false);
+        setNewsSectionLoading(false);
+      }
+    };
+
+    fetchAll(); // initial fetch
+    const interval = setInterval(fetchAll, POLL_INTERVAL); // repeat every 5s
+    return () => clearInterval(interval);
   }, []);
 
-// ✅ Fetch announcements (only published)
-useEffect(() => {
-  const fetchAnnouncements = async () => {
-    try {
-      const res = await fetch("http://localhost:5000/api/announcements");
-      let data = await res.json();
-      // Filter only published announcements
-      data = data.filter((item) => item.status === "published"); 
-      setAnnouncements(data);
-    } catch (err) {
-      console.error("Error fetching announcements:", err);
-    } finally {
-      setNewsLoading(false);
+  // --- Auto-rotate carousels ---
+  useEffect(() => {
+    if (carouselSlides.length > 0) {
+      const timer = setInterval(() => {
+        setCurrentCarousel((prev) => (prev + 1) % carouselSlides.length);
+      }, 4000);
+      return () => clearInterval(timer);
     }
-  };
+  }, [carouselSlides]);
 
-  fetchAnnouncements();
-}, []);
-
-// ✅ Fetch news from backend
-useEffect(() => {
-  const fetchNews = async () => {
-    try {
-      const res = await fetch("http://localhost:5000/api/news");
-      const data = await res.json();
-      setNews(data);
-    } catch (err) {
-      console.error("Error fetching news:", err);
-    } finally {
-      setNewsSectionLoading(false);
+  useEffect(() => {
+    if (heroSlides.length > 0) {
+      const timer = setInterval(() => {
+        setCurrentHero((prev) => (prev + 1) % heroSlides.length);
+      }, 5000);
+      return () => clearInterval(timer);
     }
-  };
-
-  fetchNews();
-}, []);
-
+  }, [heroSlides]);
 
   const services = [
     {
@@ -129,14 +124,12 @@ useEffect(() => {
       stat: "98% Success",
     },
   ];
-
   return (
     <div>
-      {/* --- Section 1: Home --- */}
+      {/* --- Section 1: Home Carousel --- */}
       <section className="home-section py-lg-5 py-1">
         <div className="container py-lg-4 py-3">
           <div className="row align-items-center justify-content-between bg-white g-lg-5 g-3">
-            {/* LEFT COLUMN */}
             <div className="col-lg-6 col-md-12 home-left text-center text-lg-start px-lg-5 px-3">
               {loading ? (
                 <>
@@ -161,29 +154,29 @@ useEffect(() => {
               )}
             </div>
 
-            {/* RIGHT COLUMN (Carousel) */}
             <div className="col-lg-6 col-md-12 home-right text-center px-lg-5 px-3">
-              {loading ? (
+              {loading || carouselSlides.length === 0 ? (
                 <Skeleton height={350} borderRadius={20} />
               ) : (
                 <>
                   <div className="carousel-slide mx-auto">
                     <img
-                      src={slides[current].image}
-                      alt={slides[current].title}
+                      src={carouselSlides[currentCarousel].url}
+                      alt={carouselSlides[currentCarousel].name}
                       className="carousel-image"
                     />
                     <div className="carousel-overlay">
-                      <h3>{slides[current].title}</h3>
+                      <h3>{carouselSlides[currentCarousel].name}</h3>
                     </div>
                   </div>
-
                   <div className="carousel-dots mt-3">
-                    {slides.map((_, index) => (
+                    {carouselSlides.map((_, index) => (
                       <span
                         key={index}
-                        className={`dot ${index === current ? "active" : ""}`}
-                        onClick={() => setCurrent(index)}
+                        className={`dot ${
+                          index === currentCarousel ? "active" : ""
+                        }`}
+                        onClick={() => setCurrentCarousel(index)}
                       ></span>
                     ))}
                   </div>
@@ -197,13 +190,14 @@ useEffect(() => {
       {/* --- Section 2: Hero --- */}
       <section className="hero-section text-center py-5">
         <div className="container">
-          {loading ? (
+          {loading || heroSlides.length === 0 ? (
             <Skeleton count={5} height={20} />
           ) : (
             <>
               <div className="mx-auto" style={{ maxWidth: "800px" }}>
                 <p className="welcome-text text-uppercase fw-semibold mb-2">
-                  Welcome to Hospitaled
+                  Welcome to{" "}
+                  <span style={{ color: "#4f9cf9" }}>HospitalED</span>
                 </p>
                 <h1 className="hero-title mb-3">
                   A Great Place to Receive Care
@@ -216,12 +210,11 @@ useEffect(() => {
                   See More <MdOutlineArrowForward />
                 </button>
               </div>
-
               <div className="carousel-container mt-5">
                 <img
-                  src={slides[current].image}
-                  alt={slides[current].title}
-                  className="hero-image mx-auto d-block"
+                  src={heroSlides[currentHero].url}
+                  alt={heroSlides[currentHero].name}
+                  className="hero-image mx-auto d-block rounded-4 shadow-sm"
                 />
               </div>
             </>
@@ -229,7 +222,7 @@ useEffect(() => {
         </div>
       </section>
 
-      {/* --- Section 3: News --- */}
+      {/* --- Section 3: Announcements --- */}
       <section className="news-section py-5">
         <div className="container">
           <h2 className="news-title text-center mb-5">
@@ -237,29 +230,14 @@ useEffect(() => {
             Announcements
           </h2>
         </div>
-
-        {/* Carousel Container with Navigation */}
         <div className="position-relative">
-          {/* Previous Button */}
+          {/* Prev Button */}
           {!newsLoading && announcements.length > 0 && (
             <button
-              className="btn btn-dark rounded-circle position-absolute start-0 top-50 translate-middle-y carousel-nav-btn d-none d-md-flex"
-              style={{
-                zIndex: 10,
-                width: "50px",
-                height: "50px",
-                boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
-                left: "20px",
-                backgroundColor: "#4f9cf9",
-                border: "none",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
+              className="carousel-nav-btn position-absolute start-0 top-50 translate-middle-y d-none d-md-flex"
               onClick={() => scrollCarousel(announcementsCarouselRef, "prev")}
-              aria-label="Previous announcements"
             >
-              <FaChevronLeft size={24} style={{ color: "white" }} />
+              <FaChevronLeft />
             </button>
           )}
 
@@ -269,93 +247,78 @@ useEffect(() => {
               ref={announcementsCarouselRef}
               className="news-grid row flex-nowrap overflow-auto pb-3 px-2 px-lg-0"
             >
-              {newsLoading ? (
-                Array(4)
-                  .fill()
-                  .map((_, i) => (
+              {newsLoading
+                ? Array(4)
+                    .fill()
+                    .map((_, i) => (
+                      <div
+                        key={i}
+                        className="col-lg-3 col-md-4 col-sm-6 flex-shrink-0"
+                        style={{ minWidth: 260 }}
+                      >
+                        <Skeleton height={220} borderRadius={20} />
+                      </div>
+                    ))
+                : announcements.length > 0
+                ? announcements.map((item) => (
                     <div
+                      key={item.id}
                       className="col-lg-3 col-md-4 col-sm-6 flex-shrink-0"
-                      key={i}
-                      style={{ minWidth: "260px" }}
-                    >
-                      <Skeleton height={220} borderRadius={20} />
-                    </div>
-                  ))
-              ) : announcements.length > 0 ? (
-                announcements.map((item) => (
-                  <div
-                    className="col-lg-3 col-md-4 col-sm-6 flex-shrink-0"
-                    key={item.id}
-                    style={{ minWidth: "260px" }}
-                  >
-                    <div
-                      className="news-card bg-white rounded-4 shadow-sm h-100 d-flex flex-column"
-                      onClick={() => navigate(`/announcements/${item.id}`)}
-                      style={{ cursor: "pointer" }}
+                      style={{ minWidth: 260 }}
                     >
                       <div
-                        className="news-image bg-light d-flex align-items-center justify-content-center rounded-top-4 overflow-hidden"
-                        style={{ height: "180px" }}
+                        className="news-card bg-white rounded-4 shadow-sm h-100 d-flex flex-column"
+                        onClick={() => navigate(`/announcements/${item.id}`)}
+                        style={{ cursor: "pointer" }}
                       >
-                        {item.image ? (
-                          <img
-                            src={item.image}
-                            alt={item.short_title}
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              objectFit: "cover",
-                            }}
-                          />
-                        ) : (
-                          <span className="text-secondary fw-semibold">
-                            No Image
-                          </span>
-                        )}
-                      </div>
-
-                      <div className="news-content p-3 flex-grow-1">
-                        <h5 className="news-heading mb-2 text-primary">
-                          {item.short_title}
-                        </h5>
-                        <p className="news-date text-muted small mb-0">
-                          {new Date(item.created_at).toLocaleDateString()}
-                        </p>
+                        <div
+                          className="news-image bg-light d-flex align-items-center justify-content-center rounded-top-4 overflow-hidden"
+                          style={{ height: 180 }}
+                        >
+                          {item.image ? (
+                            <img
+                              src={item.image}
+                              alt={item.short_title}
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
+                              }}
+                            />
+                          ) : (
+                            <span className="text-secondary fw-semibold">
+                              No Image
+                            </span>
+                          )}
+                        </div>
+                        <div className="news-content p-3 flex-grow-1">
+                          <h5 className="news-heading mb-2 text-primary">
+                            {item.short_title}
+                          </h5>
+                          <p className="news-date text-muted small mb-0">
+                            {new Date(item.created_at).toLocaleDateString()}
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))
-              ) : (
-                <p className="text-center text-muted">No announcements yet.</p>
-              )}
+                  ))
+                : (
+                    <p className="text-center text-muted">No announcements yet.</p>
+                  )}
             </div>
           </div>
 
           {/* Next Button */}
           {!newsLoading && announcements.length > 0 && (
             <button
-              className="btn btn-dark rounded-circle position-absolute end-0 top-50 translate-middle-y carousel-nav-btn d-none d-md-flex"
-              style={{
-                zIndex: 10,
-                width: "50px",
-                height: "50px",
-                boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
-                right: "20px",
-                backgroundColor: "#4f9cf9",
-                border: "none",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
+              className="carousel-nav-btn position-absolute end-0 top-50 translate-middle-y d-none d-md-flex"
               onClick={() => scrollCarousel(announcementsCarouselRef, "next")}
-              aria-label="Next announcements"
             >
-              <FaChevronRight size={24} style={{ color: "white" }} />
+              <FaChevronRight />
             </button>
           )}
-        </div>
 
-        <div className="container">
+          {/* View All */}
           {!newsLoading && announcements.length > 0 && (
             <div className="text-center mt-4">
               <button
@@ -369,7 +332,9 @@ useEffect(() => {
         </div>
       </section>
 
-      {/* --- Section 4: Services --- */}
+     
+
+      {/* --- Section 5: Services --- */}
       <section className="services-section py-5">
         <div className="container text-center">
           <div className="services-header mb-5">
@@ -381,7 +346,6 @@ useEffect(() => {
               expert healthcare professionals dedicated to your well-being.
             </p>
           </div>
-
           <div className="row g-4 justify-content-center">
             {loading
               ? Array(4)
@@ -397,155 +361,114 @@ useEffect(() => {
                       {service.icon}
                       <h3 className="service-title mt-3">{service.title}</h3>
                       <p className="service-text">{service.text}</p>
-                      <strong className="service-stat text-primary2">
-                        {service.stat}
-                      </strong>
+                      <strong className="service-stat">{service.stat}</strong>
                     </div>
                   </div>
                 ))}
           </div>
-
-          {!loading && (
-            <div className="services-footer text-center mt-5">
-              <button className="view-services-btn">
-                View All Services <MdOutlineArrowForward />
-              </button>
-            </div>
-          )}
         </div>
-      </section>
+      </section> 
 
-       <section className="news-section py-5">
+       {/* --- Section 4: News --- */}
+      <section className="news-section py-5">
         <div className="container">
           <h2 className="news-title text-center mb-5">
             <span className="highlight text-primary">Latest</span> News
           </h2>
         </div>
-
-        {/* Carousel Container with Navigation */}
         <div className="position-relative">
-          {/* Previous Button */}
+          {/* Prev Button */}
           {!newsSectionLoading && news.length > 0 && (
             <button
-              className="btn btn-dark rounded-circle position-absolute start-0 top-50 translate-middle-y carousel-nav-btn d-none d-md-flex"
-              style={{
-                zIndex: 10,
-                width: "50px",
-                height: "50px",
-                boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
-                left: "20px",
-                backgroundColor: "#4f9cf9",
-                border: "none",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
+              className="carousel-nav-btn position-absolute start-0 top-50 translate-middle-y d-none d-md-flex"
               onClick={() => scrollCarousel(newsCarouselRef, "prev")}
-              aria-label="Previous news"
             >
-              <FaChevronLeft size={50} style={{ color: "white" }} />
+              <FaChevronLeft />
             </button>
           )}
 
-          {/* Carousel */}
+          {/* News Carousel */}
           <div className="container">
             <div
               ref={newsCarouselRef}
               className="news-grid row flex-nowrap overflow-auto pb-3 px-2 px-lg-0"
+              style={{ scrollBehavior: "smooth" }}
             >
-              {newsSectionLoading ? (
-                Array(4)
-                  .fill()
-                  .map((_, i) => (
+              {newsSectionLoading
+                ? Array(4)
+                    .fill()
+                    .map((_, i) => (
+                      <div
+                        key={i}
+                        className="col-lg-3 col-md-4 col-sm-6 flex-shrink-0"
+                        style={{ minWidth: 260 }}
+                      >
+                        <Skeleton height={220} borderRadius={20} />
+                      </div>
+                    ))
+                : news.length > 0
+                ? news.map((item) => (
                     <div
+                      key={item.id}
                       className="col-lg-3 col-md-4 col-sm-6 flex-shrink-0"
-                      key={i}
-                      style={{ minWidth: "260px" }}
-                    >
-                      <Skeleton height={220} borderRadius={20} />
-                    </div>
-                  ))
-              ) : news.length > 0 ? (
-                news.map((item) => (
-                  <div
-                    className="col-lg-3 col-md-4 col-sm-6 flex-shrink-0"
-                    key={item.id}
-                    style={{ minWidth: "260px" }}
-                  >
-                    <div
-                      className="news-card bg-white rounded-4 shadow-sm h-100 d-flex flex-column"
-                      onClick={() => navigate(`/news/${item.id}`)}
-                      style={{ cursor: "pointer" }}
+                      style={{ minWidth: 260 }}
                     >
                       <div
-                        className="news-image bg-light d-flex align-items-center justify-content-center rounded-top-4 overflow-hidden"
-                        style={{ height: "180px" }}
+                        className="news-card bg-white rounded-4 shadow-sm h-100 d-flex flex-column"
+                        onClick={() => navigate(`/news/${item.id}`)}
+                        style={{ cursor: "pointer" }}
                       >
-                        {item.image_url ? (
-                          <img
-                            src={item.image_url}
-                            alt={item.short_title || item.full_title}
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              objectFit: "cover",
-                            }}
-                          />
-                        ) : (
-                          <span className="text-secondary fw-semibold">
-                            No Image
-                          </span>
-                        )}
-                      </div>
-
-                      <div className="news-content p-3 flex-grow-1">
-                        <h5 className="news-heading mb-2 text-primary">
-                          {item.short_title || item.full_title}
-                        </h5>
-                        <p className="news-date text-muted small mb-0">
-                          {new Date(item.created_at).toLocaleDateString()}
-                        </p>
+                        <div
+                          className="news-image bg-light d-flex align-items-center justify-content-center rounded-top-4 overflow-hidden"
+                          style={{ height: 180 }}
+                        >
+                          {item.image_url ? (
+                            <img
+                              src={item.image_url}
+                              alt={item.short_title || item.full_title}
+                              style={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
+                              }}
+                            />
+                          ) : (
+                            <span className="text-secondary fw-semibold">
+                              No Image
+                            </span>
+                          )}
+                        </div>
+                        <div className="news-content p-3 flex-grow-1">
+                          <h5 className="news-heading mb-2 text-primary">
+                            {item.short_title || item.full_title}
+                          </h5>
+                          <p className="news-date text-muted small mb-0">
+                            {new Date(item.created_at).toLocaleDateString()}
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))
-              ) : (
-                <p className="text-center text-muted">No news yet.</p>
-              )}
+                  ))
+                : (
+                    <p className="text-center text-muted">No news yet.</p>
+                  )}
             </div>
           </div>
 
           {/* Next Button */}
           {!newsSectionLoading && news.length > 0 && (
             <button
-              className="btn btn-dark rounded-circle position-absolute end-0 top-50 translate-middle-y carousel-nav-btn d-none d-md-flex"
-              style={{
-                zIndex: 10,
-                width: "50px",
-                height: "50px",
-                boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
-                right: "20px",
-                backgroundColor: "#4f9cf9",
-                border: "none",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
+              className="carousel-nav-btn position-absolute end-0 top-50 translate-middle-y d-none d-md-flex"
               onClick={() => scrollCarousel(newsCarouselRef, "next")}
-              aria-label="Next news"
             >
-              <FaChevronRight size={50} style={{ color: "white" }} />
+              <FaChevronRight />
             </button>
           )}
-        </div>
 
-        <div className="container">
+          {/* View All */}
           {!newsSectionLoading && news.length > 0 && (
             <div className="text-center mt-4">
-              <button
-                className="news-btn"
-                onClick={() => navigate("/news")}
-              >
+              <button className="news-btn" onClick={() => navigate("/news")}>
                 View All News <MdOutlineArrowForward />
               </button>
             </div>
@@ -557,6 +480,7 @@ useEffect(() => {
       <section className="contact-section py-5 bg-light">
         <div className="container">
           <div className="row g-4 align-items-stretch">
+            {/* Contact Info */}
             <div className="col-lg-5 col-md-6">
               <div className="contact-info bg-white shadow-sm rounded-4 p-4 h-100">
                 {loading ? (
@@ -585,6 +509,7 @@ useEffect(() => {
               </div>
             </div>
 
+            {/* Map */}
             <div className="col-lg-7 col-md-6">
               {loading ? (
                 <Skeleton height={350} borderRadius={20} />
@@ -593,17 +518,21 @@ useEffect(() => {
                   <iframe
                     title="Pasig Map"
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3859.843023830412!2d121.0747!3d14.5670!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b833ad9e7f43%3A0x4a6a9436f8b7a5b5!2sPasig%2C%20Metro%20Manila!5e0!3m2!1sen!2sph!4v1690000000000!5m2!1sen!2sph"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
                     allowFullScreen
                     loading="lazy"
                   ></iframe>
                 </div>
               )}
             </div>
-
-            <Chatbot />
           </div>
         </div>
       </section>
+
+      {/* Chatbot */}
+      <Chatbot />
     </div>
   );
 }

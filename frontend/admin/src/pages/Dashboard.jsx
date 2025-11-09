@@ -10,17 +10,19 @@ export default function Dashboard() {
   const [time, setTime] = useState(new Date());
   const [date, setDate] = useState(new Date());
 
+  // Clock
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
     return () => clearInterval(timer);
   }, []);
 
+  // ApexCharts line chart
   useEffect(() => {
     const options = {
       chart: {
         type: "line",
         height: 300,
-        width: 800,
+        width: "100%",
         toolbar: { show: true },
         background: "transparent",
       },
@@ -84,6 +86,7 @@ export default function Dashboard() {
         <li>Admin Dashboard</li>
       </ul>
 
+      {/* TOP CARDS */}
       <div className="info-data">
         <a
           href="https://localhost:5174/"
@@ -121,17 +124,17 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* MAIN CONTENT GRID */}
+      {/* MAIN CONTENT */}
       <div className="main-content">
-        {/* CHART + VISIT LOGS */}
+        {/* CHART */}
         <div className="chart-card">
           <div className="chart-title">
             <h3 className="chart-name">Website Visits</h3>
             <MdFullscreen className="fullscreen-icon" />
           </div>
-
           <div id="chart"></div>
 
+          {/* Visit Logs */}
           <div className="visit-logs">
             <h4>Recent Visit Logs</h4>
             <table>
@@ -173,6 +176,7 @@ export default function Dashboard() {
 
         {/* SIDE PANEL */}
         <div className="side-panel">
+          {/* Calendar */}
           <div className="calendar-section">
             <div className="calendar-header">
               <h3>
@@ -191,9 +195,12 @@ export default function Dashboard() {
                 })}
               </p>
             </div>
-            <Calendar onChange={setDate} value={date} />
+            <div className="calendar-wrapper">
+              <Calendar onChange={setDate} value={date} />
+            </div>
           </div>
 
+          {/* Hotline */}
           <div className="hotline-section">
             <h3 className="hotline-title">Emergency Hotlines</h3>
             <table className="hotline-table">

@@ -9,6 +9,7 @@ export default function Media() {
   const filesPerPage = 5;
   const API_BASE = "http://localhost:5000";
 
+  // ------------------ Fetch files ------------------
   useEffect(() => {
     fetchFiles();
   }, []);
@@ -23,38 +24,64 @@ export default function Media() {
     }
   };
 
-  const uploadFiles = async (fileList) => {
+ const uploadFiles = async (fileList) => {
+  for (let file of fileList) {
+    const { value: title } = await Swal.fire({
+      title: "Enter File Title",
+      input: "text",
+      inputLabel: `Title for: ${file.name}`,
+      inputPlaceholder: "Enter title here",
+      showCancelButton: true,
+      inputValidator: (value) => {
+        if (!value) return "Title is required!";
+      },
+      inputAttributes: {
+        style: "width: 100%; max-width: 450px; padding: 8px; border-radius: 6px; border: 1px solid #4f9cf9;",
+      },
+      confirmButtonColor: "#043873",
+      background: "#f3f7ff",
+      color: "#043873",
+    });
+
+    if (!title) continue;
+
     const formData = new FormData();
-    for (let file of fileList) formData.append("files", file);
+    formData.append("file", file);
+    formData.append("title", title);
+
     try {
-      const response = await fetch(`${API_BASE}/api/media/upload`, {
+      const res = await fetch(`${API_BASE}/api/media/upload`, {
         method: "POST",
         body: formData,
       });
-      if (!response.ok) throw new Error("Upload failed");
-      const data = await response.json();
-      setFiles((prev) => [...data.files, ...prev]);
+      if (!res.ok) throw new Error("Upload failed");
+
+      const data = await res.json();
+      setFiles((prev) => [data.file, ...prev]);
       setCurrentPage(1);
-      Swal.fire({
-        title: "✅ Success!",
-        text: "Files uploaded successfully.",
-        icon: "success",
-        confirmButtonColor: "#043873",
-        background: "#f3f7ff",
-        color: "#043873",
-      });
-    } catch (error) {
-      console.error("Upload error:", error);
+    } catch (err) {
+      console.error("Upload error:", err);
       Swal.fire({
         title: "Error!",
-        text: "There was a problem uploading your files.",
+        text: `Failed to upload ${file.name}`,
         icon: "error",
         confirmButtonColor: "#e11d48",
         background: "#f3f7ff",
         color: "#043873",
       });
     }
-  };
+  }
+
+  Swal.fire({
+    title: "✅ Uploaded!",
+    text: "Files uploaded successfully.",
+    icon: "success",
+    confirmButtonColor: "#043873",
+    background: "#f3f7ff",
+    color: "#043873",
+  });
+};
+
 
   const handleFileUpload = (e) => uploadFiles(e.target.files);
   const handleDrop = (e) => {
@@ -63,6 +90,7 @@ export default function Media() {
   };
   const handleDragOver = (e) => e.preventDefault();
 
+  // ------------------ View file ------------------
   const handleView = (fileUrl, fileName) => {
     Swal.fire({
       title: fileName,
@@ -74,46 +102,64 @@ export default function Media() {
     });
   };
 
-  const handleAssign = async (fileName) => {
+  // ------------------ Assign / Unassign ------------------
+  const handleAssign = async (filename, currentSection) => {
     const { value: section } = await Swal.fire({
       title: "Assign File",
       html: `
         <div style="font-family: Inter, sans-serif;">
           <label style="font-weight: 600; color: #043873;">Choose Section:</label>
-          <select id="assignSelect" style="width: 100%; padding: 10px; border: 1px solid #4f9cf9; border-radius: 8px;">
-            <option value="">-- Select a Section --</option>
-            <option value="section1">Section 1 - Home Carousel</option>
-            <option value="section2">Section 2 - Picture</option>
+          <select id="assignSelect" style="width:100%; padding:10px; border:1px solid #4f9cf9; border-radius:8px;">
+            <option value="">-- Unassigned --</option>
+            <option value="home-carousel">Home Carousel</option>
+            <option value="hero-image">Hero Image</option>
           </select>
         </div>
       `,
       showCancelButton: true,
-      confirmButtonText: "Assign",
-      preConfirm: () => {
-        const val = document.getElementById("assignSelect").value;
-        if (!val) {
-          Swal.showValidationMessage("⚠️ Please select a section.");
-          return false;
-        }
-        return val;
-      },
+      confirmButtonText: "Save",
+      preConfirm: () => document.getElementById("assignSelect").value,
     });
-    if (section) {
-      Swal.fire({
-        title: "Assigned!",
-        text: `${fileName} assigned to ${
-          section === "section1"
-            ? "Section 1 - Home Carousel"
-            : "Section 2 - Picture"
-        }.`,
-        icon: "success",
-        confirmButtonColor: "#043873",
-        background: "#f3f7ff",
-        color: "#043873",
-      });
+
+    if (section !== undefined) {
+      try {
+        const res = await fetch(`${API_BASE}/api/media/assign`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ filename, section: section || null }),
+        });
+        if (!res.ok) throw new Error("Assign failed");
+        const data = await res.json();
+
+        setFiles((prev) =>
+          prev.map((f) =>
+            f.filename === filename ? { ...f, section: data.section } : f
+          )
+        );
+
+        Swal.fire({
+          title: "✅ Success",
+          text: `File ${section ? "assigned to " + section.replace("-", " ") : "unassigned"}`,
+          icon: "success",
+          confirmButtonColor: "#043873",
+          background: "#f3f7ff",
+          color: "#043873",
+        });
+      } catch (err) {
+        console.error(err);
+        Swal.fire({
+          title: "Error",
+          text: "Failed to assign file",
+          icon: "error",
+          confirmButtonColor: "#e11d48",
+          background: "#f3f7ff",
+          color: "#043873",
+        });
+      }
     }
   };
 
+  // ------------------ Delete file ------------------
   const handleDelete = (filename) => {
     Swal.fire({
       title: "Are you sure?",
@@ -136,14 +182,14 @@ export default function Media() {
           setFiles((prev) => prev.filter((f) => f.filename !== filename));
           Swal.fire({
             title: "Deleted!",
-            text: "Your file has been removed successfully.",
+            text: "File deleted successfully.",
             icon: "success",
             confirmButtonColor: "#043873",
             background: "#f3f7ff",
             color: "#043873",
           });
         } catch (err) {
-          console.error("Delete error:", err);
+          console.error(err);
           Swal.fire({
             title: "Error!",
             text: "Failed to delete file.",
@@ -157,21 +203,23 @@ export default function Media() {
     });
   };
 
+  // ------------------ Pagination ------------------
   const totalPages = Math.ceil(files.length / filesPerPage);
   const currentFiles = files.slice(
     (currentPage - 1) * filesPerPage,
     currentPage * filesPerPage
   );
 
+  // ------------------ JSX ------------------
   return (
-    <div className="cms-media-page">
+   <div className="cms-announcement-page">
       <h2 className="title">Media Library</h2>
       <ul className="breadcrumbs">
         <li>Media Library</li>
         <li className="divider">/</li>
-        <li>Admin Dashboard</li>
+        <li>Admin Panel</li>
       </ul>
-
+      {/* Upload */}
       <div
         className="cms-card media-upload-card"
         onDrop={handleDrop}
@@ -196,6 +244,7 @@ export default function Media() {
         </div>
       </div>
 
+      {/* Files Table */}
       <div className="cms-card media-table-card">
         <table className="media-table">
           <thead>
@@ -203,40 +252,38 @@ export default function Media() {
               <th>Date</th>
               <th>File Name</th>
               <th>Size</th>
-              <th>Status</th>
+              <th>Assigned Section</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {currentFiles.length > 0 ? (
+            {currentFiles.length ? (
               currentFiles.map((file) => (
                 <tr key={file.id || file.filename}>
-                  <td>
-                    {file.date_uploaded
-                      ? new Date(file.date_uploaded).toLocaleDateString()
-                      : "—"}
-                  </td>
+                  <td>{file.date_uploaded ? new Date(file.date_uploaded).toLocaleDateString() : "—"}</td>
                   <td>{file.name}</td>
                   <td>{file.size}</td>
-                  <td>{file.status}</td>
+                  <td>
+                    {file.section ? (
+                      <span className="assigned">{file.section.replace("-", " ")}</span>
+                    ) : (
+                      <span className="unassigned">Unassigned</span>
+                    )}
+                  </td>
                   <td>
                     <div className="table-actions">
-                      <button
-                        className="view"
-                        onClick={() => handleView(file.url, file.name)}
-                      >
+                      <button className="view" onClick={() => handleView(file.url, file.name)}>
                         <FaEye /> View
                       </button>
-                      <button
-                        className="assign"
-                        onClick={() => handleAssign(file.name)}
-                      >
-                        <FaTag /> Assign
+                      <button className="assign" onClick={() => handleAssign(file.filename, file.section)}>
+                        <FaTag /> {file.section ? "Change" : "Assign"}
                       </button>
-                      <button
-                        className="delete"
-                        onClick={() => handleDelete(file.filename)}
-                      >
+                      {file.section && (
+                        <button className="unassign" onClick={() => handleAssign(file.filename, null)}>
+                          Unassign
+                        </button>
+                      )}
+                      <button className="delete" onClick={() => handleDelete(file.filename)}>
                         <FaTrash /> Delete
                       </button>
                     </div>
@@ -253,13 +300,12 @@ export default function Media() {
           </tbody>
         </table>
 
+        {/* Pagination */}
         {totalPages > 1 && (
           <div className="media-pagination">
             <span
               className={currentPage === 1 ? "disabled" : ""}
-              onClick={() =>
-                currentPage > 1 && setCurrentPage(currentPage - 1)
-              }
+              onClick={() => currentPage > 1 && setCurrentPage(currentPage - 1)}
             >
               ← Previous
             </span>
@@ -274,9 +320,7 @@ export default function Media() {
             ))}
             <span
               className={currentPage === totalPages ? "disabled" : ""}
-              onClick={() =>
-                currentPage < totalPages && setCurrentPage(currentPage + 1)
-              }
+              onClick={() => currentPage < totalPages && setCurrentPage(currentPage + 1)}
             >
               Next →
             </span>
