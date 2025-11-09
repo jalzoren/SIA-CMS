@@ -81,6 +81,14 @@
   color: var(--primary-color2);
 }
 
+.brand {
+  text-decoration: none; 
+}
+
+.brand.active {
+  text-decoration: none; 
+}
+
 
 /* ------------------------------
    NAV LINKS

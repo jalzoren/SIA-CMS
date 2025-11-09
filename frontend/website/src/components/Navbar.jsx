@@ -40,13 +40,13 @@ function Navbar() {
 
       {/* Navbar */}
       <nav className="navbar">
-        <div to="/dashboard" className="brand">
+            <NavLink to="/" className="brand" onClick={(e) => handleNavClick(e, "/")}>
           <img src={Logo} alt="MediSync Logo" className="brand-logo" />
           <span className="brand-name">
             <span className="brand-text">Medi</span>
             <span className="brand-text2">Sync</span>
           </span>
-        </div>
+        </NavLink>
 
         {/* Hamburger */}
         <button
