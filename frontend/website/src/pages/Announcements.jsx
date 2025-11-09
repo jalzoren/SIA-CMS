@@ -10,21 +10,24 @@ const Announcements = () => {
   const [loading, setLoading] = useState(true);
   const [announcements, setAnnouncements] = useState([]);
 
-  // ✅ Fetch all published announcements from backend
-  useEffect(() => {
-    const fetchAnnouncements = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/api/announcements");
-        const data = await response.json();
-        setAnnouncements(data);
-      } catch (error) {
-        console.error("Error fetching announcements:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchAnnouncements();
-  }, []);
+useEffect(() => {
+  const fetchAnnouncements = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/api/announcements");
+      let data = await response.json();
+      // Filter only published announcements
+      data = data.filter((item) => item.status === "published");
+      setAnnouncements(data);
+    } catch (error) {
+      console.error("Error fetching announcements:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  fetchAnnouncements();
+}, []);
+
+
 
   return (
     <div className="announcements-section container py-5">

@@ -12,6 +12,7 @@ function Navbar() {
   const isNewsActive =
     location.pathname.startsWith("/news") ||
     location.pathname.startsWith("/announcements");
+    location.pathname.startsWith("/health");
 
   // ✅ Universal scroll + navigate function
   const handleNavClick = (e, path) => {
@@ -94,6 +95,12 @@ function Navbar() {
                 onClick={(e) => handleNavClick(e, "/announcements")}
               >
                 Announcements
+              </NavLink>
+              <NavLink
+                to="/health"
+                onClick={(e) => handleNavClick(e, "/health")}
+              >
+                Health Tips
               </NavLink>
             </div>
           </li>

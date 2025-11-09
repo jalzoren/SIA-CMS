@@ -213,6 +213,34 @@
   scroll-behavior: smooth;
   overflow-x: auto;
   padding-bottom: 10px;
+  /* Hide scrollbar for all browsers */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.news-grid::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+/* Carousel Navigation Buttons */
+.carousel-nav-btn {
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #043873;
+  color: white !important;
+}
+
+.carousel-nav-btn:hover {
+  background-color: #032a5a !important;
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(4, 56, 115, 0.4) !important;
+}
+
+.carousel-nav-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 8px rgba(4, 56, 115, 0.5) !important;
 }
 
 .news-card {
@@ -574,3 +602,22 @@
   }
 }
 
+.carousel-nav-btn svg {
+  font-size: 6rem !important;  /* 6rem ≈ 96px — huge! */
+  color: white !important;
+}
+
+.carousel-nav-btn {
+  width: 60px !important;
+  margin: 15px;
+  height: 60px !important;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-nav-btn:hover svg {
+  transform: scale(1.1);
+}

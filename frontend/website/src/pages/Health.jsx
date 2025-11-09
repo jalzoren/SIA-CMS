@@ -5,24 +5,24 @@ import "../components/components-css/ComponentNews.css";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const News = () => {
+const Health = () => {
   const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([]);
 
-  // ✅ Fetch all news from backend
+  // ✅ Fetch all health tips from backend
   useEffect(() => {
-    const fetchNews = async () => {
+    const fetchHealthTips = async () => {
       try {
-        const response = await fetch("http://localhost:5000/api/news"); // your backend route
+        const response = await fetch("http://localhost:5000/api/health-tips"); // your backend route
         const data = await response.json();
         setArticles(data);
       } catch (error) {
-        console.error("Error fetching news:", error);
+        console.error("Error fetching health tips:", error);
       } finally {
         setLoading(false);
       }
     };
-    fetchNews();
+    fetchHealthTips();
   }, []);
 
   return (
@@ -35,10 +35,10 @@ const News = () => {
       ) : (
         <>
           <h2 className="title-center mb-4">
-            Latest <span className="title-primary">News</span>
+            <span className="title-primary">Health Tips</span>
           </h2>
           <p className="intro-text text-center mb-5">
-            Stay updated with the latest health news, innovations, and inspiring stories.
+            Stay updated with the latest health tips, wellness advice, and medical insights.
           </p>
         </>
       )}
@@ -91,7 +91,7 @@ const News = () => {
                     </div>
 
                     <Link
-                      to={`/news/${article.id}`}
+                      to={`/health/${article.id}`}
                       className="btn btn-primary mt-3 align-self-center"
                     >
                       See More →
@@ -105,4 +105,4 @@ const News = () => {
   );
 };
 
-export default News;
+export default Health;

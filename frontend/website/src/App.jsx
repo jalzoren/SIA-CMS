@@ -13,7 +13,8 @@ import Careers from "./pages/Careers";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import ComponentNews from "./components/ComponentNews";
-
+import ComponentHealth from "./components/ComponentHealth";
+import Health from "./pages/Health";
 
 import "./App.css";
 
@@ -34,10 +35,12 @@ function App() {
         <Route path="/careers" element={<Careers />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/health" element={<Health/>} />
 
         {/* Single article pages */}
         <Route path="/news/:id" element={<ComponentNews />} />
         <Route path="/announcements/:id" element={<ComponentAnnouncement />} />
+        <Route path="/health/:id" element={<ComponentHealth/>} />
       </Routes>
 
       <Footer />
