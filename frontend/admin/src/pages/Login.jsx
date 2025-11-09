@@ -10,17 +10,17 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
       const response = await fetch("http://localhost:5000/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-  
+
       const data = await response.json();
       console.log("🔹 Backend response:", data);
-  
+
       if (!response.ok || !data.success) {
         Swal.fire({
           title: "Login Failed",
@@ -29,7 +29,7 @@ export default function Login() {
         });
         return;
       }
-  
+
       const { user, token } = data; // <-- include token
       Swal.fire({
         title: "Login Successful!",
@@ -40,7 +40,7 @@ export default function Login() {
         localStorage.setItem("auth", "true");
         localStorage.setItem("user", JSON.stringify(user));
         localStorage.setItem("token", token); // <-- store token
-  
+
         // Redirect to dashboard
         window.location.href = "/dashboard";
       });
@@ -53,14 +53,16 @@ export default function Login() {
       });
     }
   };
-  
-  
+
   return (
     <div className="login-wrapper">
       {/* Left Branding Section */}
       <div className="login-left">
         <div className="login-brand">
-          <h1>Hospitaled</h1>
+          <h1>
+            Medi
+            <span style={{ color: "var(--primary-color2)" }}>Sync</span>
+          </h1>
           <p>Health Medical Center</p>
         </div>
       </div>

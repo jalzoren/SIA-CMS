@@ -19,7 +19,7 @@ import {
 import { FaShieldHeart } from "react-icons/fa6";
 import "../components/components-css/Sidebar.css";
 import "boxicons/css/boxicons.min.css";
-
+import Logo from "/src/assets/logo1.svg"
 const Sidebar = ({ isOpen }) => {
   const location = useLocation();
   const [role, setRole] = useState(null);
@@ -45,7 +45,7 @@ const Sidebar = ({ isOpen }) => {
     children: [
       { icon: <FaBullhorn />, label: "Announcements", path: "/announcements" },
       { icon: <FaNewspaper />, label: "News", path: "/news" },
-      { icon: <FaBriefcase />, label: "Events & Careers", path: "/events" },
+      { icon: <FaBriefcase />, label: "Careers", path: "/careers" },
       { icon: <FaHeart />, label: "Health Tips", path: "/health" },
       { icon: <FaEdit />, label: "Post Log", path: "/posts" },
     ],
@@ -103,7 +103,14 @@ const Sidebar = ({ isOpen }) => {
   return (
     <aside id="sidebar" className={isOpen ? "" : "collapsed"}>
       <div className="brand">
-<i className="bx bx-plus-medical icon"></i>        {isOpen && <span>hospitaled</span>}
+<i> <img src={Logo} alt="MediSync Logo" className="brand-logo" /></i>        {isOpen && <span className="brand-name">
+            <span className="brand-text">Medi</span>
+            <span className="brand-text2">Sync</span>
+          </span>}
+
+
+
+        
       </div>
 
       <ul className="side-menu">

@@ -1,26 +1,27 @@
 import { useEffect, useRef, useState } from "react";
 import Swal from "sweetalert2";
 import Quill from "quill";
-import "../css/Events.css";
+import "../css/Careers.css";
 import "quill/dist/quill.snow.css";
 import { IoMdCreate } from "react-icons/io";
 
-export default function Events() {
+export default function Careers() {
   const quillRef = useRef(null);
   const fileInputRef = useRef(null);
   const [fileInfo, setFileInfo] = useState(null);
   const user = JSON.parse(localStorage.getItem("user")); 
 
-    if (!user) {
-      alert("Please log in first!");
-      return;
-    }
+  if (!user) {
+    alert("Please log in first!");
+    return null;
+  }
+
   // Initialize Quill
   useEffect(() => {
     if (quillRef.current && !quillRef.current.__quill) {
       const quill = new Quill(quillRef.current, {
         theme: "snow",
-        placeholder: "Write your announcement description here...",
+        placeholder: "Write the job description here...",
         modules: {
           toolbar: [
             [{ header: [1, 2, false] }],
@@ -35,64 +36,64 @@ export default function Events() {
     }
   }, []);
 
-  // Handle file selection
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
     const isImage = file.type.startsWith("image/");
-    let preview = null;
-
-    if (isImage) {
-      preview = URL.createObjectURL(file); // preview URL
-    }
+    const preview = isImage ? URL.createObjectURL(file) : null;
 
     setFileInfo({ file, name: file.name, isImage, preview });
   };
 
-  // Submit handler
   const handleSubmit = async (status) => {
     const quillEditor = quillRef.current.__quill;
     const description = quillEditor.root.innerHTML;
-  
+
     const formData = new FormData();
-    formData.append("short_title", document.getElementById("cms-short-title").value);
-    formData.append("full_title", document.getElementById("cms-full-title").value);
-    formData.append("topic_tags", document.getElementById("cms-tags").value);
+    formData.append("job_title", document.getElementById("cms-job-title").value);
+    formData.append("department", document.getElementById("cms-department").value);
+    formData.append("job_type", document.getElementById("cms-job-type").value);
+    formData.append("location", document.getElementById("cms-location").value);
+    formData.append("qualifications", document.getElementById("cms-qualifications").value);
+    formData.append("application_deadline", document.getElementById("cms-deadline").value);
     formData.append("description", description);
     formData.append("status", status);
-    formData.append("author", user.id); // logged-in author ID
-  
+    formData.append("author", user.id);
+
     if (fileInfo?.file) {
       formData.append("image", fileInfo.file);
     }
-  
+
     try {
-      const res = await fetch("http://localhost:5000/api/news", {
+      const res = await fetch("http://localhost:5000/api/jobs", {
         method: "POST",
         body: formData,
       });
       const data = await res.json();
-  
+
       if (data.success) {
         Swal.fire({
           icon: "success",
-          title: `Events and career ${status} successfully!`,
+          title: `Job ${status} successfully!`,
           timer: 2000,
           showConfirmButton: false,
         });
-  
-        // Reset all fields
+
+        // Reset fields
         setFileInfo(null);
         quillEditor.setContents([]);
-        document.getElementById("cms-short-title").value = "";
-        document.getElementById("cms-full-title").value = "";
-        document.getElementById("cms-tags").value = "";
+        document.getElementById("cms-job-title").value = "";
+        document.getElementById("cms-department").value = "";
+        document.getElementById("cms-job-type").value = "Full-time";
+        document.getElementById("cms-location").value = "";
+        document.getElementById("cms-qualifications").value = "";
+        document.getElementById("cms-deadline").value = "";
       } else {
         Swal.fire({
           icon: "error",
           title: "Error",
-          text: data.message || "Something went wrong while saving the news.",
+          text: data.message || "Something went wrong while saving the job.",
         });
       }
     } catch (err) {
@@ -104,21 +105,20 @@ export default function Events() {
       });
     }
   };
-  
 
   return (
     <div className="cms-announcement-page">
-      <h2 className="title">Events and Careers</h2>
+      <h2 className="title">Careers</h2>
       <ul className="breadcrumbs">
-        <li>Events and Careers</li>
+        <li>HR and Careers</li>
         <li className="divider">/</li>
         <li>Admin Panel</li>
       </ul>
 
-      {/* CREATE POST HEADER CARD */}
+      {/* Header Card */}
       <div className="card announcement-card">
         <div className="head">
-          <h3 className="announcement-title">Create an Events and Career Post</h3>
+          <h3 className="announcement-title">Create a Job Posting</h3>
           <div className="announcement-actions">
             <button className="btn draft" onClick={() => handleSubmit("draft")}>
               Draft
@@ -130,53 +130,60 @@ export default function Events() {
         </div>
       </div>
 
-      {/* FORM BODY */}
+      {/* Form Body */}
       <div className="cms-card cms-form-card">
-        <label htmlFor="cms-post-type">Post Type</label>
-        <div className="cms-radio-group">
-          <label className="cms-radio-option">
-            <input type="radio" name="postType" value="event" defaultChecked />
-            Event
-          </label>
-          <label className="cms-radio-option">
-            <input type="radio" name="postType" value="career" />
-            Career
-          </label>
-        </div>
-        <br />
-
         <form className="cms-form">
+          {/* Job Title, Department, Job Type */}
           <div className="cms-form-row">
             <div className="cms-form-group">
-              <label htmlFor="cms-short-title">Short Title</label>
-              <input type="text" id="cms-short-title" placeholder="Enter short title" />
+              <label htmlFor="cms-job-title">Job Title</label>
+              <input type="text" id="cms-job-title" placeholder="Enter job title" />
             </div>
             <div className="cms-form-group">
-              <label htmlFor="cms-full-title">Full Title</label>
-              <input type="text" id="cms-full-title" placeholder="Enter full title" />
+              <label htmlFor="cms-department">Department</label>
+              <select id="cms-department">
+                <option>Administration</option>
+                <option>Nursing</option>
+                <option>Radiology</option>
+                <option>Pharmacy</option>
+              </select>
             </div>
             <div className="cms-form-group">
-              <label htmlFor="cms-tags">Topic Tags</label>
-              <input type="text" id="cms-tags" placeholder="e.g. Event, Reminder, Holiday" />
+              <label htmlFor="cms-job-type">Job Type</label>
+              <select id="cms-job-type">
+                <option>Full-time</option>
+                <option>Part-time</option>
+                <option>Contract</option>
+              </select>
             </div>
           </div>
 
-          {/* DESCRIPTION + FILE UPLOAD ROW */}
+          {/* Location, Qualifications, Deadline */}
+          <div className="cms-form-row">
+            <div className="cms-form-group">
+              <label htmlFor="cms-location">Location</label>
+              <input type="text" id="cms-location" placeholder="e.g. Quezon City, Pasig Cty" />
+            </div>
+            <div className="cms-form-group">
+              <label htmlFor="cms-qualifications">Qualifications</label>
+              <input type="text" id="cms-qualifications" placeholder="e.g. BSc Nursing, 2 yrs experience" />
+            </div>
+            <div className="cms-form-group">
+              <label htmlFor="cms-deadline">Application Deadline</label>
+              <input type="date" id="cms-deadline" />
+            </div>
+          </div>
+
+          {/* Description + Image */}
           <div className="cms-form-row" style={{ alignItems: "flex-start" }}>
-            {/* Description Box */}
             <div className="cms-form-group" style={{ flex: 2 }}>
-              <label>Description Box</label>
+              <label>Description</label>
               <div ref={quillRef} className="cms-quill-editor"></div>
             </div>
 
-            {/* Upload Box */}
             <div className="cms-form-group" style={{ flex: 1, minWidth: "250px" }}>
               <label>Upload Image</label>
-
-              <div
-                className="file-upload-container"
-                onClick={() => fileInputRef.current?.click()}
-              >
+              <div className="file-upload-container" onClick={() => fileInputRef.current?.click()}>
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -184,12 +191,9 @@ export default function Events() {
                   onChange={handleFileChange}
                   className="file-input-hidden"
                 />
-
                 <label className="upload-label">
-                  <IoMdCreate style={{ marginRight: "8px" }} />
-                  Choose Image
+                  <IoMdCreate style={{ marginRight: "8px" }} /> Choose Image
                 </label>
-
                 <div className="file-preview-area">
                   {fileInfo ? (
                     fileInfo.isImage && fileInfo.preview ? (

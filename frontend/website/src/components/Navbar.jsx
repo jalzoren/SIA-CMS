@@ -3,7 +3,7 @@ import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import "../css/Navbar.css";
 import { IoMdArrowDropdown } from "react-icons/io";
 import "boxicons/css/boxicons.min.css";
-
+import Logo from "/src/assets/logo1.svg";
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
@@ -40,8 +40,11 @@ function Navbar() {
       {/* Navbar */}
       <nav className="navbar">
         <div to="/dashboard" className="brand">
-          <i className="bx bx-plus-medical icon"></i>
-          <span>HospitalED</span>
+          <img src={Logo} alt="MediSync Logo" className="brand-logo" />
+          <span className="brand-name">
+            <span className="brand-text">Medi</span>
+            <span className="brand-text2">Sync</span>
+          </span>
         </div>
 
         {/* Hamburger */}
@@ -61,12 +64,18 @@ function Navbar() {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/services" onClick={(e) => handleNavClick(e, "/services")}>
+            <NavLink
+              to="/services"
+              onClick={(e) => handleNavClick(e, "/services")}
+            >
               Services
             </NavLink>
           </li>
           <li>
-            <NavLink to="/doctors" onClick={(e) => handleNavClick(e, "/doctors")}>
+            <NavLink
+              to="/doctors"
+              onClick={(e) => handleNavClick(e, "/doctors")}
+            >
               Doctors
             </NavLink>
           </li>
@@ -77,10 +86,7 @@ function Navbar() {
               News <IoMdArrowDropdown />
             </span>
             <div className="dropdown-content">
-              <NavLink
-                to="/news"
-                onClick={(e) => handleNavClick(e, "/news")}
-              >
+              <NavLink to="/news" onClick={(e) => handleNavClick(e, "/news")}>
                 Latest News
               </NavLink>
               <NavLink
@@ -93,7 +99,10 @@ function Navbar() {
           </li>
 
           <li>
-            <NavLink to="/careers" onClick={(e) => handleNavClick(e, "/careers")}>
+            <NavLink
+              to="/careers"
+              onClick={(e) => handleNavClick(e, "/careers")}
+            >
               Careers
             </NavLink>
           </li>
@@ -103,7 +112,10 @@ function Navbar() {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/contact" onClick={(e) => handleNavClick(e, "/contact")}>
+            <NavLink
+              to="/contact"
+              onClick={(e) => handleNavClick(e, "/contact")}
+            >
               Contact
             </NavLink>
           </li>

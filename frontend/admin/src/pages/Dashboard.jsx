@@ -20,7 +20,8 @@ export default function Dashboard() {
       chart: {
         type: "line",
         height: 300,
-        toolbar: { show: false },
+        width: 800,
+        toolbar: { show: true },
         background: "transparent",
       },
       series: [

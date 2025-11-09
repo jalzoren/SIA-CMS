@@ -5,6 +5,7 @@ import App from './App.jsx'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/Global.css'; 
 import "bootstrap/dist/css/bootstrap.min.css";
+import Logo from "/src/assets/logo1.svg";
 
 
 createRoot(document.getElementById('root')).render(
