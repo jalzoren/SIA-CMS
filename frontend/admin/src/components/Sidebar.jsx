@@ -16,10 +16,9 @@ import {
   FaChevronDown,
   FaChevronUp,
 } from "react-icons/fa";
-import { FaShieldHeart } from "react-icons/fa6";
 import "../components/components-css/Sidebar.css";
-import "boxicons/css/boxicons.min.css";
-import Logo from "/src/assets/logo1.svg"
+import Logo from "/src/assets/logo1.svg";
+
 const Sidebar = ({ isOpen }) => {
   const location = useLocation();
   const [role, setRole] = useState(null);
@@ -97,28 +96,37 @@ const Sidebar = ({ isOpen }) => {
 
   const toggleDropdown = (label) => setOpenDropdown((prev) => (prev === label ? null : label));
 
+  const isParentActive = (item) => {
+    if (!item.children) return false;
+    return item.children.some((child) => location.pathname === child.path);
+  };
+
   // ==============================
   // Render Sidebar
   // ==============================
   return (
     <aside id="sidebar" className={isOpen ? "" : "collapsed"}>
       <div className="brand">
-<i> <img src={Logo} alt="MediSync Logo" className="brand-logo" /></i>        {isOpen && <span className="brand-name">
+        <img src={Logo} alt="MediSync Logo" className="brand-logo" />
+        {isOpen && (
+          <span className="brand-name">
             <span className="brand-text">Medi</span>
             <span className="brand-text2">Sync</span>
-          </span>}
-
-
-
-        
+          </span>
+        )}
       </div>
 
       <ul className="side-menu">
         {menuItems.map((item) => {
+          const parentActive = isParentActive(item);
+
           if (item.children) {
             const isOpenDropdown = openDropdown === item.label;
             return (
-              <li key={item.label} className={`dropdown ${isOpenDropdown ? "open" : ""}`}>
+              <li
+                key={item.label}
+                className={`dropdown ${isOpenDropdown ? "open" : ""} ${parentActive ? "active" : ""}`}
+              >
                 <button className="dropdown-toggle" onClick={() => toggleDropdown(item.label)}>
                   <span className="icon">{item.icon}</span>
                   {isOpen && <span className="label">{item.label}</span>}

@@ -125,6 +125,16 @@ h2, label{
   margin-right: 0.35rem;
 }
 
+.btn-add-dept-btn:hover{
+color: #ccc;
+background-color: #043873;
+}
+
+
+button{
+  color: #ccc;
+background-color: #043873;
+}
 
 /* ==============================
    FORM AREA
@@ -274,9 +284,18 @@ label{
   border-radius: 4px;
 }
 
+
 .add-department .add-dept-btn:hover {
-  opacity: 0.9;
+  padding: 5px 10px;
+  font-size: 0.9rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
 }
+
+
 
 .cms-quill-editor {
   height: 250px;

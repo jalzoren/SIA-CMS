@@ -324,6 +324,7 @@
   border: none;
   transition: all 0.2s ease;
   color: white;
+  justify-content: center;
 }
 
 .btn .icon {

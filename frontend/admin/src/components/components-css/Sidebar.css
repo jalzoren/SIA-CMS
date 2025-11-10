@@ -1,3 +1,11 @@
+.side-menu .dropdown.active > .dropdown-toggle {
+  background-color: var(--primary-color2);
+  color: #fff;
+}
+
+.side-menu .dropdown.active > .dropdown-toggle .icon {
+  color: #fff;
+}
 
 .brand:hover {
   transform: scale(1.03);

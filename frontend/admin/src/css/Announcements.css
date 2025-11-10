@@ -82,9 +82,12 @@ h3{
 
 .announcement-actions {
   display: flex;
-  align-items: center;
+  justify-content: center; /* Center horizontally */
+  align-items: center;     /* Center vertically */
   gap: 0.5rem;
+  text-align: center;      /* Ensure text inside buttons is centered */
 }
+
 
 /* Buttons */
 .btn {
@@ -97,6 +100,7 @@ h3{
   cursor: pointer;
   transition: all 0.2s ease;
   width: 110px;
+  align-items: center;
 }
 
 .announcement{
@@ -106,6 +110,7 @@ h3{
   background: #fff;
   border: 1px solid #cbd5e1;
   color: #1e3a8a;
+  align-content: center;
 }
 
 .btn.draft:hover {

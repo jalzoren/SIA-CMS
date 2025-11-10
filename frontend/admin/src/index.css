@@ -110,9 +110,8 @@
   }
 
   button:hover {
-    background-color: var(--primary-color);
-    transform: translateY(-1px);
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    color: #ccc;
+background-color: #043873;
   }
 
   button:active {
