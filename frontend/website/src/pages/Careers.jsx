@@ -187,7 +187,6 @@ const Careers = () => {
 
                 <div className="card-body text-center d-flex flex-column justify-content-between">
                   <div>
-                    {/* ✅ Show only full_title and short_title */}
                     <h5 className="card-title fw-bold text-primary">
                       {job.job_title || "Untitled Job"}
                     </h5>
