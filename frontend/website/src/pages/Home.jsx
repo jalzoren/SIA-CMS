@@ -225,7 +225,7 @@ function Home() {
       {/* --- Section 3: Announcements --- */}
       <section className="news-section py-5">
         <div className="container">
-          <h2 className="news-title text-center mb-5">
+          <h2 className="news-title1 text-center mb-5">
             <span className="highlight text-primary">Latest</span> Updates and
             Announcements
           </h2>
@@ -370,9 +370,9 @@ function Home() {
       </section> 
 
        {/* --- Section 4: News --- */}
-      <section className="news-section py-5">
+      <section className="news2-section py-5">
         <div className="container">
-          <h2 className="news-title text-center mb-5">
+          <h2 className="news-title1 text-center mb-5">
             <span className="highlight text-primary">Latest</span> News
           </h2>
         </div>

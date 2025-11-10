@@ -146,27 +146,29 @@ const ComponentAnnouncement = () => {
                 <Skeleton count={5} height={60} className="mb-2" />
               ) : (
                 <ul className="sidebar-list">
-                  {allAnnouncements
-                    .filter((a) => a.id !== announcement.id)
-                    .slice(0, 6)
-                    .map((a) => (
-                      <li key={a.id} className="sidebar-item">
-                        <Link
-                          to={`/announcements/${a.id}`}
-                          className="sidebar-link"
-                        >
-                          <div className="sidebar-content">
-                            <h5 className="sidebar-title-text">
-                              {a.short_title || a.full_title}
-                            </h5>
-                            <p className="sidebar-date">
-                              {new Date(a.created_at).toLocaleDateString()}
-                            </p>
-                          </div>
-                        </Link>
-                      </li>
-                    ))}
-                </ul>
+  {allAnnouncements
+    .filter((a) => a.id !== announcement.id)
+    .slice(0, 6)
+    .map((a) => (
+      <li key={a.id} className="sidebar-item">
+        {/* Use slug instead of id for route */}
+        <Link
+          to={`/announcements/${a.slug}`}  
+          className="sidebar-link"
+        >
+          <div className="sidebar-content">
+            <h5 className="sidebar-title-text">
+              {a.short_title || a.full_title}
+            </h5>
+            <p className="sidebar-date">
+              {new Date(a.created_at).toLocaleDateString()}
+            </p>
+          </div>
+        </Link>
+      </li>
+    ))}
+</ul>
+
               )}
             </div>
           </div>

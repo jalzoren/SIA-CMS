@@ -10,24 +10,21 @@ const Announcements = () => {
   const [loading, setLoading] = useState(true);
   const [announcements, setAnnouncements] = useState([]);
 
-useEffect(() => {
-  const fetchAnnouncements = async () => {
-    try {
-      const response = await fetch("http://localhost:5000/api/announcements");
-      let data = await response.json();
-      // Filter only published announcements
-      data = data.filter((item) => item.status === "published");
-      setAnnouncements(data);
-    } catch (error) {
-      console.error("Error fetching announcements:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-  fetchAnnouncements();
-}, []);
-
-
+  useEffect(() => {
+    const fetchAnnouncements = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/announcements");
+        let data = await response.json();
+        data = data.filter((item) => item.status === "published");
+        setAnnouncements(data);
+      } catch (error) {
+        console.error("Error fetching announcements:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAnnouncements();
+  }, []);
 
   return (
     <div className="announcements-section container py-5">
@@ -93,7 +90,7 @@ useEffect(() => {
                       ></p>
                     </div>
                     <Link
-                      to={`/announcements/${announcement.id}`}
+                      to={`/announcements/${announcement.slug}`}
                       className="btn btn-primary mt-3 align-self-center"
                     >
                       See More →

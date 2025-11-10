@@ -7,8 +7,8 @@ import { IoMdCreate } from "react-icons/io";
 
 export default function AnnouncementAdmin() {
   const quillRef = useRef(null);
-  const fileInputRef = useRef(null); // ← for file input click
-  const [fileInfo, setFileInfo] = useState(null); // ← store file info for preview
+  const fileInputRef = useRef(null);
+  const [fileInfo, setFileInfo] = useState(null);
   const [shortTitle, setShortTitle] = useState("");
   const [fullTitle, setFullTitle] = useState("");
   const [tags, setTags] = useState("");
@@ -22,7 +22,7 @@ export default function AnnouncementAdmin() {
         modules: {
           toolbar: [
             [{ header: [1, 2, false] }],
-            ["bold", "italic", "underline", "strike"],
+            ["bold", "italic", "underline"],
             [{ list: "ordered" }, { list: "bullet" }],
             ["link", "code-block"],
             ["clean"],
@@ -36,18 +36,11 @@ export default function AnnouncementAdmin() {
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
-
     const isImage = file.type.startsWith("image/");
     if (isImage) {
       const reader = new FileReader();
-      reader.onload = (ev) => {
-        setFileInfo({
-          file,
-          name: file.name,
-          preview: ev.target?.result,
-          isImage: true,
-        });
-      };
+      reader.onload = (ev) =>
+        setFileInfo({ file, name: file.name, preview: ev.target?.result, isImage: true });
       reader.readAsDataURL(file);
     } else {
       setFileInfo({ file, name: file.name, isImage: false });
@@ -59,8 +52,11 @@ export default function AnnouncementAdmin() {
     const description = quill.root.innerHTML;
 
     if (!shortTitle.trim() || !fullTitle.trim()) {
-      Swal.fire({ icon: "warning", title: "Missing fields", text: "Please fill out all required fields." });
-      return;
+      return Swal.fire({
+        icon: "warning",
+        title: "Missing fields",
+        text: "Please fill out all required fields.",
+      });
     }
 
     const formData = new FormData();
@@ -69,11 +65,7 @@ export default function AnnouncementAdmin() {
     formData.append("topic_tags", tags);
     formData.append("description", description);
     formData.append("status", status);
-    // Dynamic author
-    if (user && user.id) {
-      formData.append("author", user.id); // <-- send the logged-in user ID
-    }
-
+    if (user?.id) formData.append("author", user.id);
     if (fileInfo?.file) formData.append("image", fileInfo.file);
 
     try {
@@ -83,8 +75,17 @@ export default function AnnouncementAdmin() {
       });
       const result = await res.json();
       if (res.ok) {
-        Swal.fire({ icon: "success", title: "Announcement saved!", timer: 2000, showConfirmButton: false });
-        setShortTitle(""); setFullTitle(""); setTags(""); quill.root.innerHTML = ""; setFileInfo(null);
+        Swal.fire({
+          icon: "success",
+          title: "Announcement saved!",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+        setShortTitle("");
+        setFullTitle("");
+        setTags("");
+        quill.root.innerHTML = "";
+        setFileInfo(null);
       } else {
         Swal.fire({ icon: "error", title: "Error", text: result.message || "Something went wrong" });
       }
@@ -104,12 +105,14 @@ export default function AnnouncementAdmin() {
 
       <div className="card announcement-card">
         <div className="head">
-          <h3 className="announcement-title">
-            Create an Announcement
-          </h3>
+          <h3 className="announcement-title">Create an Announcement</h3>
           <div className="announcement-actions">
-            <button className="btn draft" type="button" onClick={() => handleSubmit("draft")}>Draft</button>
-            <button className="btn submit" type="button" onClick={() => handleSubmit("published")}>Post</button>
+            <button className="btn draft" type="button" onClick={() => handleSubmit("draft")}>
+              Draft
+            </button>
+            <button className="btn submit" type="button" onClick={() => handleSubmit("published")}>
+              Post
+            </button>
           </div>
         </div>
       </div>
@@ -118,47 +121,46 @@ export default function AnnouncementAdmin() {
         <form className="cms-form" onSubmit={(e) => e.preventDefault()}>
           <div className="cms-form-row">
             <div className="cms-form-group">
-              <label htmlFor="cms-short-title">Short Title</label>
-              <input type="text" id="cms-short-title" placeholder="Enter short title"
-                value={shortTitle} onChange={(e) => setShortTitle(e.target.value)} />
+              <label>Short Title</label>
+              <input type="text" value={shortTitle} onChange={(e) => setShortTitle(e.target.value)} />
             </div>
             <div className="cms-form-group">
-              <label htmlFor="cms-full-title">Full Title</label>
-              <input type="text" id="cms-full-title" placeholder="Enter full title"
-                value={fullTitle} onChange={(e) => setFullTitle(e.target.value)} />
+              <label>Full Title</label>
+              <input type="text" value={fullTitle} onChange={(e) => setFullTitle(e.target.value)} />
             </div>
             <div className="cms-form-group">
-              <label htmlFor="cms-tags">Topic Tags</label>
-              <input type="text" id="cms-tags" placeholder="e.g. Event, Reminder, Holiday"
-                value={tags} onChange={(e) => setTags(e.target.value)} />
+              <label>Topic Tags</label>
+              <input type="text" value={tags} onChange={(e) => setTags(e.target.value)} />
             </div>
           </div>
 
-          {/* DESCRIPTION + FILE UPLOAD ROW */}
           <div className="cms-form-row" style={{ alignItems: "flex-start" }}>
-            {/* Description Box */}
             <div className="cms-form-group" style={{ flex: 2 }}>
               <label>Description Box</label>
               <div ref={quillRef} className="cms-quill-editor"></div>
             </div>
-
-            {/* Upload Box */}
             <div className="cms-form-group" style={{ flex: 1, minWidth: "250px" }}>
               <label>Upload Image</label>
               <div className="file-upload-container" onClick={() => fileInputRef.current?.click()}>
-                <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileChange} className="file-input-hidden" />
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  className="file-input-hidden"
+                />
                 <label className="upload-label">
-                  <IoMdCreate style={{ marginRight: "8px" }} /> Choose Image
+                  <IoMdCreate /> Choose Image
                 </label>
                 <div className="file-preview-area">
                   {fileInfo ? (
                     fileInfo.isImage && fileInfo.preview ? (
-                      <img src={fileInfo.preview} alt="preview" className="file-preview-img" />
+                      <img src={fileInfo.preview} alt="preview" />
                     ) : (
-                      <p className="file-name">{fileInfo.name}</p>
+                      <p>{fileInfo.name}</p>
                     )
                   ) : (
-                    <p className="file-placeholder">No image chosen</p>
+                    <p>No image chosen</p>
                   )}
                 </div>
               </div>

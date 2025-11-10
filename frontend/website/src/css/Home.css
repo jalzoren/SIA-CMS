@@ -196,14 +196,14 @@
   background-color: var(--blue-bg);
 }
 
-.news-title {
+.news-title1 {
   font-family: "Inter", serif;
   font-size: 2.5rem;
   font-weight: 700;
   color: var(--primary-color);
 }
 
-.news-title .highlight {
+.news-title1 .highlight {
   color: var(--primary-color2);
 }
 
@@ -222,7 +222,7 @@
   display: none; /* Chrome, Safari and Opera */
 }
 
-.news-title::after {
+.news-title1::after {
     content: "";
   display: block;
   width: 100px;          
@@ -231,7 +231,7 @@
   margin: 0.5rem auto 0; 
   border-radius: 2px; 
 }
-.announcement-title::after {
+.news2-title::after {
     content: "";
   display: block;
   width: 180px;          
