@@ -77,8 +77,7 @@ router.get("/", (req, res) => {
 });
 
 /* ============================================================
-   GET SINGLE ANNOUNCEMENT BY SLUG
-============================================================ */
+pl============================================================ */
 router.get("/:slug", (req, res) => {
   const { slug } = req.params;
   const sql = "SELECT * FROM announcement WHERE slug = ?";
