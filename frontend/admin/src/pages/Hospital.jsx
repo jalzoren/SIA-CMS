@@ -13,6 +13,7 @@ export default function Adminabout() {
   const [fullTitle, setFullTitle] = useState("");
   const [tags, setTags] = useState("");
   const [fileInfo, setFileInfo] = useState(null);
+  const [activeTab, setActiveTab] = useState("about");
 
   // Initialize Quill editor
   useEffect(() => {
@@ -81,10 +82,43 @@ export default function Adminabout() {
         <li>Admin Panel</li>
       </ul>
 
+      {/* Tabs Section */}
+      <div className="cms-tabs">
+        <div
+          className={`cms-tab-item ${activeTab === "about" ? "active" : ""}`}
+          onClick={() => setActiveTab("about")}
+        >
+          About Hospital
+        </div>
+        <div
+          className={`cms-tab-item ${activeTab === "privacy" ? "active" : ""}`}
+          onClick={() => setActiveTab("privacy")}
+        >
+          Privacy
+        </div>
+        <div
+          className={`cms-tab-item ${activeTab === "services" ? "active" : ""}`}
+          onClick={() => setActiveTab("services")}
+        >
+          Services
+        </div>
+        <div
+          className={`cms-tab-item ${activeTab === "contact" ? "active" : ""}`}
+          onClick={() => setActiveTab("contact")}
+        >
+          Contact
+        </div>
+      </div>
+
       {/* Top Card */}
       <div className="card announcement-card">
         <div className="head">
-          <h3 className="announcement-title">About Hospital Update</h3>
+          <h3 className="announcement-title">
+            {activeTab === "about" && "About Hospital Update"}
+            {activeTab === "privacy" && "Privacy Update"}
+            {activeTab === "services" && "Services Update"}
+            {activeTab === "contact" && "Contact Update"}
+          </h3>
           <div className="announcement-actions">
             <button
               className="btn draft"
