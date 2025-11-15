@@ -13,12 +13,13 @@ import postsRoute from "../routes/posts.js";
 import addUserRoute from "../routes/add_user.js"; 
 import jobsRoute from "../routes/jobs.js";
 import mediaRoute from "../routes/media.js"; 
+import pageViewsRoute from "../routes/pageViews.js";
+
 
 dotenv.config({ path: "../.env" });
 
 const app = express();
 
-// ⚙️ Middleware
 app.use(cors());
 app.use(express.json());
 
@@ -35,6 +36,8 @@ app.use("/api/health-tips", healthTipsRouter);
 app.use("/api/posts", postsRoute);
 app.use("/api/users", addUserRoute);
 app.use("/api/media", mediaRoute);
+app.use("/api/track", pageViewsRoute);
+
 
 // Test route
 app.get("/api/test", (req, res) => {
