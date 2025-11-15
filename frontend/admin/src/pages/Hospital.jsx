@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import Quill from "quill";
 import Swal from "sweetalert2";
-import "../css/News.css"; // your existing shared CMS style
+import "../css/about.css"; // your existing shared CMS style
 import "quill/dist/quill.snow.css";
 import { IoMdCreate } from "react-icons/io";
 
@@ -9,15 +9,15 @@ export default function Adminabout() {
   const quillRef = useRef(null);
   const fileInputRef = useRef(null);
   const [quillInstance, setQuillInstance] = useState(null);
-  const [shortTitle, setShortTitle] = useState("");
-  const [fullTitle, setFullTitle] = useState("");
-  const [tags, setTags] = useState("");
   const [fileInfo, setFileInfo] = useState(null);
   const [activeTab, setActiveTab] = useState("about");
+  const isQuillInitialized = useRef(false);
 
   // Initialize Quill editor
   useEffect(() => {
-    if (quillRef.current && !quillInstance) {
+    if (quillRef.current && !isQuillInitialized.current) {
+      isQuillInitialized.current = true;
+      
       const q = new Quill(quillRef.current, {
         theme: "snow",
         placeholder: "Write something about the hospital...",
@@ -25,14 +25,14 @@ export default function Adminabout() {
           toolbar: [
             ["bold", "italic", "underline"],
             [{ list: "ordered" }, { list: "bullet" }],
-            ["link", ""],
+            ["link"],
             ["clean"],
           ],
         },
       });
       setQuillInstance(q);
     }
-  }, [quillInstance]);
+  }, []);
 
   // Handle file input
   const handleFileChange = (e) => {
@@ -63,9 +63,6 @@ export default function Adminabout() {
 
     // Optional: Add API call here to save content
     console.log({
-      shortTitle,
-      fullTitle,
-      tags,
       description,
       fileInfo,
       status,
@@ -141,40 +138,6 @@ export default function Adminabout() {
       {/* Form Area */}
       <div className="cms-card cms-form-card">
         <form className="cms-form" onSubmit={(e) => e.preventDefault()}>
-          {/* Basic Info */}
-          <div className="cms-form-row">
-            <div className="cms-form-group">
-              <label htmlFor="cms-short-title">Short Title</label>
-              <input
-                type="text"
-                id="cms-short-title"
-                placeholder="Enter short title"
-                value={shortTitle}
-                onChange={(e) => setShortTitle(e.target.value)}
-              />
-            </div>
-            <div className="cms-form-group">
-              <label htmlFor="cms-full-title">Full Title</label>
-              <input
-                type="text"
-                id="cms-full-title"
-                placeholder="Enter full title"
-                value={fullTitle}
-                onChange={(e) => setFullTitle(e.target.value)}
-              />
-            </div>
-            <div className="cms-form-group">
-              <label htmlFor="cms-tags">Topic Tags</label>
-              <input
-                type="text"
-                id="cms-tags"
-                placeholder="e.g. Mission, Vision, Services"
-                value={tags}
-                onChange={(e) => setTags(e.target.value)}
-              />
-            </div>
-          </div>
-
           {/* Description and Image Upload */}
           <div className="cms-form-row" style={{ alignItems: "flex-start" }}>
             {/* Quill Editor */}
