@@ -203,12 +203,12 @@ export default function Health() {
           <div className="cms-form-row">
             <div className="cms-form-group">
               <label htmlFor="cms-short-title">Short Title</label>
-              <input type="text" id="cms-short-title" placeholder="Enter short title" />
+              <input type="text" id="cms-short-title" placeholder="Enter Short Title" />
             </div>
 
             <div className="cms-form-group">
               <label htmlFor="cms-full-title">Full Title</label>
-              <input type="text" id="cms-full-title" placeholder="Enter full title" />
+              <input type="text" id="cms-full-title" placeholder="Enter Full Title" />
             </div>
 
             <div className="cms-form-group">
@@ -216,7 +216,7 @@ export default function Health() {
               <input
                 type="text"
                 id="cms-tags"
-                placeholder="e.g. Nutrition, Wellness, Exercise"
+                placeholder="Enter Topic Tags e.g. Nutrition, Wellness, Exercise"
               />
             </div>
           </div>

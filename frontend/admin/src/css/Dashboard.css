@@ -205,13 +205,10 @@
 }
 
 
-/* ==============================================================
-   MAIN GRID – FLEX (2 : 1 ratio, adapts when sidebar collapses)
-   ============================================================== */
 .main-content {
   display: flex;
   gap: 24px;
-  flex: 1; /* fill remaining vertical space */
+  flex: 1;
 }
 .chart-card {
   flex: 2; /* 2 parts */
@@ -229,9 +226,11 @@
 }
 #chart {
   flex: 1;
-  min-height: 300px;
+height: 500px;
   margin-bottom: 20px;
 }
+
+
 
 /* Visit-logs table inside chart card */
 .visit-logs {

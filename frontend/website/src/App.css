@@ -48,7 +48,7 @@ html,
 body {
   width: 100%;
   min-height: 100%;
-  overflow-x: hidden; /* ✅ only here */
+  overflow-x: hidden;
   background-color: #ffffff;
   font-family: "Poppins", sans-serif;
 }
@@ -60,7 +60,6 @@ body {
 }
 
 
-/* Header style example */
 .header {
   width: 100%;
   background-color: #242424;

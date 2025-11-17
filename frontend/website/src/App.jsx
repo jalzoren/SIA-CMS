@@ -28,9 +28,7 @@ function App() {
   );
 }
 
-// ✅ Move Routes + Tracker into a child component
 function AppRoutes() {
-  // Hook is now inside Router ✅
   usePageTracker();
 
   return (

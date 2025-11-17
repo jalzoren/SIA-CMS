@@ -275,6 +275,27 @@
   transform: translateY(-2px);
 }
 
+
+
+.services-btn {
+ background-color: var(--secondary-color);
+  color: #000;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.services-btn:hover {
+  background-color: #c7a84d;
+  transform: translateY(-2px);
+}
 /* -------------------------------
    LATEST NEWS SECTION STYLINGAAA
 --------------------------------*/

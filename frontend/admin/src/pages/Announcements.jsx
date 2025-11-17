@@ -122,15 +122,15 @@ export default function AnnouncementAdmin() {
           <div className="cms-form-row">
             <div className="cms-form-group">
               <label>Short Title</label>
-              <input type="text" value={shortTitle} onChange={(e) => setShortTitle(e.target.value)} />
+              <input placeholder="Enter Short Title" type="text" value={shortTitle} onChange={(e) => setShortTitle(e.target.value)} />
             </div>
             <div className="cms-form-group">
               <label>Full Title</label>
-              <input type="text" value={fullTitle} onChange={(e) => setFullTitle(e.target.value)} />
+              <input   placeholder="Enter Full Title"  type="text" value={fullTitle} onChange={(e) => setFullTitle(e.target.value)} />
             </div>
             <div className="cms-form-group">
               <label>Topic Tags</label>
-              <input type="text" value={tags} onChange={(e) => setTags(e.target.value)} />
+              <input  placeholder="Enter Topic Tags"  type="text" value={tags} onChange={(e) => setTags(e.target.value)} />
             </div>
           </div>
 

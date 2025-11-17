@@ -142,7 +142,7 @@ function Home() {
                   <h1 className="display-4 fw-bold mb-4">
                     <em>Your Health, Our Priority.</em>
                   </h1>
-                  <p className="fs-5 text-secondary mb-4">
+                  <p className="fs-6 text-secondary mb-4">
                     We unite innovation and empathy to redefine healthcare —
                     blending modern medical expertise with heartfelt human
                     connection to help you heal, recover, and thrive.
@@ -197,7 +197,7 @@ function Home() {
               <div className="mx-auto" style={{ maxWidth: "800px" }}>
                 <p className="welcome-text text-uppercase fw-semibold mb-2">
                   Welcome to{" "}
-                  <span style={{ color: "#4f9cf9" }}>HospitalED</span>
+                  <span style={{ color: "#4f9cf9" }}>MediSync</span>
                 </p>
                 <h1 className="hero-title mb-3">
                   A Great Place to Receive Care
@@ -366,6 +366,14 @@ function Home() {
                   </div>
                 ))}
           </div>
+           <div className="text-center mt-4">
+              <button
+                className="services-btn"
+                onClick={() => navigate("/announcements")}
+              >
+                View All Services <MdOutlineArrowForward />
+              </button>
+            </div>
         </div>
       </section> 
 

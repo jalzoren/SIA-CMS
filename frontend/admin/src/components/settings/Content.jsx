@@ -1,5 +1,9 @@
 export default function Content() {
   return (
+<div>
+
+
+    {/* 
     <div className="cms-card">
       <h3 className="cms-section-title">Content Settings</h3>
       <div className="row">
@@ -57,6 +61,8 @@ export default function Content() {
           <button className="btn btn-secondary">Cancel</button>
         </div>
       </div>
+    </div>
+    */}
     </div>
   );
 }

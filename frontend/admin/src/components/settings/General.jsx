@@ -62,10 +62,7 @@ export default function General() {
           </div>
         </div>
 
-        <div className="col-md-12 mt-3">
-          <label>Contact Email / Info</label>
-          <input type="email" placeholder="e.g. admin@example.com" />
-        </div>
+        
 
         <div className="mt-4 d-flex gap-3 w-50">
           <button className="btn btn-primary w-5">Save Changes</button>

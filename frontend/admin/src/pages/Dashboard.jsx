@@ -16,12 +16,11 @@ export default function Dashboard() {
     return () => clearInterval(timer);
   }, []);
 
-  // ApexCharts line chart
   useEffect(() => {
     const options = {
       chart: {
         type: "line",
-        height: 300,
+        height: 600,
         width: "100%",
         toolbar: { show: true },
         background: "transparent",
@@ -135,43 +134,7 @@ export default function Dashboard() {
           <div id="chart"></div>
 
           {/* Visit Logs */}
-          <div className="visit-logs">
-            <h4>Recent Visit Logs</h4>
-            <table>
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Visitor IP</th>
-                  <th>Page Visited</th>
-                  <th>Device</th>
-                  <th>Date & Time</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>192.168.0.15</td>
-                  <td>/home</td>
-                  <td>Desktop</td>
-                  <td>2025-10-31 13:22</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>192.168.0.32</td>
-                  <td>/services</td>
-                  <td>Mobile</td>
-                  <td>2025-10-31 13:25</td>
-                </tr>
-                <tr>
-                  <td>3</td>
-                  <td>192.168.0.44</td>
-                  <td>/contact</td>
-                  <td>Tablet</td>
-                  <td>2025-10-31 13:28</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+         
         </div>
 
         {/* SIDE PANEL */}
