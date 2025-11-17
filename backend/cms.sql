@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 15, 2025 at 06:04 PM
+-- Generation Time: Nov 17, 2025 at 10:48 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -227,24 +227,18 @@ INSERT INTO `news` (`id`, `short_title`, `full_title`, `topic_tags`, `descriptio
 
 CREATE TABLE `page_views` (
   `page_name` varchar(255) NOT NULL,
-  `visit_count` int(11) DEFAULT 1
+  `visit_count` int(11) DEFAULT 1,
+  `view_date` date NOT NULL DEFAULT curdate()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `page_views`
 --
 
-INSERT INTO `page_views` (`page_name`, `visit_count`) VALUES
-('/', 4),
-('/about', 2),
-('/announcements', 1),
-('/careers', 1),
-('/contact', 1),
-('/doctors', 1),
-('/health', 4),
-('/login', 2),
-('/news', 2),
-('/services', 3);
+INSERT INTO `page_views` (`page_name`, `visit_count`, `view_date`) VALUES
+('/', 6, '2025-11-17'),
+('/doctors', 1, '2025-11-17'),
+('/services', 1, '2025-11-17');
 
 -- --------------------------------------------------------
 
@@ -271,7 +265,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `full_name`, `email`, `password`, `created_at`, `role`, `last_login`, `reset_code`, `code_expiry`) VALUES
 (8, 'Lynn', 'lynnzylameczdo@gmail.com', '$2b$10$ADe2OQ01nBT9Udz1/wJZaOc2XXdJ.OyPChMfN/PSD8x3Z2wzHkyOq', '2025-10-17 21:31:06', 'hr_administrator', '2025-11-08 02:03:38', '514594', '2025-10-25 10:41:31'),
 (11, 'Lynn Czyla Alpuerto', 'alpuerto_lynnczyla@plpasig.edu.ph', '$2b$10$ADe2OQ01nBT9Udz1/wJZaOc2XXdJ.OyPChMfN/PSD8x3Z2wzHkyOq', '2025-10-18 03:32:20', 'content_administrator', NULL, NULL, NULL),
-(12, 'James', 'flavierlaurence01@gmail.com', '$2b$10$ADe2OQ01nBT9Udz1/wJZaOc2XXdJ.OyPChMfN/PSD8x3Z2wzHkyOq', '2025-10-18 03:40:35', 'super_administrator', '2025-11-16 00:46:46', NULL, NULL),
+(12, 'James', 'flavierlaurence01@gmail.com', '$2b$10$ADe2OQ01nBT9Udz1/wJZaOc2XXdJ.OyPChMfN/PSD8x3Z2wzHkyOq', '2025-10-18 03:40:35', 'super_administrator', '2025-11-17 17:46:44', NULL, NULL),
 (26, 'Laurence HR', 'dumpblj@gmail.com', '$2b$10$Kx3YJuI3AzNiqMq/88FSUuuowi7bRwEJGU3AnyTzoEVT8QFwZ6VrK', '2025-11-09 11:04:50', 'hr_administrator', '2025-11-09 19:23:47', NULL, NULL);
 
 --
@@ -319,7 +313,8 @@ ALTER TABLE `news`
 -- Indexes for table `page_views`
 --
 ALTER TABLE `page_views`
-  ADD PRIMARY KEY (`page_name`);
+  ADD PRIMARY KEY (`page_name`),
+  ADD UNIQUE KEY `unique_page_date` (`page_name`,`view_date`);
 
 --
 -- Indexes for table `users`
