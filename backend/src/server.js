@@ -14,6 +14,7 @@ import addUserRoute from "../routes/add_user.js";
 import jobsRoute from "../routes/jobs.js";
 import mediaRoute from "../routes/media.js"; 
 import pageViewsRoute from "../routes/pageViews.js";
+import layoutRoute from "../routes/layout.js";
 
 
 dotenv.config({ path: "../.env" });
@@ -37,6 +38,7 @@ app.use("/api/posts", postsRoute);
 app.use("/api/users", addUserRoute);
 app.use("/api/media", mediaRoute);
 app.use("/api/track", pageViewsRoute);
+app.use("/api/layout", layoutRoute);
 
 
 // Test route

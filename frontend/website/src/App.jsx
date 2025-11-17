@@ -1,8 +1,12 @@
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import axios from "axios";
+
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import usePageTracker from "./hooks/usePageTracker";
+import './css/layout.css';
 
 import Home from "./pages/Home";
 import Services from "./pages/Services";
@@ -20,17 +24,36 @@ import Health from "./pages/Health";
 import "./App.css";
 
 function App() {
+  // Global layout state
+  const [selectedLayout, setSelectedLayout] = useState("classic");
+
+useEffect(() => {
+  const fetchLayout = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/layout");
+      if (res.data.layout) setSelectedLayout(res.data.layout);
+    } catch (err) {
+      console.error("Failed to fetch layout from backend:", err);
+    }
+  };
+  fetchLayout();
+}, []);
+
+
+  // Apply layout class to <body>
+  useEffect(() => {
+    document.body.classList.remove("classic", "modern", "compact");
+    document.body.classList.add(selectedLayout);
+  }, [selectedLayout]);
 
   return (
     <Router>
-      <AppRoutes />
+      <AppRoutes selectedLayout={selectedLayout} />
     </Router>
   );
 }
 
-// ✅ Move Routes + Tracker into a child component
-function AppRoutes() {
-  // Hook is now inside Router ✅
+function AppRoutes({ selectedLayout }) {
   usePageTracker();
 
   return (

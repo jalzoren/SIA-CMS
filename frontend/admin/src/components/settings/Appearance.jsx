@@ -1,25 +1,69 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 function Appearance() {
+  const [selectedLayout, setSelectedLayout] = useState("classic");
   const [fontFamily, setFontFamily] = useState("Poppins");
   const [fontSize, setFontSize] = useState("Medium");
   const [fontColor, setFontColor] = useState("Header");
   const [previewText, setPreviewText] = useState("");
-  const [selectedLayout, setSelectedLayout] = useState("classic");
   const [themeColor, setThemeColor] = useState("bg-primary");
 
-  const handleSave = () => {
-    const appearanceSettings = {
-      fontFamily,
-      fontSize,
-      fontColor,
-      previewText,
-      selectedLayout,
-      themeColor,
+  // Fetch current layout from backend on mount
+  useEffect(() => {
+    const fetchLayout = async () => {
+      try {
+        const res = await axios.get("/api/layout");
+        if (res.data.layout) {
+          setSelectedLayout(res.data.layout);
+        }
+      } catch (err) {
+        console.error("Failed to fetch layout:", err);
+      }
     };
-    console.log("Saved Appearance Settings:", appearanceSettings);
-    alert("Changes saved!");
+    fetchLayout();
+  }, []);
+
+  // Update body class whenever selectedLayout changes
+  useEffect(() => {
+    document.body.classList.remove("classic", "modern", "compact");
+    document.body.classList.add(selectedLayout);
+  }, [selectedLayout]);
+
+  // Save layout to backend
+  const handleSave = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/layout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ layout: selectedLayout }),
+      });
+  
+      if (!res.ok) {
+        // If status is not 2xx, throw an error
+        const errorData = await res.json();
+        throw new Error(errorData.message || "Failed to save layout");
+      }
+  
+      const data = await res.json();
+      alert(`Layout "${data.layout}" saved!`);
+  
+      console.log({
+        fontFamily,
+        fontSize,
+        fontColor,
+        previewText,
+        selectedLayout,
+        themeColor,
+      });
+    } catch (err) {
+      console.error(err);
+      alert(`Failed to save layout: ${err.message}`);
+    }
   };
+  
 
   const handleCancel = () => {
     setFontFamily("Poppins");
@@ -31,7 +75,7 @@ function Appearance() {
   };
 
   return (
-       <div className="cms-card">
+    <div className="cms-card">
       <h3 className="cms-section-title">Appearance</h3>
       <div className="row">
         {/* Font Family */}
@@ -120,7 +164,10 @@ function Appearance() {
                   textAlign: "center",
                 }}
               >
-                <div className={`layout-preview layout-${layout}`} style={{ height: "50px", background: "#eee", marginBottom: "5px" }}></div>
+                <div
+                  className={`layout-preview layout-${layout}`}
+                  style={{ height: "50px", background: "#eee", marginBottom: "5px" }}
+                ></div>
                 <p>{layout.charAt(0).toUpperCase() + layout.slice(1)} Layout</p>
               </div>
             ))}
@@ -140,6 +187,5 @@ function Appearance() {
     </div>
   );
 }
-
 
 export default Appearance;

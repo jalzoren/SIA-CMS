@@ -1,0 +1,16 @@
+body.classic {
+    background-color: #fff;
+    font-family: Poppins, sans-serif;
+  }
+  
+  body.modern {
+    background-color: rgb(255, 0, 0);
+    font-family: Roboto, sans-serif;
+  }
+  
+  body.compact {
+    max-width: 900px;
+    margin: auto;
+    font-family: Inter, sans-serif;
+  }
+  

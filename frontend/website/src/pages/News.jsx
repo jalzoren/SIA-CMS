@@ -9,7 +9,6 @@ const News = () => {
   const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([]);
 
-  // ✅ Fetch all news from backend
   useEffect(() => {
     const fetchNews = async () => {
       try {
