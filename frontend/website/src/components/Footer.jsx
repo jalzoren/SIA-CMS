@@ -1,13 +1,22 @@
 import React from "react";
 import "../css/Footer.css";
+import Logo from "/src/assets/logo1.svg";
 
 const Footer = () => {
   return (
     <footer className="footer">
       <div className="footer-container">
         <div className="footer-column">
-          <h3>HOSPITALED</h3>
-          <p>
+          <div className="logo-component">
+<img src={Logo} alt="MediSync Logo" className="brand-logo" />
+          <span className="brand-name">
+            <span className="brand-text">Medi</span>
+            <span className="brand-text2">Sync</span>
+          </span>    
+
+
+          </div>
+      <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
           </p>
         </div>
@@ -42,7 +51,7 @@ const Footer = () => {
       </div>
 
       <div className="footer-bottom">
-        <p>© 2025 Hospitaled. All rights reserved.</p>
+        <p>© 2025 MediSync. All rights reserved.</p>
       </div>
     </footer>
   );

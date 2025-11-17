@@ -46,6 +46,7 @@ export default function Settings() {
       <div className="cms-tab-content mt-4">
         {activeTab === "general" && <GeneralSettings />}
         {activeTab === "appearance" && <AppearanceSettings />}
+        {/* */}
         {activeTab === "content" && <ContentSettings />}
         {activeTab === "user" && <UserSettings />}
         {activeTab === "system" && <SystemSettings />}
