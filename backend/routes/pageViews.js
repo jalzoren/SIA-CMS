@@ -11,8 +11,8 @@ router.post("/", (req, res) => {
   }
 
   const sql = `
-      INSERT INTO page_views (page_name, visit_count)
-      VALUES (?, 1)
+      INSERT INTO page_views (page_name, view_date, visit_count)
+      VALUES (?, CURDATE(), 1)
       ON DUPLICATE KEY UPDATE visit_count = visit_count + 1
   `;
 
