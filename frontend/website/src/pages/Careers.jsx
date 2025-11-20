@@ -52,7 +52,7 @@ const Careers = () => {
   }, [keyword, jobField, location, sortBy]);
 
   return (
-    <div className="news-section container py-5">
+    <div className="news-section1 container py-5">
       {/* Title Section */}
       {loading ? (
         <div className="text-center mb-5">
