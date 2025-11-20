@@ -1,3 +1,4 @@
+// backend/routes/layout.js
 import express from "express";
 const router = express.Router();
 
@@ -12,7 +13,7 @@ router.get("/", (req, res) => {
 // POST new layout
 router.post("/", (req, res) => {
   const { layout } = req.body;
-  const allowedLayouts = ["classic", "modern", "compact"];
+  const allowedLayouts = ["classic", "modern"];
 
   if (!allowedLayouts.includes(layout)) {
     return res.status(400).json({ success: false, message: "Invalid layout" });
