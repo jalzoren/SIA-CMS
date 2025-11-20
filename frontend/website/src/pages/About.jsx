@@ -4,43 +4,41 @@ import "../css/About.css";
 function About() {
   return (
     <div className="about-wrapper">
-      {/* --- Header Image --- */}
-      <div className="about-header">
-        <img src="/aboutus_doctors_img.svg" alt="Medical Team"/>
-      </div>
-
       {/* --- About Section --- */}
       <section className="about-intro">
+        <h2 className="title-center mb-4">
+          About <span className="title-primary">Us</span>
+        </h2>
         <div className="about-container">
+          <div className="about-image">
+            <img src="logo1.svg" alt="Hospital Hallway" />
+          </div>
           <div className="about-text">
-            <h1>About Us</h1>
+            <h2 className="about-title1 justify-content-center align-content-center d-flex">
+              Medi <span className="title-primary1">Sync</span>
+            </h2>{" "}
             <p>
-              Welcome to our hospital — a trusted center of care, compassion, and
-              medical excellence. We are committed to providing quality
+              Welcome to our hospital — a trusted center of care, compassion,
+              and medical excellence. We are committed to providing quality
               healthcare services that meet the needs of our patients and their
               families.
             </p>
             <p>
-              Our hospital is staffed with a dedicated team of highly skilled and
-              trained healthcare professionals who work hand in hand to deliver
-              safe, effective, and patient-centered medical care. With modern
-              facilities and advanced medical technology, we strive to ensure every
-              patient receives the best possible treatment in a comfortable and
-              caring environment.
+              Our hospital is staffed with a dedicated team of highly skilled
+              and trained healthcare professionals who work hand in hand to
+              deliver safe, effective, and patient-centered medical care. With
+              modern facilities and advanced medical technology, we strive to
+              ensure every patient receives the best possible treatment in a
+              comfortable and caring environment.
             </p>
             <p>
-              We believe that good health is the foundation of a better life — and
-              we are here to serve our community with integrity, compassion, and
-              excellence in all that we do.
+              We believe that good health is the foundation of a better life —
+              and we are here to serve our community with integrity, compassion,
+              and excellence in all that we do.
             </p>
-          </div>
-          <div className="about-image">
-            <img src="image 8.svg" alt="Hospital Hallway" />
           </div>
         </div>
       </section>
-
-      
 
       {/* --- Mission, Vision, Quality Policy --- */}
       <section className="about-trio">

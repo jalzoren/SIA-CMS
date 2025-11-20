@@ -1,7 +1,7 @@
 .about-wrapper {
   font-family: "Poppins", sans-serif;
   color: #0c224b;
-  background-color: #f8f9fb;
+  background-color: #FFF;
   line-height: 1.6;
 }
 
@@ -13,9 +13,28 @@
   padding-bottom: 60px;
 }
 
+.about-title1{
+  text-align: center;
+  padding: 40px 20px 10px 20px;
+  font-size: 1.5rem;
+  font-weight: 700;
+    color: var(--primary-color);
+
+}
+
+.title-primary1{
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-color2);
+}
+
+
+
+
 .about-header img {
   width: 100%;
-  max-width: 800px;
+  max-width: 600px;
   height: auto;
   display: block;
   margin: 0 auto;
@@ -24,8 +43,8 @@
 
 /* --- About Section --- */
 .about-intro {
-  padding: 60px 10%;
-  background: #f8f9fb;
+  padding: 30px 10%;
+  background: #FFF;
 }
 
 .about-container {
@@ -69,7 +88,6 @@
   width: 100%;
   max-width: 450px;
   border-radius: 10px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
 }
 
 
