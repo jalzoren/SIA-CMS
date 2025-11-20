@@ -19,6 +19,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import Chatbot from "../components/Chatbot";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { fetchMedia, fetchAnnouncements, fetchNews } from "../api/api";
+import { FaUserDoctor } from "react-icons/fa6";
 
 const POLL_INTERVAL = 5000; // 5 seconds
 
@@ -57,7 +58,9 @@ function Home() {
     const fetchAll = async () => {
       try {
         const mediaFiles = await fetchMedia();
-        setCarouselSlides(mediaFiles.filter((f) => f.section === "home-carousel"));
+        setCarouselSlides(
+          mediaFiles.filter((f) => f.section === "home-carousel")
+        );
         setHeroSlides(mediaFiles.filter((f) => f.section === "hero-image"));
 
         const announcementsData = await fetchAnnouncements();
@@ -147,8 +150,12 @@ function Home() {
                     blending modern medical expertise with heartfelt human
                     connection to help you heal, recover, and thrive.
                   </p>
-                  <button className="home-btn">
+                  <button className="home-btn m-1 ">
                     Book Appointment <MdOutlineBookmarkBorder />
+                  </button>
+                   <button className="doc-btn">
+                    Find a Doctor <FaUserDoctor />
+
                   </button>
                 </>
               )}
@@ -187,46 +194,31 @@ function Home() {
         </div>
       </section>
 
-      {/* --- Section 2: Hero --- */}
-      <section className="hero-section text-center py-5">
-        <div className="container">
-          {loading || heroSlides.length === 0 ? (
-            <Skeleton count={5} height={20} />
-          ) : (
-            <>
-              <div className="mx-auto" style={{ maxWidth: "800px" }}>
-                <p className="welcome-text text-uppercase fw-semibold mb-2">
-                  Welcome to{" "}
-                  <span style={{ color: "#4f9cf9" }}>MediSync</span>
-                </p>
-                <h1 className="hero-title mb-3">
-                  A Great Place to Receive Care
-                </h1>
-                <p className="hero-desc mb-4">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Quisque placerat scelerisque tortor ornare.
-                </p>
-                <button className="hero-btn">
-                  See More <MdOutlineArrowForward />
-                </button>
-              </div>
-              <div className="carousel-container mt-5">
-                <img
-                  src={heroSlides[currentHero].url}
-                  alt={heroSlides[currentHero].name}
-                  className="hero-image mx-auto d-block rounded-4 shadow-sm"
-                />
-              </div>
-            </>
-          )}
-        </div>
-      </section>
-
       {/* --- Section 3: Announcements --- */}
-      <section className="news-section py-5">
+      <div className="top"></div>
+
+     <div className="bottom">
+  <div className="hero-section">
+    <img src="logo1.svg" alt="Logo" className="bottom-logo" />
+    <p className="welcome-text">
+      Welcome to MEDISYNC
+    </p>
+
+
+          <h1 className="hero-title mb-3 justify-content-center d-flex text-center mt-3 ">A Great Place to Receive Care</h1>
+          <p className="hero-desc mb-4 justify-content-center d-flex text-center text-white">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
+            placerat scelerisque tortor ornare.
+          </p>
+     <button className="hero-btn d-flex align-items-center justify-content-center gap-2 mx-auto mb-4 bg-white fw-semibold text-center">
+  Learn About Us <MdOutlineArrowForward />
+</button>
+
+        </div>
+
         <div className="container">
-          <h2 className="news-title1 text-center mb-5">
-            <span className="highlight text-primary">Latest</span> Updates and
+          <h2 className="news-title1 text-center mb-5 text-white">
+            <span className="highlight text-white">Latest</span> Updates and
             Announcements
           </h2>
         </div>
@@ -247,64 +239,64 @@ function Home() {
               ref={announcementsCarouselRef}
               className="news-grid row flex-nowrap overflow-auto pb-3 px-2 px-lg-0"
             >
-              {newsLoading
-                ? Array(4)
-                    .fill()
-                    .map((_, i) => (
-                      <div
-                        key={i}
-                        className="col-lg-3 col-md-4 col-sm-6 flex-shrink-0"
-                        style={{ minWidth: 260 }}
-                      >
-                        <Skeleton height={220} borderRadius={20} />
-                      </div>
-                    ))
-                : announcements.length > 0
-                ? announcements.map((item) => (
+              {newsLoading ? (
+                Array(4)
+                  .fill()
+                  .map((_, i) => (
                     <div
-                      key={item.id}
+                      key={i}
                       className="col-lg-3 col-md-4 col-sm-6 flex-shrink-0"
                       style={{ minWidth: 260 }}
                     >
-                      <div
-                        className="news-card bg-white rounded-4 shadow-sm h-100 d-flex flex-column"
-                        onClick={() => navigate(`/announcements/${item.id}`)}
-                        style={{ cursor: "pointer" }}
-                      >
-                        <div
-                          className="news-image bg-light d-flex align-items-center justify-content-center rounded-top-4 overflow-hidden"
-                          style={{ height: 180 }}
-                        >
-                          {item.image ? (
-                            <img
-                              src={item.image}
-                              alt={item.short_title}
-                              style={{
-                                width: "100%",
-                                height: "100%",
-                                objectFit: "cover",
-                              }}
-                            />
-                          ) : (
-                            <span className="text-secondary fw-semibold">
-                              No Image
-                            </span>
-                          )}
-                        </div>
-                        <div className="news-content p-3 flex-grow-1">
-                          <h5 className="news-heading mb-2 text-primary">
-                            {item.short_title}
-                          </h5>
-                          <p className="news-date text-muted small mb-0">
-                            {new Date(item.created_at).toLocaleDateString()}
-                          </p>
-                        </div>
-                      </div>
+                      <Skeleton height={220} borderRadius={20} />
                     </div>
                   ))
-                : (
-                    <p className="text-center text-muted">No announcements yet.</p>
-                  )}
+              ) : announcements.length > 0 ? (
+                announcements.map((item) => (
+                  <div
+                    key={item.id}
+                    className="col-lg-3 col-md-4 col-sm-6 flex-shrink-0"
+                    style={{ minWidth: 260 }}
+                  >
+                    <div
+                      className="news-card bg-white rounded-4 shadow-sm h-100 d-flex flex-column"
+                      onClick={() => navigate(`/announcements/${item.id}`)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <div
+                        className="news-image bg-light d-flex align-items-center justify-content-center rounded-top-4 overflow-hidden"
+                        style={{ height: 180 }}
+                      >
+                        {item.image ? (
+                          <img
+                            src={item.image}
+                            alt={item.short_title}
+                            style={{
+                              width: "100%",
+                              height: "100%",
+                              objectFit: "cover",
+                            }}
+                          />
+                        ) : (
+                          <span className="text-secondary fw-semibold">
+                            No Image
+                          </span>
+                        )}
+                      </div>
+                      <div className="news-content p-3 flex-grow-1">
+                        <h5 className="news-heading mb-2 text-primary">
+                          {item.short_title}
+                        </h5>
+                        <p className="news-date text-muted small mb-0">
+                          {new Date(item.created_at).toLocaleDateString()}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p className="text-center text-muted">No announcements yet.</p>
+              )}
             </div>
           </div>
 
@@ -330,9 +322,7 @@ function Home() {
             </div>
           )}
         </div>
-      </section>
-
-     
+      </div>
 
       {/* --- Section 5: Services --- */}
       <section className="services-section py-5">
@@ -366,121 +356,14 @@ function Home() {
                   </div>
                 ))}
           </div>
-           <div className="text-center mt-4">
-              <button
-                className="services-btn"
-                onClick={() => navigate("/announcements")}
-              >
-                View All Services <MdOutlineArrowForward />
-              </button>
-            </div>
-        </div>
-      </section> 
-
-       {/* --- Section 4: News --- */}
-      <section className="news2-section py-5">
-        <div className="container">
-          <h2 className="news-title1 text-center mb-5">
-            <span className="highlight text-primary">Latest</span> News
-          </h2>
-        </div>
-        <div className="position-relative">
-          {/* Prev Button */}
-          {!newsSectionLoading && news.length > 0 && (
+          <div className="text-center mt-4">
             <button
-              className="carousel-nav-btn position-absolute start-0 top-50 translate-middle-y d-none d-md-flex"
-              onClick={() => scrollCarousel(newsCarouselRef, "prev")}
+              className="services-btn"
+              onClick={() => navigate("/announcements")}
             >
-              <FaChevronLeft />
+              View All Services <MdOutlineArrowForward />
             </button>
-          )}
-
-          {/* News Carousel */}
-          <div className="container">
-            <div
-              ref={newsCarouselRef}
-              className="news-grid row flex-nowrap overflow-auto pb-3 px-2 px-lg-0"
-              style={{ scrollBehavior: "smooth" }}
-            >
-              {newsSectionLoading
-                ? Array(4)
-                    .fill()
-                    .map((_, i) => (
-                      <div
-                        key={i}
-                        className="col-lg-3 col-md-4 col-sm-6 flex-shrink-0"
-                        style={{ minWidth: 260 }}
-                      >
-                        <Skeleton height={220} borderRadius={20} />
-                      </div>
-                    ))
-                : news.length > 0
-                ? news.map((item) => (
-                    <div
-                      key={item.id}
-                      className="col-lg-3 col-md-4 col-sm-6 flex-shrink-0"
-                      style={{ minWidth: 260 }}
-                    >
-                      <div
-                        className="news-card bg-white rounded-4 shadow-sm h-100 d-flex flex-column"
-                        onClick={() => navigate(`/news/${item.id}`)}
-                        style={{ cursor: "pointer" }}
-                      >
-                        <div
-                          className="news-image bg-light d-flex align-items-center justify-content-center rounded-top-4 overflow-hidden"
-                          style={{ height: 180 }}
-                        >
-                          {item.image_url ? (
-                            <img
-                              src={item.image_url}
-                              alt={item.short_title || item.full_title}
-                              style={{
-                                width: "100%",
-                                height: "100%",
-                                objectFit: "cover",
-                              }}
-                            />
-                          ) : (
-                            <span className="text-secondary fw-semibold">
-                              No Image
-                            </span>
-                          )}
-                        </div>
-                        <div className="news-content p-3 flex-grow-1">
-                          <h5 className="news-heading mb-2 text-primary">
-                            {item.short_title || item.full_title}
-                          </h5>
-                          <p className="news-date text-muted small mb-0">
-                            {new Date(item.created_at).toLocaleDateString()}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  ))
-                : (
-                    <p className="text-center text-muted">No news yet.</p>
-                  )}
-            </div>
           </div>
-
-          {/* Next Button */}
-          {!newsSectionLoading && news.length > 0 && (
-            <button
-              className="carousel-nav-btn position-absolute end-0 top-50 translate-middle-y d-none d-md-flex"
-              onClick={() => scrollCarousel(newsCarouselRef, "next")}
-            >
-              <FaChevronRight />
-            </button>
-          )}
-
-          {/* View All */}
-          {!newsSectionLoading && news.length > 0 && (
-            <div className="text-center mt-4">
-              <button className="news-btn" onClick={() => navigate("/news")}>
-                View All News <MdOutlineArrowForward />
-              </button>
-            </div>
-          )}
         </div>
       </section>
 
