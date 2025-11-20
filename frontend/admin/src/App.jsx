@@ -12,6 +12,7 @@ import Settings from "./pages/Settings";
 import Media from "./pages/Media";
 import ForgotPassword from "./pages/ForgotPassword";
 import Hospital from "./pages/Hospital";
+import Analytics from "./pages/Analytics";
 
 export default function App() {
   return (
@@ -35,6 +36,7 @@ export default function App() {
           <Route path="settings" element={<Settings />} />
           <Route path="media" element={<Media />} />
           <Route path="hospital" element={<Hospital />} />
+          <Route path="analytics" element={<Analytics />} />
         </Route>
 
         {/* Catch-all Redirect */}
