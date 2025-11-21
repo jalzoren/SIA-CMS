@@ -26,4 +26,25 @@ router.post("/", (req, res) => {
   });
 });
 
+
+router.get("/", (req, res) => {
+  const query = `
+    SELECT 
+      page_name, 
+      DATE_FORMAT(view_date, '%Y-%m-%d') AS view_date, 
+      visit_count 
+    FROM page_views 
+    ORDER BY view_date ASC
+  `;
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error("❌ Error fetching page views:", err);
+      return res.status(500).json({ message: "Server error" });
+    }
+    res.json(results);
+  });
+});
+
+
 export default router;
