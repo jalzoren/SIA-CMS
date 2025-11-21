@@ -1,19 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import Quill from "quill";
 import Swal from "sweetalert2";
+
 import "../css/about.css";
 import "quill/dist/quill.snow.css";
 import { IoMdCreate } from "react-icons/io";
 
-export default function Adminabout() {
+import GeneralSettings from "../components/settings/General";
+
+export default function Hospital() {
   const quillRef = useRef(null);
   const fileInputRef = useRef(null);
   const [quillInstance, setQuillInstance] = useState(null);
   const [fileInfo, setFileInfo] = useState(null);
-  const [activeTab, setActiveTab] = useState("about");
-  const isQuillInitialized = useRef(false);
+  const [activeTab, setActiveTab] = useState("general");
 
-  // Form states for About Hospital tab
   const [aboutForm, setAboutForm] = useState({
     aboutHospital: "",
     mission: "",
@@ -38,7 +39,7 @@ export default function Adminabout() {
     topicTags: "",
   });
 
-  // Initialize Quill editor (only for services tab)
+  // Initialize Quill editor
   useEffect(() => {
     if (activeTab === "services" && quillRef.current && !quillRef.current.__quill) {
       const q = new Quill(quillRef.current, {
@@ -74,7 +75,7 @@ export default function Adminabout() {
     }
   };
 
-  // Handle about form input change
+  // About form
   const handleAboutFormChange = (field, value) => {
     setAboutForm((prev) => ({
       ...prev,
@@ -82,7 +83,7 @@ export default function Adminabout() {
     }));
   };
 
-  // Handle contact form input change
+  // Contact form
   const handleContactFormChange = (field, value) => {
     setContactForm((prev) => ({
       ...prev,
@@ -90,7 +91,7 @@ export default function Adminabout() {
     }));
   };
 
-  // Handle services form input change
+  // Services form
   const handleServicesFormChange = (field, value) => {
     setServicesForm((prev) => ({
       ...prev,
@@ -98,12 +99,14 @@ export default function Adminabout() {
     }));
   };
 
-  // Handle submit (draft/publish)
+  // Submit Handler
   const handleSubmit = (status) => {
     const mode = status === "draft" ? "Draft Saved" : "Published";
     let content;
 
-    if (activeTab === "about") {
+    if (activeTab === "general") {
+      content = "General Settings Updated"; // Your component handles its own data
+    } else if (activeTab === "about") {
       content = aboutForm;
     } else if (activeTab === "contact") {
       content = contactForm;
@@ -133,9 +136,9 @@ export default function Adminabout() {
   return (
     <div className="cms-announcement-page">
       {/* Page Header */}
-      <h2 className="title">About Hospital</h2>
+      <h2 className="title">Hospital CMS Management</h2>
       <ul className="breadcrumbs">
-        <li>About Hospital</li>
+        <li>CMS</li>
         <li className="divider">/</li>
         <li>Admin Panel</li>
       </ul>
@@ -143,17 +146,26 @@ export default function Adminabout() {
       {/* Tabs Section */}
       <div className="cms-tabs">
         <div
+          className={`cms-tab-item ${activeTab === "general" ? "active" : ""}`}
+          onClick={() => setActiveTab("general")}
+        >
+          General Settings
+        </div>
+
+        <div
           className={`cms-tab-item ${activeTab === "about" ? "active" : ""}`}
           onClick={() => setActiveTab("about")}
         >
           About Hospital
         </div>
+
         <div
           className={`cms-tab-item ${activeTab === "services" ? "active" : ""}`}
           onClick={() => setActiveTab("services")}
         >
           Services
         </div>
+
         <div
           className={`cms-tab-item ${activeTab === "contact" ? "active" : ""}`}
           onClick={() => setActiveTab("contact")}
@@ -166,23 +178,17 @@ export default function Adminabout() {
       <div className="card announcement-card">
         <div className="head">
           <h3 className="announcement-title">
+            {activeTab === "general" && "General Settings Update"}
             {activeTab === "about" && "About Hospital Update"}
             {activeTab === "services" && "Services Update"}
             {activeTab === "contact" && "Contact Update"}
           </h3>
+
           <div className="announcement-actions">
-            <button
-              className="btn draft"
-              type="button"
-              onClick={() => handleSubmit("draft")}
-            >
+            <button className="btn draft" type="button" onClick={() => handleSubmit("draft")}>
               Draft
             </button>
-            <button
-              className="btn submit"
-              type="button"
-              onClick={() => handleSubmit("published")}
-            >
+            <button className="btn submit" type="button" onClick={() => handleSubmit("published")}>
               Publish
             </button>
           </div>
@@ -192,115 +198,81 @@ export default function Adminabout() {
       {/* Form Area */}
       <div className="cms-card cms-form-card">
         <form className="cms-form" onSubmit={(e) => e.preventDefault()}>
-          {/* About Hospital Tab - Multiple Text Inputs */}
+
+          {/* GENERAL SETTINGS TAB */}
+          {activeTab === "general" && (
+            <div className="general-settings-wrapper">
+              <GeneralSettings />
+            </div>
+          )}
+
+          {/* ABOUT TAB */}
           {activeTab === "about" && (
             <div className="about-form-container">
-              {/* Row 1: About Hospital, Mission, Vision */}
               <div className="about-form-row">
                 <div className="about-form-group">
                   <label>About Hospital Description</label>
                   <input
                     type="text"
-                    placeholder="Enter About Hospital Description"
                     value={aboutForm.aboutHospital}
+                    placeholder="Enter About Hospital Description"
                     onChange={(e) => handleAboutFormChange("aboutHospital", e.target.value)}
                   />
                 </div>
+
                 <div className="about-form-group">
                   <label>Mission Description</label>
                   <input
                     type="text"
-                    placeholder="Enter Mission Description"
                     value={aboutForm.mission}
+                    placeholder="Enter Mission Description"
                     onChange={(e) => handleAboutFormChange("mission", e.target.value)}
                   />
                 </div>
+
                 <div className="about-form-group">
                   <label>Vision Description</label>
                   <input
                     type="text"
-                    placeholder="Enter Vision Description"
                     value={aboutForm.vision}
+                    placeholder="Enter Vision Description"
                     onChange={(e) => handleAboutFormChange("vision", e.target.value)}
-                  />
-                </div>
-              </div>
-
-              {/* Row 2: Quality Policy, Core Values, Our History */}
-              <div className="about-form-row">
-                <div className="about-form-group">
-                  <label>Quality Policy Description</label>
-                  <input
-                    type="text"
-                    placeholder="Enter Quality Policy Description"
-                    value={aboutForm.qualityPolicy}
-                    onChange={(e) => handleAboutFormChange("qualityPolicy", e.target.value)}
-                  />
-                </div>
-                <div className="about-form-group">
-                  <label>Core Values Description</label>
-                  <input
-                    type="text"
-                    placeholder="Enter Core Values Description"
-                    value={aboutForm.coreValues}
-                    onChange={(e) => handleAboutFormChange("coreValues", e.target.value)}
-                  />
-                </div>
-                <div className="about-form-group">
-                  <label>Our History Description</label>
-                  <input
-                    type="text"
-                    placeholder="Enter Our History Description"
-                    value={aboutForm.ourHistory}
-                    onChange={(e) => handleAboutFormChange("ourHistory", e.target.value)}
-                  />
-                </div>
-              </div>
-
-              {/* Row 3: Privacy Policy (full width) */}
-              <div className="about-form-row">
-                <div className="about-form-group full-width">
-                  <label>Privacy Policy Description</label>
-                  <input
-                    type="text"
-                    placeholder="Enter Privacy Policy Description"
-                    value={aboutForm.privacyPolicy}
-                    onChange={(e) => handleAboutFormChange("privacyPolicy", e.target.value)}
                   />
                 </div>
               </div>
             </div>
           )}
 
-          {/* Contact Tab - Multiple Text Inputs */}
+          {/* CONTACT TAB */}
           {activeTab === "contact" && (
             <div className="about-form-container">
-              {/* Row 1: Contact Us, Contact Information, Mobile Numbers */}
               <div className="about-form-row">
                 <div className="about-form-group">
                   <label>Contact Us Description</label>
                   <input
                     type="text"
-                    placeholder="Enter Contact Us Description"
                     value={contactForm.contactUs}
+                    placeholder="Enter Contact Us Description"
                     onChange={(e) => handleContactFormChange("contactUs", e.target.value)}
                   />
                 </div>
+
                 <div className="about-form-group">
                   <label>Contact Information</label>
                   <input
                     type="text"
-                    placeholder="Enter Contact Information"
                     value={contactForm.contactInfo}
+                    placeholder="Enter Contact Information"
                     onChange={(e) => handleContactFormChange("contactInfo", e.target.value)}
                   />
                 </div>
+
                 <div className="about-form-group">
                   <label>Mobile Numbers</label>
                   <input
                     type="text"
-                    placeholder="Enter Mobile Numbers"
                     value={contactForm.mobileNumbers}
+                    placeholder="Enter Mobile Numbers"
                     onChange={(e) => handleContactFormChange("mobileNumbers", e.target.value)}
                   />
                 </div>
@@ -308,52 +280,50 @@ export default function Adminabout() {
             </div>
           )}
 
-          {/* Services Tab - News-style Layout */}
+          {/* SERVICES TAB */}
           {activeTab === "services" && (
             <>
-              {/* Row 1: Short Title, Full Title, Topic Tags */}
               <div className="cms-form-row">
                 <div className="cms-form-group">
                   <label>Short Title</label>
                   <input
                     type="text"
-                    placeholder="Enter Short Title"
                     value={servicesForm.shortTitle}
+                    placeholder="Enter Short Title"
                     onChange={(e) => handleServicesFormChange("shortTitle", e.target.value)}
                   />
                 </div>
+
                 <div className="cms-form-group">
                   <label>Full Title</label>
                   <input
                     type="text"
-                    placeholder="Enter Full Title"
                     value={servicesForm.fullTitle}
+                    placeholder="Enter Full Title"
                     onChange={(e) => handleServicesFormChange("fullTitle", e.target.value)}
                   />
                 </div>
+
                 <div className="cms-form-group">
                   <label>Topic Tags</label>
                   <input
                     type="text"
-                    placeholder="Enter Topic Tags"
                     value={servicesForm.topicTags}
+                    placeholder="Enter Topic Tags"
                     onChange={(e) => handleServicesFormChange("topicTags", e.target.value)}
                   />
                 </div>
               </div>
 
-              {/* Row 2: Description Box + Image Upload */}
               <div className="cms-form-row" style={{ alignItems: "flex-start" }}>
                 <div className="cms-form-group" style={{ flex: 2 }}>
                   <label>Description Box</label>
                   <div ref={quillRef} className="cms-quill-editor"></div>
                 </div>
-                <div className="cms-form-group" style={{ flex: 1, minWidth: "250px" }}>
+
+                <div className="cms-form-group" style={{ flex: 1 }}>
                   <label>Upload Image</label>
-                  <div
-                    className="file-upload-container"
-                    onClick={() => fileInputRef.current?.click()}
-                  >
+                  <div className="file-upload-container" onClick={() => fileInputRef.current?.click()}>
                     <input
                       ref={fileInputRef}
                       type="file"
@@ -361,17 +331,15 @@ export default function Adminabout() {
                       onChange={handleFileChange}
                       className="file-input-hidden"
                     />
+
                     <label className="upload-label">
-                      <IoMdCreate style={{ marginRight: "8px" }} /> Choose Image
+                      <IoMdCreate /> Choose Image
                     </label>
+
                     <div className="file-preview-area">
                       {fileInfo ? (
                         fileInfo.isImage && fileInfo.preview ? (
-                          <img
-                            src={fileInfo.preview}
-                            alt="preview"
-                            className="file-preview-img"
-                          />
+                          <img src={fileInfo.preview} alt="preview" className="file-preview-img" />
                         ) : (
                           <p className="file-name">{fileInfo.name}</p>
                         )

@@ -48,6 +48,44 @@ export default function Dashboard() {
     return () => clearInterval(timer);
   }, []);
 
+  // Main chart
+  useEffect(() => {
+    const normalizeDate = (d) => d.split("T")[0];
+
+    fetch("http://localhost:5000/api/track")
+      .then(res => res.json())
+      .then(data => {
+        const pages = [...new Set(data.map(d => d.page_name))];
+        const dates = [...new Set(data.map(d => normalizeDate(d.view_date)))].sort(
+          (a, b) => new Date(a) - new Date(b)
+        );
+
+        const series = pages.map(page => ({
+          name: page,
+          data: dates.map(date => {
+            const record = data.find(
+              d => d.page_name === page && normalizeDate(d.view_date) === date
+            );
+            return record ? record.visit_count : 0;
+          }),
+        }));
+
+        setChartCategories(dates);
+        setChartSeries(series);
+        setChartColors(generateColors(pages.length));
+
+        const total = data.reduce((sum, item) => sum + item.visit_count, 0);
+        setTotalVisits(total);
+
+        // Calculate Home page visits
+        const homeTotal = data
+        .filter(item => item.page_name === "/")
+        .reduce((sum, item) => sum + Number(item.visit_count), 0);
+        setHomeVisits(homeTotal);
+      })
+      .catch(err => console.error(err));
+  }, []);
+
   useEffect(() => {
     const normalizeDate = (d) => d.split("T")[0];
 
@@ -100,21 +138,24 @@ export default function Dashboard() {
       legend: { show: false },
     };
 
-    const chart = new ApexCharts(document.querySelector("#chart"), options);
+    const chart = new ApexCharts(document.querySelector("#dashboard-chart"), options);
     chart.render();
     return () => chart.destroy();
   }, [chartSeries, chartCategories, chartColors]);
 
   return (
     <div className="dashboard-page">
-      <h2 className="title">Dashboard</h2>
-      <ul className="breadcrumbs">
-        <li>Dashboard</li>
-        <li className="divider">/</li>
-        <li>Admin Dashboard</li>
-      </ul>
+      {/* Header */}
+      <div className="page-header">
+        <h1 className="title">Dashboard</h1>
+        <div className="breadcrumbs">
+          <span>Dashboard</span>
+          <span className="divider">/</span>
+          <span>Admin Dashboard</span>
+        </div>
+      </div>
 
-      {/* TOP CARDS */}
+      {/* Stats Cards */}
       <div className="info-data">
         {/* Home Visits */}
         <div className="card">
@@ -162,33 +203,19 @@ export default function Dashboard() {
               <h3>{time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" })}</h3>
               <p>{time.toLocaleDateString(undefined, { weekday: "long", year: "numeric", month: "short", day: "numeric" })}</p>
             </div>
-            <div className="calendar-wrapper">
-              <Calendar onChange={setDate} value={date} />
-            </div>
+            <Calendar onChange={setDate} value={date} />
           </div>
 
           <div className="hotline-section">
             <h3 className="hotline-title">Emergency Hotlines</h3>
             <table className="hotline-table">
               <thead>
-                <tr>
-                  <th>Hotline</th>
-                  <th>Numbers</th>
-                </tr>
+                <tr><th>Hotline</th><th>Numbers</th></tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Emergency Hotline</td>
-                  <td>911</td>
-                </tr>
-                <tr>
-                  <td>Fire Department</td>
-                  <td>0000-0000</td>
-                </tr>
-                <tr>
-                  <td>Hospital</td>
-                  <td>0000-0000</td>
-                </tr>
+                <tr><td>Emergency Hotline</td><td>911</td></tr>
+                <tr><td>Fire Department</td><td>0000-0000</td></tr>
+                <tr><td>Hospital</td><td>0000-0000</td></tr>
               </tbody>
             </table>
           </div>

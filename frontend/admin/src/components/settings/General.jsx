@@ -34,33 +34,7 @@ export default function General() {
           </div>
         </div>
 
-        <div className="col-md-6 mt-3">
-          <label>Default Language</label>
-          <select>
-            <option>Select language</option>
-            <option>English</option>
-            <option>Spanish</option>
-            <option>Filipino</option>
-          </select>
-        </div>
-
-        <div className="col-md-6 mt-3">
-          <label>Timezone / Date Format</label>
-          <select>
-            <option>Select a Timezone</option>
-            <option>GMT</option>
-            <option>PST</option>
-            <option>EST</option>
-          </select>
-          <div className="mt-2 d-flex gap-3">
-            <label>
-              <input type="radio" name="dateformat" /> MM/DD/YYYY
-            </label>
-            <label>
-              <input type="radio" name="dateformat" /> DD/MM/YYYY
-            </label>
-          </div>
-        </div>
+  
 
         
 
