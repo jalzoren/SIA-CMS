@@ -47,17 +47,29 @@ const Analytics = () => {
     { id: 7, page: "/services", clicks: 12, datetime: "2025-11-05" },
   ]);
 
+  // ===========================
+  // FIXED: Page counts for stat cards
+  // ===========================
+  const pageCounts = visitLogs.reduce((acc, log) => {
+    acc[log.page] = (acc[log.page] || 0) + log.clicks;
+    return acc;
+  }, {});
+
+  // ===========================
+  // FIXED statsCards (uses pageCounts)
+  // ===========================
   const statsCards = [
-    { Icon: FaGlobe, count: websiteVisits, label: "Website Visits", link: "https://localhost:5174/" },
-    { Icon: FaHome, count: homePageClicks, label: "Home Page Clicks" },
-    { Icon: FaSmile, count: servicesPageClicks, label: "Services Page Clicks" },
-    { Icon: FaUserMd, count: doctorsPageClicks, label: "Doctors Page Clicks" },
-    { Icon: FaBullhorn, count: announcementPageClicks, label: "Announcement Page Clicks" },
-    { Icon: FaNewspaper, count: newsPageClicks, label: "Latest News Page Clicks" },
-    { Icon: FaHeartbeat, count: healthTipsPageClicks, label: "Health Tips Page Clicks" },
-    { Icon: FaBriefcase, count: careersPageClicks, label: "Careers Page Clicks" },
-    { Icon: FaInfoCircle, count: aboutPageClicks, label: "About Page Clicks" },
-    { Icon: FaPhone, count: contactPageClicks, label: "Contact Page Clicks" },
+    { Icon: FaGlobe, count: visitLogs.reduce((t, l) => t + l.clicks, 0), label: "Total Website Clicks" },
+
+    { Icon: FaHome, count: pageCounts["/home"] || 0, label: "Home Page Clicks" },
+    { Icon: FaSmile, count: pageCounts["/services"] || 0, label: "Services Page Clicks" },
+    { Icon: FaUserMd, count: pageCounts["/doctors"] || 0, label: "Doctors Page Clicks" },
+    { Icon: FaBullhorn, count: pageCounts["/announcements"] || 0, label: "Announcement Page Clicks" },
+    { Icon: FaNewspaper, count: pageCounts["/news"] || 0, label: "News Page Clicks" },
+    { Icon: FaHeartbeat, count: pageCounts["/health-tips"] || 0, label: "Health Tips Page Clicks" },
+    { Icon: FaBriefcase, count: pageCounts["/careers"] || 0, label: "Careers Page Clicks" },
+    { Icon: FaInfoCircle, count: pageCounts["/about"] || 0, label: "About Page Clicks" },
+    { Icon: FaPhone, count: pageCounts["/contact"] || 0, label: "Contact Page Clicks" },
   ];
 
   const getMainChartData = () => {
@@ -78,7 +90,7 @@ const Analytics = () => {
   };
 
   // ===========================
-  //  MAIN CHART RENDER
+  // MAIN CHART RENDER
   // ===========================
   useEffect(() => {
     if (chartInstanceRef.current) {
@@ -88,7 +100,6 @@ const Analytics = () => {
 
     const mainData = getMainChartData();
 
-    // Default (line, bar, area)
     let options = {
       chart: {
         type: chartType === "area" ? "area" : chartType,
@@ -113,9 +124,6 @@ const Analytics = () => {
       grid: { borderColor: "#eef2ff", strokeDashArray: 4 },
     };
 
-    // ===========================
-    //    FIXED PIE OVERRIDE
-    // ===========================
     if (chartType === "pie") {
       options = {
         chart: { type: "pie", height: 420, toolbar: { show: false } },
@@ -144,7 +152,9 @@ const Analytics = () => {
     };
   }, [chartType, period]);
 
+  // ===========================
   // Mini sparklines
+  // ===========================
   useEffect(() => {
     if (chartRef.current) {
       chartRef.current.forEach((c) => {
@@ -166,8 +176,11 @@ const Analytics = () => {
       mini.render();
       chartRef.current.push(mini);
     });
-  }, [websiteVisits, homePageClicks, servicesPageClicks]);
+  }, [visitLogs]);
 
+  // ===========================
+  // Tables & Filters
+  // ===========================
   const filteredLogs = visitLogs
     .filter((log) => (selectedPage === "all" ? true : log.page === selectedPage))
     .filter((log) => {
