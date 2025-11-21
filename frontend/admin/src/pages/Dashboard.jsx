@@ -16,176 +16,114 @@ export default function Dashboard() {
     return () => clearInterval(timer);
   }, []);
 
+  // Main chart
   useEffect(() => {
     const options = {
-      chart: {
-        type: "line",
-        height: 600,
-        width: "100%",
-        toolbar: { show: true },
-        background: "transparent",
-      },
-      series: [
-        {
-          name: "Website Visits",
-          data: [2, 1, 2, 4, 5, 3, 7, 8],
-        },
-      ],
-      xaxis: {
-        categories: ["1", "2", "3", "4", "5", "6", "7", "8"],
-        title: { text: "Date" },
-        labels: { style: { colors: "#333", fontSize: "12px" } },
-      },
-      yaxis: {
-        title: { text: "Number of Visits" },
-        labels: { style: { colors: "#333", fontSize: "12px" } },
-      },
-      stroke: {
-        curve: "smooth",
-        width: 3,
-        colors: ["#043873"],
-      },
-      markers: {
-        size: 5,
-        colors: ["#000000ff"],
-        strokeColors: "#4f9cf9",
-        strokeWidth: 2,
-      },
-      fill: {
-        type: "gradient",
-        gradient: {
-          shadeIntensity: 1,
-          opacityFrom: 0.3,
-          opacityTo: 0.05,
-          stops: [0, 90, 100],
-          colorStops: [
-            { offset: 0, color: "#4f9cf9", opacity: 0.5 },
-            { offset: 100, color: "#043873", opacity: 0.1 },
-          ],
-        },
-      },
-      grid: {
-        borderColor: "rgba(0, 0, 0, 0.1)",
-        strokeDashArray: 4,
-      },
+      chart: { type: "line", height: 420, toolbar: { show: true }, background: "transparent" },
+      series: [{ name: "Website Visits", data: [2, 1, 2, 4, 5, 3, 7, 8] }],
+      xaxis: { categories: ["1","2","3","4","5","6","7","8"], title: { text: "Date" } },
+      yaxis: { title: { text: "Number of Visits" } },
+      stroke: { curve: "smooth", width: 3 },
+      markers: { size: 4 },
+      fill: { type: "gradient", gradient: { opacityFrom: 0.25, opacityTo: 0.05 } },
       colors: ["#4f9cf9"],
+      grid: { borderColor: "#eef2ff", strokeDashArray: 4 },
     };
 
-    const chart = new ApexCharts(document.querySelector("#chart"), options);
+    const chart = new ApexCharts(document.querySelector("#dashboard-chart"), options);
     chart.render();
     return () => chart.destroy();
   }, []);
 
+  // Sparkline mini charts for cards
+  useEffect(() => {
+    const sparklineElements = document.querySelectorAll(".stat-sparkline");
+    sparklineElements.forEach((el) => {
+      const data = Array.from({ length: 8 }, () => Math.floor(Math.random() * 100) + 20);
+      const mini = new ApexCharts(el, {
+        chart: { type: "area", sparkline: { enabled: true }, height: 50, width: 120 },
+        series: [{ data }],
+        stroke: { curve: "smooth", width: 2 },
+        fill: { opacity: 0.12 },
+        colors: ["#4f9cf9"],
+      });
+      mini.render();
+    });
+  }, []);
+
+  const statsCards = [
+    { Icon: FaGlobe, count: 126, label: "Website Visits" },
+    { Icon: FaPenFancy, count: 60, label: "Published Content" },
+    { Icon: FaFileAlt, count: 60, label: "Drafts Content" },
+  ];
+
   return (
     <div className="dashboard-page">
-      <h2 className="title">Dashboard</h2>
-      <ul className="breadcrumbs">
-        <li>Dashboard</li>
-        <li className="divider">/</li>
-        <li>Admin Dashboard</li>
-      </ul>
-
-      {/* TOP CARDS */}
-      <div className="info-data">
-        <a
-          href="https://localhost:5174/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="card"
-        >
-          <div className="icon-circle">
-            <FaGlobe />
-          </div>
-          <div>
-            <h2>126</h2>
-            <p>Website Visits</p>
-          </div>
-        </a>
-
-        <div className="card">
-          <div className="icon-circle">
-            <FaPenFancy />
-          </div>
-          <div>
-            <h2>60</h2>
-            <p>Published Content</p>
-          </div>
-        </div>
-
-        <div className="card">
-          <div className="icon-circle">
-            <FaFileAlt />
-          </div>
-          <div>
-            <h2>60</h2>
-            <p>Drafts Content</p>
-          </div>
+      {/* Header */}
+      <div className="page-header">
+        <h1 className="title">Dashboard</h1>
+        <div className="breadcrumbs">
+          <span>Dashboard</span>
+          <span className="divider">/</span>
+          <span>Admin Dashboard</span>
         </div>
       </div>
 
-      {/* MAIN CONTENT */}
+      {/* Stats Cards */}
+      <div className="info-data">
+        {statsCards.map((card, i) => {
+          const Icon = card.Icon;
+          return (
+            <div key={i} className="card stat-card">
+              <div className="card-top">
+                <div className="icon-circle">
+                  <Icon />
+                </div>
+                <div className="card-val">
+                  <h3>{card.count}</h3>
+                  <p>{card.label}</p>
+                </div>
+              </div>
+              <div className="sparkline-row">
+                <div className="stat-sparkline" />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Main Content */}
       <div className="main-content">
-        {/* CHART */}
         <div className="chart-card">
           <div className="chart-title">
             <h3 className="chart-name">Website Visits</h3>
             <MdFullscreen className="fullscreen-icon" />
           </div>
-          <div id="chart"></div>
-
-          {/* Visit Logs */}
-         
+          <div id="dashboard-chart" />
         </div>
 
-        {/* SIDE PANEL */}
+        {/* Side Panel */}
         <div className="side-panel">
-          {/* Calendar */}
           <div className="calendar-section">
             <div className="calendar-header">
-              <h3>
-                {time.toLocaleTimeString([], {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  second: "2-digit",
-                })}
-              </h3>
+              <h3>{time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" })}</h3>
               <p>
-                {time.toLocaleDateString(undefined, {
-                  weekday: "long",
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                })}
+                {time.toLocaleDateString(undefined, { weekday: "long", year: "numeric", month: "short", day: "numeric" })}
               </p>
             </div>
-            <div className="calendar-wrapper">
-              <Calendar onChange={setDate} value={date} />
-            </div>
+            <Calendar onChange={setDate} value={date} />
           </div>
 
-          {/* Hotline */}
           <div className="hotline-section">
             <h3 className="hotline-title">Emergency Hotlines</h3>
             <table className="hotline-table">
               <thead>
-                <tr>
-                  <th>Hotline</th>
-                  <th>Numbers</th>
-                </tr>
+                <tr><th>Hotline</th><th>Numbers</th></tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Emergency Hotline</td>
-                  <td>911</td>
-                </tr>
-                <tr>
-                  <td>Fire Department</td>
-                  <td>0000-0000</td>
-                </tr>
-                <tr>
-                  <td>Hospital</td>
-                  <td>0000-0000</td>
-                </tr>
+                <tr><td>Emergency Hotline</td><td>911</td></tr>
+                <tr><td>Fire Department</td><td>0000-0000</td></tr>
+                <tr><td>Hospital</td><td>0000-0000</td></tr>
               </tbody>
             </table>
           </div>

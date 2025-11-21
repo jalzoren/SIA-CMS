@@ -20,6 +20,7 @@ import Chatbot from "../components/Chatbot";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { fetchMedia, fetchAnnouncements, fetchNews } from "../api/api";
 import { FaUserDoctor } from "react-icons/fa6";
+import CookieConsent from "../components/CookieConsent";
 
 const POLL_INTERVAL = 5000; // 5 seconds
 
@@ -129,6 +130,8 @@ function Home() {
   ];
   return (
     <div>
+            <CookieConsent />
+
       {/* --- Section 1: Home Carousel --- */}
       <section className="home-section py-lg-5 py-1">
         <div className="container py-lg-4 py-3">
