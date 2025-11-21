@@ -18,7 +18,9 @@ import "../css/Analytics.css";
 
 const Analytics = () => {
   const [chartType, setChartType] = useState("line");
-  const [period, setPeriod] = useState("weekly");
+  const [period, setPeriod] = useState("weekly"); // default to weekly
+  const [weeklyData, setWeeklyData] = useState({ categories: [], series: [] });
+  const [monthlyData, setMonthlyData] = useState({ categories: [], series: [] });
   const chartRef = useRef(null);
   const chartInstanceRef = useRef(null);
 
@@ -32,6 +34,75 @@ const Analytics = () => {
   
 
   const [visitLogs, setVisitLogs] = useState([]);
+
+  useEffect(() => {
+    const fetchWeekly = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/track/weekly");
+  
+        const categoriesSet = new Set();
+        const pageMap = {};
+  
+        res.data.forEach(item => {
+          const date = item.date;
+          const page = item.page_name;
+          const total = Number(item.total);
+  
+          categoriesSet.add(date);
+          if (!pageMap[page]) pageMap[page] = {};
+          pageMap[page][date] = total;
+        });
+  
+        const categories = Array.from(categoriesSet).sort();
+        const series = Object.entries(pageMap).map(([page, data]) => ({
+          name: page,
+          data: categories.map(date => data[date] || 0)
+        }));
+  
+        setWeeklyData({ categories, series });
+      } catch (err) {
+        console.error("Error fetching weekly data:", err);
+        setWeeklyData({ categories: [], series: [] });
+      }
+    };
+  
+    fetchWeekly();
+  }, []);
+
+  useEffect(() => {
+    const fetchMonthly = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/track/monthly");
+  
+        const categoriesSet = new Set();
+        const pageMap = {};
+  
+        res.data.forEach(item => {
+          const date = item.date;
+          const page = item.page_name;
+          const total = Number(item.total);
+  
+          categoriesSet.add(date);
+          if (!pageMap[page]) pageMap[page] = {};
+          pageMap[page][date] = total;
+        });
+  
+        const categories = Array.from(categoriesSet).sort();
+        const series = Object.entries(pageMap).map(([page, data]) => ({
+          name: page,
+          data: categories.map(date => data[date] || 0)
+        }));
+  
+        setMonthlyData({ categories, series });
+      } catch (err) {
+        console.error("Error fetching monthly data:", err);
+        setMonthlyData({ categories: [], series: [] });
+      }
+    };
+  
+    fetchMonthly();
+  }, []);
+  
 
   useEffect(() => {
     const fetchPageViews = async () => {
@@ -81,20 +152,44 @@ const Analytics = () => {
 
   const getMainChartData = () => {
     if (period === "weekly") {
+      // Aggregate by weekday
+      const weekdays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+      const weeklyCounts = Array(7).fill(0);
+  
+      visitLogs.forEach(log => {
+        const d = new Date(log.datetime);
+        const dayIndex = d.getDay(); // 0=Sun ... 6=Sat
+        weeklyCounts[dayIndex] += log.clicks;
+      });
+  
       return {
-        categories: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-        series: [
-          { name: "Website Visits", data: [420, 520, 480, 610, 720, 690, 830] },
-        ],
+        categories: weekdays,
+        series: [{ name: "Website Visits", data: weeklyCounts }],
+      };
+    } else {
+      // Aggregate by month
+      const months = [
+        "January","February","March","April","May","June",
+        "July","August","September","October","November","December"
+      ];
+      const monthlyCounts = Array(12).fill(0);
+  
+      visitLogs.forEach(log => {
+        const d = new Date(log.datetime);
+        const monthIndex = d.getMonth(); // 0=Jan ... 11=Dec
+        monthlyCounts[monthIndex] += log.clicks;
+      });
+  
+      return {
+        categories: months,
+        series: [{ name: "Website Visits", data: monthlyCounts }],
       };
     }
-    return {
-      categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-      series: [
-        { name: "Website Visits", data: [3200, 4100, 3800, 4400, 5200, 4800, 6100, 7200, 6900, 8300, 7600, 8900] },
-      ],
-    };
   };
+  
+  
+  
+  
 
   // ===========================
   // MAIN CHART RENDER
@@ -104,60 +199,52 @@ const Analytics = () => {
       try { chartInstanceRef.current.destroy(); } catch {}
       chartInstanceRef.current = null;
     }
-
+  
     const mainData = getMainChartData();
-
-    let options = {
-      chart: {
-        type: chartType === "area" ? "area" : chartType,
-        height: 420,
-        animations: { enabled: true, easing: "easeinout", speed: 500 },
-        toolbar: { show: true },
-        zoom: { enabled: false },
-        foreColor: "#334155",
-        background: "transparent",
-      },
-      series: mainData.series,
-      stroke: { curve: "smooth", width: chartType === "bar" ? 0 : 3 },
-      fill: { opacity: chartType === "area" ? 0.25 : 0.6 },
-      plotOptions: { bar: { borderRadius: 6 } },
-      xaxis: {
-        categories: mainData.categories,
-        title: { text: period === "weekly" ? "Day of week" : "Month" },
-      },
-      markers: { size: 4 },
-      tooltip: { theme: "light", x: { show: true } },
-      colors: ["#4f9cf9"],
-      grid: { borderColor: "#eef2ff", strokeDashArray: 4 },
-    };
-
+  
+    let options = {};
+  
     if (chartType === "pie") {
       options = {
-        chart: { type: "pie", height: 420, toolbar: { show: false } },
+        chart: { type: "pie", height: 420, background: "transparent" },
         series: mainData.series[0].data,
         labels: mainData.categories,
-        legend: { position: "bottom" },
+        colors: ["#4f9cf9", "#60a5fa", "#7dd3fc", "#93c5fd", "#bae6fd", "#bfdbfe"],
         tooltip: { theme: "light" },
-        stroke: { width: 0 },
-        colors: [
-          "#4f9cf9", "#60a5fa", "#7dd3fc", "#93c5fd",
-          "#bae6fd", "#bfdbfe", "#dbeafe", "#f0f9ff",
-          "#38bdf8", "#1e40af", "#0284c7", "#0ea5e9",
-        ],
+        legend: { position: "bottom" },
+        responsive: [
+          { breakpoint: 480, options: { chart: { height: 300 }, legend: { position: "bottom" } } }
+        ]
+      };
+    } else {
+      options = {
+        chart: { type: chartType, height: 420, background: "transparent" },
+        series: mainData.series,
+        xaxis: { categories: mainData.categories, title: { text: period === "weekly" ? "Day of week" : "Month" } },
+        stroke: { curve: "smooth", width: chartType === "bar" ? 0 : 3 },
+        fill: { opacity: chartType === "area" ? 0.25 : 0.6 },
+        plotOptions: { bar: { borderRadius: 6 } },
+        colors: ["#4f9cf9", "#60a5fa", "#7dd3fc", "#93c5fd", "#bae6fd", "#bfdbfe"],
+        markers: { size: 4 },
+        tooltip: { theme: "light" },
+        grid: { borderColor: "#eef2ff", strokeDashArray: 4 }
       };
     }
-
+  
     const el = document.querySelector("#main-analytics-chart");
     chartInstanceRef.current = new ApexCharts(el, options);
     chartInstanceRef.current.render();
-
+  
     return () => {
       if (chartInstanceRef.current) {
         try { chartInstanceRef.current.destroy(); } catch {}
         chartInstanceRef.current = null;
       }
     };
-  }, [chartType, period]);
+  }, [chartType, period, visitLogs]);
+  
+  
+  
 
   // ===========================
   // Mini sparklines
