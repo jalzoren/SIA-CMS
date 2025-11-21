@@ -1,5 +1,6 @@
 // frontend/src/components/Analytics.jsx
 import React, { useEffect, useRef, useState } from "react";
+import axios from "axios";
 import {
   FaGlobe,
   FaHome,
@@ -26,26 +27,32 @@ const Analytics = () => {
   const [dateStart, setDateStart] = useState("");
   const [dateEnd, setDateEnd] = useState("");
 
-  const [websiteVisits, setWebsiteVisits] = useState(12456);
-  const [homePageClicks, setHomePageClicks] = useState(3420);
-  const [servicesPageClicks, setServicesPageClicks] = useState(1850);
-  const [doctorsPageClicks, setDoctorsPageClicks] = useState(940);
-  const [announcementPageClicks, setAnnouncementPageClicks] = useState(420);
-  const [newsPageClicks, setNewsPageClicks] = useState(770);
-  const [healthTipsPageClicks, setHealthTipsPageClicks] = useState(301);
-  const [careersPageClicks, setCareersPageClicks] = useState(122);
-  const [aboutPageClicks, setAboutPageClicks] = useState(98);
-  const [contactPageClicks, setContactPageClicks] = useState(210);
+  const [websiteVisits] = useState();
+  const [homePageClicks] = useState();
+  
 
-  const [visitLogs, setVisitLogs] = useState([
-    { id: 1, page: "/home", clicks: 15, datetime: "2025-10-31" },
-    { id: 2, page: "/services", clicks: 32, datetime: "2025-11-01" },
-    { id: 3, page: "/contact", clicks: 9, datetime: "2025-11-02" },
-    { id: 4, page: "/doctors", clicks: 54, datetime: "2025-11-03" },
-    { id: 5, page: "/news", clicks: 22, datetime: "2025-11-03" },
-    { id: 6, page: "/home", clicks: 41, datetime: "2025-11-04" },
-    { id: 7, page: "/services", clicks: 12, datetime: "2025-11-05" },
-  ]);
+  const [visitLogs, setVisitLogs] = useState([]);
+
+  useEffect(() => {
+    const fetchPageViews = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/track"); // match backend
+        const logsFromDB = res.data.map((row, index) => ({
+          id: index + 1,
+          page: row.page_name,
+          clicks: Number(row.visit_count), // ensure numeric
+          datetime: row.view_date,
+        }));        
+        setVisitLogs(logsFromDB);
+      } catch (err) {
+        console.error("Error fetching page views:", err);
+        setVisitLogs([]);
+      }
+    };
+    fetchPageViews();
+  }, []);
+  
+  
 
   // ===========================
   // FIXED: Page counts for stat cards
@@ -56,21 +63,21 @@ const Analytics = () => {
   }, {});
 
   // ===========================
-  // FIXED statsCards (uses pageCounts)
+  // FIXED: statsCards (dynamic from pageCounts)
   // ===========================
   const statsCards = [
     { Icon: FaGlobe, count: visitLogs.reduce((t, l) => t + l.clicks, 0), label: "Total Website Clicks" },
-
-    { Icon: FaHome, count: pageCounts["/home"] || 0, label: "Home Page Clicks" },
+    { Icon: FaHome, count: pageCounts["/"] || 0, label: "Home Page Clicks" },
     { Icon: FaSmile, count: pageCounts["/services"] || 0, label: "Services Page Clicks" },
     { Icon: FaUserMd, count: pageCounts["/doctors"] || 0, label: "Doctors Page Clicks" },
     { Icon: FaBullhorn, count: pageCounts["/announcements"] || 0, label: "Announcement Page Clicks" },
     { Icon: FaNewspaper, count: pageCounts["/news"] || 0, label: "News Page Clicks" },
-    { Icon: FaHeartbeat, count: pageCounts["/health-tips"] || 0, label: "Health Tips Page Clicks" },
+    { Icon: FaHeartbeat, count: pageCounts["/health"] || 0, label: "Health Tips Page Clicks" },
     { Icon: FaBriefcase, count: pageCounts["/careers"] || 0, label: "Careers Page Clicks" },
     { Icon: FaInfoCircle, count: pageCounts["/about"] || 0, label: "About Page Clicks" },
     { Icon: FaPhone, count: pageCounts["/contact"] || 0, label: "Contact Page Clicks" },
   ];
+
 
   const getMainChartData = () => {
     if (period === "weekly") {
@@ -275,12 +282,12 @@ const Analytics = () => {
           <div className="logs-toolbar">
             <select value={selectedPage} onChange={(e) => setSelectedPage(e.target.value)}>
               <option value="all">All Pages</option>
-              <option value="/home">Home</option>
+              <option value="/">Home</option>
               <option value="/services">Services</option>
               <option value="/doctors">Doctors</option>
               <option value="/announcements">Announcements</option>
               <option value="/news">News</option>
-              <option value="/health-tips">Health Tips</option>
+              <option value="/health">Health Tips</option>
               <option value="/careers">Careers</option>
               <option value="/about">About</option>
               <option value="/contact">Contact</option>
