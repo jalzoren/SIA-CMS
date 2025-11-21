@@ -1,0 +1,206 @@
+/* HOME2 GLOBAL */
+.home2-container {
+  width: 100%;
+  overflow-x: hidden;
+  font-family: "Poppins", sans-serif;
+}
+
+/* HERO */
+.home2-hero {
+  background: url("/src/assets/hero-bg.jpg") center/cover no-repeat;
+  height: 85vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.home2-hero-overlay {
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center;
+}
+
+.home2-hero-content {
+  max-width: 700px;
+  margin-left: 8%;
+  color: #fff;
+}
+
+.home2-hero-content h1 {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.home2-hero-content p {
+  margin-top: 10px;
+  font-size: 1.1rem;
+}
+
+.home2-hero-buttons {
+  margin-top: 25px;
+  display: flex;
+  gap: 15px;
+}
+
+.home2-btn {
+  padding: 12px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 600;
+  display: inline-block;
+  transition: 0.2s ease;
+}
+
+.home2-btn.primary {
+  background: #043873;
+  color: #fff;
+}
+
+.home2-btn.secondary {
+  background: #fff;
+  color: #043873;
+}
+
+.home2-btn:hover {
+  opacity: 0.8;
+}
+
+/* SERVICES */
+.home2-services {
+  padding: 80px 5%;
+  text-align: center;
+  background: #ffffff;
+}
+
+.home2-services h2 {
+  font-size: 2rem;
+  margin-bottom: 40px;
+}
+
+.home2-service-cards {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.home2-service-card {
+  background: #fff;
+  border: 1px solid #d6d6d6;
+  width: 300px;
+  padding: 25px;
+  border-radius: 12px;
+  text-align: center;
+  transition: 0.25s ease;
+}
+
+.home2-service-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+}
+
+.home2-service-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 10px;
+}
+
+.home2-service-card .count {
+  margin-top: 12px;
+  display: block;
+  font-weight: 600;
+  color: #0453a0;
+}
+
+/* UPDATES */
+.home2-updates {
+  padding: 80px 5%;
+  background: #f2f7ff;
+  text-align: center;
+}
+
+.home2-updates-box {
+  background: #fff;
+  padding: 40px;
+  max-width: 900px;
+  margin: auto;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+
+.home2-updates-box h3 {
+  font-size: 1.6rem;
+  margin-bottom: 15px;
+}
+
+.home2-updates-box .highlight {
+  color: #043873;
+  font-weight: 700;
+}
+
+/* MINI CARDS */
+.home2-mini-cards {
+  margin-top: 25px;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.mini-card {
+  background: #043873;
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+/* ABOUT */
+.home2-about {
+  padding: 80px 5%;
+  text-align: center;
+}
+
+.home2-about h3 {
+  color: #043873;
+  font-weight: 600;
+}
+
+.home2-about h2 {
+  margin: 15px 0;
+  font-size: 2rem;
+}
+
+.home2-btn.outline {
+  border: 2px solid #043873;
+  color: #043873;
+  background: transparent;
+}
+
+/* CONTACT */
+.home2-contact {
+  padding: 80px 5%;
+  background: #ffffff;
+  text-align: center;
+}
+
+.home2-contact-grid {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+}
+
+.contact-card {
+  padding: 20px;
+  border-radius: 10px;
+  background: #f8f8f8;
+  text-align: center;
+}
+
+.contact-map {
+  height: 220px;
+  border-radius: 10px;
+  overflow: hidden;
+}

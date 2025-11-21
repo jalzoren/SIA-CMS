@@ -1,3 +1,4 @@
+// frontend/website/src/App.jsx
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import axios from "axios";
@@ -9,6 +10,7 @@ import usePageTracker from "./hooks/usePageTracker";
 import './css/layout.css';
 
 import Home from "./pages/Home";
+import Home2 from "./pages2/Home2";
 import Services from "./pages/Services";
 import Doctors from "./pages/Doctors";
 import News from "./pages/News";
@@ -63,6 +65,7 @@ function AppRoutes({ selectedLayout }) {
 
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/home2" element={<Home2 />} />
         <Route path="/services" element={<Services />} />
         <Route path="/doctors" element={<Doctors />} />
         <Route path="/news" element={<News />} />
