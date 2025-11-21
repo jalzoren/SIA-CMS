@@ -48,44 +48,6 @@ export default function Dashboard() {
     return () => clearInterval(timer);
   }, []);
 
-  // Main chart
-  useEffect(() => {
-    const normalizeDate = (d) => d.split("T")[0];
-
-    fetch("http://localhost:5000/api/track")
-      .then(res => res.json())
-      .then(data => {
-        const pages = [...new Set(data.map(d => d.page_name))];
-        const dates = [...new Set(data.map(d => normalizeDate(d.view_date)))].sort(
-          (a, b) => new Date(a) - new Date(b)
-        );
-
-        const series = pages.map(page => ({
-          name: page,
-          data: dates.map(date => {
-            const record = data.find(
-              d => d.page_name === page && normalizeDate(d.view_date) === date
-            );
-            return record ? record.visit_count : 0;
-          }),
-        }));
-
-        setChartCategories(dates);
-        setChartSeries(series);
-        setChartColors(generateColors(pages.length));
-
-        const total = data.reduce((sum, item) => sum + item.visit_count, 0);
-        setTotalVisits(total);
-
-        // Calculate Home page visits
-        const homeTotal = data
-        .filter(item => item.page_name === "/")
-        .reduce((sum, item) => sum + Number(item.visit_count), 0);
-        setHomeVisits(homeTotal);
-      })
-      .catch(err => console.error(err));
-  }, []);
-
   useEffect(() => {
     const normalizeDate = (d) => d.split("T")[0];
 
@@ -194,7 +156,7 @@ export default function Dashboard() {
             <h3 className="chart-name">Website Visits</h3>
             <MdFullscreen className="fullscreen-icon" />
           </div>
-          <div id="chart"></div>
+          <div id="dashboard-chart"></div>
         </div>
 
         <div className="side-panel">
