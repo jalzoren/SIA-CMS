@@ -88,7 +88,7 @@
 }
 
 /* Card */
-.card {
+.card1 {
   background: var(--white);
   border-radius: var(--card-radius);
   padding: 14px;
@@ -102,7 +102,6 @@
 }
 
 .card:hover {
-  transform: translateY(-6px);
   box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
 }
 

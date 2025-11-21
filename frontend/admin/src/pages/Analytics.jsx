@@ -228,7 +228,7 @@ const Analytics = () => {
         {statsCards.map((card, i) => {
           const Icon = card.Icon;
           return (
-            <div className="card stat-card" key={i}>
+            <div className="card1 stat-card" key={i}>
               <div className="card-top">
                 <div className="icon-circle small"><Icon /></div>
                 <div className="card-val">
