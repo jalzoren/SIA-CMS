@@ -43,16 +43,14 @@
   position: relative;
   z-index: 2;
 }
-
-/* Hero Background Image */
-.modern .home-right {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
+.modern .home-section {
+  min-height: 100vh; /* instead of 600px */
 }
+
+.modern .home-right {
+  height: 100vh; /* force parent to match the image */
+}
+
 
 .modern .home-right .carousel-slide {
   position: absolute;
@@ -71,7 +69,7 @@
   filter: brightness(0.85);
   display: flex;
   justify-content: center;
-  border-radius: 0;   /* remove if you want full coverage without rounded edges */
+  border-radius: 20px;   /* remove if you want full coverage without rounded edges */
 }
 
 
@@ -94,19 +92,27 @@
 .modern .home-right .dot.active {
   background-color: white;
 }
-
-/* Hero Text Content - Right Side */
-.modern .home-left {  z-index: 3;
-  text-align: right;
+.modern .home-left {
+  text-align: center;
+  z-index: 3;
   max-width: 650px;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   justify-content: center;
   align-items: center;
-  padding: 40px 30px; 
+  padding: 40px 30px;
   margin: 0 auto;
   border-radius: 20px;
 }
+
+.modern .home-left h1 {
+  text-align: center;
+}
+
+.modern .home-left p {
+  text-align: center;
+}
+
 
 .modern .home-left h1 {
   font-family: 'EB Garamond', serif;
