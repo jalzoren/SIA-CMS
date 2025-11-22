@@ -1,3 +1,4 @@
+// frontend/admin/src/pages/Settings.jsx
 import { useState, useEffect } from "react";
 import GeneralSettings from "../components/settings/General";
 import AppearanceSettings from "../components/settings/Appearance";

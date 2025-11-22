@@ -1,3 +1,4 @@
+// frontend/website/src/hooks/usePageTracker.js
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
@@ -12,3 +13,5 @@ export default function usePageTracker() {
     });
   }, [location]);
 }
+
+
