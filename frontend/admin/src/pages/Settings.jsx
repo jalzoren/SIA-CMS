@@ -1,3 +1,4 @@
+// frontend/admin/src/pages/Settings.jsx
 import { useState } from "react";
 import AppearanceSettings from "../components/settings/Appearance";
 import UserSettings from "../components/settings/User";

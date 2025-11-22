@@ -8,28 +8,55 @@ import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import usePageTracker from "./hooks/usePageTracker";
 
-import Home from "./pages/Home";  // ← Make sure you import Home!
 import Services from "./pages/Services";
 import Doctors from "./pages/Doctors";
 import News from "./pages/News";
+import ComponentAnnouncement from "./components/ComponentAnnouncement";
 import Announcements from "./pages/Announcements";
 import Careers from "./pages/Careers";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
-import Health from "./pages/Health";
-
 import ComponentNews from "./components/ComponentNews";
-import ComponentAnnouncement from "./components/ComponentAnnouncement";
 import ComponentHealth from "./components/ComponentHealth";
+import Health from "./pages/Health";
 
 import "./App.css";
 
 function App() {
-  
+  // Global layout state
+  const [selectedLayout, setSelectedLayout] = useState("classic");
+
+useEffect(() => {
+  const fetchLayout = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/layout");
+      if (res.data.layout) setSelectedLayout(res.data.layout);
+    } catch (err) {
+      console.error("Failed to fetch layout from backend:", err);
+    }
+  };
+  fetchLayout();
+}, []);
+
+
+  // Apply layout class to <body>
+  useEffect(() => {
+    document.body.classList.remove("classic", "modern", "compact");
+    document.body.classList.add(selectedLayout);
+  }, [selectedLayout]);
 
   return (
     <Router>
-      <usePageTracker />
+      <AppRoutes selectedLayout={selectedLayout} />
+    </Router>
+  );
+}
+
+function AppRoutes({ selectedLayout }) {
+  usePageTracker();
+
+  return (
+    <>
       <ScrollToTop />
       <Navbar />
 
@@ -50,7 +77,7 @@ function App() {
       </Routes>
 
       <Footer />
-    </Router>
+    </>
   );
 }
 

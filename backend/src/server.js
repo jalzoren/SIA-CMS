@@ -53,3 +53,20 @@ app.get("/api/test", (req, res) => {
 // Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+let currentLayout = 'modern'; // Change this line
+
+app.get('/api/layout', (req, res) => {
+  res.json({ layout: currentLayout });
+});
+
+// Add POST endpoint to switch layouts
+app.post('/api/layout', (req, res) => {
+  const { layout } = req.body;
+  if (layout === 'classic' || layout === 'modern') {
+    currentLayout = layout;
+    res.json({ success: true, layout: currentLayout });
+  } else {
+    res.status(400).json({ error: 'Invalid layout' });
+  }
+});

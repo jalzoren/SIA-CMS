@@ -22,25 +22,18 @@ export default function Dashboard() {
   const [chartCategories, setChartCategories] = useState([]);
   const [chartSeries, setChartSeries] = useState([]);
   const [chartColors, setChartColors] = useState([]);
-  const [totalVisits, setTotalVisits] = useState(0);
-  const [homeVisits, setHomeVisits] = useState(0); // NEW: for Home page
+  const [homeVisits, setHomeVisits] = useState(0);
 
   const [publishedCount, setPublishedCount] = useState(0);
   const [draftCount, setDraftCount] = useState(0);
 
-  
   useEffect(() => {
-    fetch("http://localhost:5000/api/posts") // your posts route
+    fetch("http://localhost:5000/api/posts")
       .then(res => res.json())
       .then(data => {
-        // Count published and draft
-        const published = data.filter(post => post.status === "published").length;
-        const draft = data.filter(post => post.status === "draft").length;
-
-        setPublishedCount(published);
-        setDraftCount(draft);
-      })
-      .catch(err => console.error(err));
+        setPublishedCount(data.filter(p => p.status === "published").length);
+        setDraftCount(data.filter(p => p.status === "draft").length);
+      });
   }, []);
 
   useEffect(() => {
@@ -55,17 +48,15 @@ export default function Dashboard() {
       .then(res => res.json())
       .then(data => {
         const pages = [...new Set(data.map(d => d.page_name))];
-        const dates = [...new Set(data.map(d => normalizeDate(d.view_date)))].sort(
-          (a, b) => new Date(a) - new Date(b)
-        );
+        const dates = [...new Set(data.map(d => normalizeDate(d.view_date)))];
 
         const series = pages.map(page => ({
           name: page,
           data: dates.map(date => {
-            const record = data.find(
+            const r = data.find(
               d => d.page_name === page && normalizeDate(d.view_date) === date
             );
-            return record ? record.visit_count : 0;
+            return r ? r.visit_count : 0;
           }),
         }));
 
@@ -73,116 +64,104 @@ export default function Dashboard() {
         setChartSeries(series);
         setChartColors(generateColors(pages.length));
 
-        const total = data.reduce((sum, item) => sum + item.visit_count, 0);
-        setTotalVisits(total);
+        const home = data
+          .filter(i => i.page_name === "/")
+          .reduce((a, b) => a + b.visit_count, 0);
 
-        // Calculate Home page visits
-        const homeTotal = data
-        .filter(item => item.page_name === "/")
-        .reduce((sum, item) => sum + Number(item.visit_count), 0);
-        setHomeVisits(homeTotal);
-      })
-      .catch(err => console.error(err));
+        setHomeVisits(home);
+      });
   }, []);
 
   useEffect(() => {
-    if (chartSeries.length === 0) return;
+    if (!chartSeries.length) return;
 
-    const options = {
-      chart: { type: "line", height: 600, toolbar: { show: true }, background: "transparent" },
-      series: chartSeries,
-      xaxis: { categories: chartCategories, title: { text: "Date" } },
-      yaxis: { title: { text: "Number of Visits" } },
-      stroke: { curve: "smooth", width: 3 },
-      markers: { size: 5 },
-      grid: { borderColor: "rgba(0,0,0,0.1)", strokeDashArray: 4 },
-      colors: chartColors,
-      legend: { show: false },
-    };
+    const chart = new ApexCharts(
+      document.querySelector("#dashboard-chart"),
+      {
+        chart: { type: "line", height: 600 },
+        xaxis: { categories: chartCategories },
+        series: chartSeries,
+        colors: chartColors,
+        stroke: { curve: "smooth", width: 3 }
+      }
+    );
 
-    const chart = new ApexCharts(document.querySelector("#dashboard-chart"), options);
     chart.render();
     return () => chart.destroy();
-  }, [chartSeries, chartCategories, chartColors]);
+  }, [chartSeries]);
 
   return (
-    <div className="dashboard-page">
-      {/* Header */}
-      <div className="page-header">
-        <h1 className="title">Dashboard</h1>
-        <div className="breadcrumbs">
+    <div className="adminDashboard-page">
+
+      <div className="adminDashboard-header">
+        <h1 className="adminDashboard-title">Dashboard</h1>
+
+        <div className="adminBreadcrumbs">
           <span>Dashboard</span>
           <span className="divider">/</span>
           <span>Admin Dashboard</span>
         </div>
       </div>
 
-      {/* Stats Cards */}
-      <div className="info-data">
-        {/* Home Visits */}
-        <div className="card">
-          <div className="icon-circle"><FaGlobe /></div>
-          <div>
-            <h2>{homeVisits}</h2>
-            <p>Website Visits (Home)</p>
-          </div>
+      <div className="adminStats">
+        <div className="stats-card">
+          <div className="stats-iconCircle"><FaGlobe /></div>
+          <h2>{homeVisits}</h2>
+          <p>Website Visits (Home)</p>
         </div>
 
-        {/* Published Content */}
-        <div className="card">
-          <div className="icon-circle"><FaPenFancy /></div>
-          <div>
-            <h2>{publishedCount}</h2>
-            <p>Published Content</p>
-          </div>
+        <div className="stats-card">
+          <div className="stats-iconCircle"><FaPenFancy /></div>
+          <h2>{publishedCount}</h2>
+          <p>Published Content</p>
         </div>
 
-        {/* Draft Content */}
-        <div className="card">
-          <div className="icon-circle"><FaFileAlt /></div>
-          <div>
-            <h2>{draftCount}</h2>
-            <p>Draft Content</p>
-          </div>
+        <div className="stats-card">
+          <div className="stats-iconCircle"><FaFileAlt /></div>
+          <h2>{draftCount}</h2>
+          <p>Draft Content</p>
         </div>
       </div>
 
-
-
-      {/* MAIN CONTENT */}
-      <div className="main-content">
-        <div className="chart-card">
-          <div className="chart-title">
-            <h3 className="chart-name">Website Visits</h3>
-            <MdFullscreen className="fullscreen-icon" />
+      <div className="adminMain">
+        
+        <div className="adminChartCard">
+          <div className="adminChart-header">
+            <h3 className="adminChart-title">Website Visits</h3>
+            <MdFullscreen className="adminChart-fullscreen" />
           </div>
+
           <div id="dashboard-chart"></div>
         </div>
 
-        <div className="side-panel">
-          <div className="calendar-section">
-            <div className="calendar-header">
-              <h3>{time.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" })}</h3>
-              <p>{time.toLocaleDateString(undefined, { weekday: "long", year: "numeric", month: "short", day: "numeric" })}</p>
-            </div>
-            <Calendar onChange={setDate} value={date} />
+        <div className="adminSidePanel">
+          <div className="adminCalendar">
+            <h3>{time.toLocaleTimeString()}</h3>
+            <p>{time.toLocaleDateString()}</p>
+            <Calendar value={date} onChange={setDate} />
           </div>
 
-          <div className="hotline-section">
-            <h3 className="hotline-title">Emergency Hotlines</h3>
-            <table className="hotline-table">
+          <div className="adminHotline">
+            <h3>Emergency Hotlines</h3>
+            <table className="adminHotline-table">
               <thead>
-                <tr><th>Hotline</th><th>Numbers</th></tr>
+                <tr>
+                  <th>Hotline</th>
+                  <th>Number</th>
+                </tr>
               </thead>
+
               <tbody>
-                <tr><td>Emergency Hotline</td><td>911</td></tr>
-                <tr><td>Fire Department</td><td>0000-0000</td></tr>
+                <tr><td>Emergency</td><td>911</td></tr>
+                <tr><td>Fire Dept</td><td>0000-0000</td></tr>
                 <tr><td>Hospital</td><td>0000-0000</td></tr>
               </tbody>
+
             </table>
           </div>
         </div>
       </div>
+
     </div>
   );
 }
