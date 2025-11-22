@@ -16,9 +16,7 @@
   font-family: "Inter", sans-serif;
 }
 
-/* --------------------------------------------------------------
-   SIDEBAR
-   -------------------------------------------------------------- */
+/* ------------------ SIDEBAR ------------------ */
 .sidebar {
   width: var(--sidebar-width);
   background: var(--white);
@@ -28,7 +26,7 @@
   overflow-y: auto;
 }
 .sidebar.collapsed {
-  width: 70px; /* icon-only when collapsed */
+  width: 70px;
 }
 .sidebar .logo {
   font-weight: 700;
@@ -64,18 +62,16 @@
   font-size: 20px;
 }
 
-
+/* ------------------ DASHBOARD PAGE ------------------ */
 .dashboard-page {
-  flex: 1; /* take remaining space */
+  flex: 1;
   padding: 25px 40px;
   display: flex;
   flex-direction: column;
   background-color: var(--bg-blue);
 }
 
-/* ==============================================================
-   TITLE & BREADCRUMBS
-   ============================================================== */
+/* ------------------ HEADER ------------------ */
 .title {
   font-size: 28px;
   color: var(--primary-color);
@@ -95,30 +91,28 @@
   margin: 0 5px;
 }
 
-/* ==============================================================
-   TOP CARDS – FLEX (always same height)
-   ============================================================== */
+
+
 .info-data {
   display: flex;
-  justify-content: space-between;
-  align-items: stretch;
+  justify-content: center;
   gap: 24px;
   margin-bottom: 24px;
   flex-wrap: wrap;
+  align-items: center; 
 }
 
 .info-data .card {
-  flex: 1;
-  min-width: 240px;
+  flex: 0 1 400px; 
   max-width: 100%;
   height: 140px;
   background: var(--white);
   border-radius: 12px;
   padding: 20px;
   display: flex;
-  flex-direction: column; /* Stack icon + text vertically */
+  flex-direction: column;
   align-items: center;
-  justify-content: center; /* Center vertically */
+  justify-content: center;
   gap: 10px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
   transition: transform 0.25s, box-shadow 0.25s;
@@ -127,12 +121,18 @@
   text-align: center;
 }
 
+/* Responsive adjustment */
+@media (max-width: 1024px) {
+  .info-data {
+    justify-content: center; /* stay centered on smaller screens */
+  }
+}
+
 .info-data .card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
 }
 
-/* ===== ICON STYLE ===== */
 .icon-circle {
   width: 60px;
   height: 60px;
@@ -144,7 +144,6 @@
   color: #fff;
   flex-shrink: 0;
 }
-
 .info-data .card:nth-child(1) .icon-circle {
   background: linear-gradient(135deg, #4f9cf9, #3f86dc);
 }
@@ -155,7 +154,6 @@
   background: linear-gradient(135deg, #4f9cf9, #3f86dc);
 }
 
-/* ===== TEXT STYLE ===== */
 .card h2 {
   margin: 0;
   font-size: 22px;
@@ -168,50 +166,16 @@
   color: var(--text-gray);
 }
 
-.chart-title {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 10px; 
-  margin-bottom: 10px;
-}
-
-.chart-name {
-  margin: 0;
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text-dark);
-}
-
-.fullscreen-icon {
-  font-size: 29px;
-  color: var(--text-gray);
-  cursor: pointer;
-  transition: color 0.2s ease;
-}
-
-.fullscreen-icon:hover {
-  color: var(--primary-color);
-}
-
-/* Responsive */
-@media (max-width: 1024px) {
-  .info-data {
-    flex-direction: column;
-  }
-  .info-data .card {
-    width: 100%;
-  }
-}
-
-
+/* ------------------ MAIN CONTENT ------------------ */
 .main-content {
   display: flex;
   gap: 24px;
   flex: 1;
 }
+
+/* ------------------ CHART CARD ------------------ */
 .chart-card {
-  flex: 2; /* 2 parts */
+  flex: 2;
   background: var(--white);
   border-radius: 16px;
   padding: 20px;
@@ -219,27 +183,39 @@
   display: flex;
   flex-direction: column;
 }
-.chart-card h3 {
+.chart-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.chart-name {
+  margin: 0;
   font-size: 18px;
-  color: var(--primary-color);
   font-weight: 600;
+  color: var(--primary-color);
 }
-#chart {
-  flex: 1;
-height: 500px;
-  margin-bottom: 20px;
+.fullscreen-icon {
+  font-size: 29px;
+  color: var(--text-gray);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.fullscreen-icon:hover {
+  color: var(--primary-color);
+}
+#dashboard-chart {
+  height: 420px;
 }
 
-
-
-/* Visit-logs table inside chart card */
+/* Visit logs table */
 .visit-logs {
   margin-top: 16px;
 }
 .visit-logs h4 {
   font-size: 16px;
   color: var(--primary-color);
-  margin: 0 0 12px;
+  margin-bottom: 12px;
   font-weight: 600;
 }
 .visit-logs table {
@@ -262,11 +238,9 @@ height: 500px;
   background: #f9fafb;
 }
 
-/* --------------------------------------------------------------
-   SIDE PANEL (calendar + hotlines)
-   -------------------------------------------------------------- */
+/* ------------------ SIDE PANEL ------------------ */
 .side-panel {
-  flex: 1; /* 1 part */
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -274,28 +248,29 @@ height: 500px;
 
 /* Calendar */
 .calendar-section {
-  background: #fff;
-  border-radius: 10px;
+  background: var(--white);
+  border-radius: 12px;
   padding: 16px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .calendar-header h3 {
   color: var(--primary-color);
   font-size: 22px;
   font-weight: 700;
-  margin: 0 0 4px;
+  margin-bottom: 4px;
 }
 .calendar-header p {
   color: var(--primary-color2);
   font-size: 14px;
-  margin: 0;
+  margin: 0 0 8px;
 }
 .react-calendar {
   border: none;
   width: 100%;
   border-radius: 10px;
-  background: #fff;
   padding: 8px;
 }
 .react-calendar__tile--now {
@@ -309,8 +284,9 @@ height: 500px;
   border-radius: 6px;
 }
 
+/* Hotline */
 .hotline-section {
-  background: #fff;
+  background: var(--white);
   border-radius: 16px;
   padding: 16px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
@@ -319,7 +295,7 @@ height: 500px;
   text-align: center;
   font-size: 18px;
   color: var(--primary-color2);
-  margin: 0 0 12px;
+  margin-bottom: 12px;
   font-weight: 600;
 }
 .hotline-table {
@@ -342,20 +318,11 @@ height: 500px;
   background: #f9fafb;
 }
 
-/* ==============================================================
-   RESPONSIVE
-   ============================================================== */
+/* ------------------ RESPONSIVE ------------------ */
 @media (max-width: 1024px) {
   .dashboard-wrapper {
     flex-direction: column;
   }
-  .sidebar {
-    width: 100%;
-    padding: 16px;
-  }
-  .sidebar.collapsed {
-    width: 100%;
-  } /* still full width on mobile */
   .main-content {
     flex-direction: column;
   }
@@ -363,9 +330,11 @@ height: 500px;
     flex-direction: column;
   }
   .info-data .card {
+    width: 100%;
     min-width: unset;
   }
 }
+
 @media (max-width: 640px) {
   .dashboard-page {
     padding: 16px;
@@ -375,29 +344,68 @@ height: 500px;
   }
 }
 
-/* Misc */
-abbr {
-  color: var(--primary-color);
-  text-decoration: none;
-}
-li {
-  list-style: none;
-}
-
-
-.calendar-section {
+/* Analytics-style stat cards */
+.card1.stat-card {
+  flex: 1;
+  min-width: 440px;
+  max-width: 100%;
+  height: 140px;
+  background: var(--white);
+  border-radius: 12px;
+  padding: 16px 20px;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* vertical center */
-  align-items: center;     /* horizontal center */
-  background: #fff;
-  border-radius: 10px;
-  padding: 16px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
-  flex: 1; /* allows it to stretch if needed */
+  justify-content: space-between;
+  gap: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  transition: transform 0.25s, box-shadow 0.25s;
 }
 
-.react-calendar {
-  border: none;
-  border-radius: 10px;
+.card.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+}
+
+.card-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.card-top .icon-circle {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  color: #fff;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #4f9cf9, #3f86dc);
+}
+
+.card-val h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+.card-val p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-gray);
+}
+
+/* Sparkline row */
+.sparkline-row {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 8px;
+}
+.stat-sparkline {
+  width: 100%;
+  height: 40px;
 }

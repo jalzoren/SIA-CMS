@@ -6,7 +6,7 @@ import { IoMdSearch } from "react-icons/io";
 import Swal from "sweetalert2";
 
 export default function Posts() {
-  const navigate = useNavigate(); // ✅ top-level
+  const navigate = useNavigate();
 
   const [activeTab, setActiveTab] = useState("All");
   const [posts, setPosts] = useState([]);

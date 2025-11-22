@@ -1,28 +1,20 @@
+/* Updated & Complete CSS to Match Your Design Exactly */
+
 :root {
   --primary-color: #043873;
   --primary-color2: #4f9cf9;
   --secondary-color: #ffe492;
   --bg-blue: #f3f7ff;
   --white: #ffffff;
-  --footer-bg: #003087;
-  --footer-text: #ffffff;
-  --footer-link: #d3d8e0;
   --text-dark: #333;
   --text-gray: #555;
-  --text-light: #666;
-  --hero-bg: #e6f0fa;
-  --services-bg: #ffffff;
-  --news-bg: #f8f9fa;
-  --about-bg: #e9ecef;
-  --contact-bg: #f0f8ff;
   --container-max: 1320px;
   --radius-large: 16px;
 }
 
-/* Title */
 .title-center {
   font-family: "Inter", sans-serif;
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   color: var(--primary-color2);
   font-weight: 700;
   text-align: center;
@@ -32,55 +24,91 @@
   content: "";
   display: block;
   width: 180px;
-  height: 4px;
+  height: 5px;
   background-color: var(--secondary-color);
-  margin: 0.5rem auto 0;
-  border-radius: 2px;
+  margin: 1rem auto 0;
+  border-radius: 3px;
 }
 
 .title-primary {
   color: var(--primary-color);
-  font-weight: 700;
 }
 
-/* SERVICE CARDS */
-.service-card {
-  transition: all 0.3s ease;
-  background-color: #fff;
+/* Modern Service Card - Matches Your Screenshot */
+.service-card-modern {
+  height: 100%;
+  border: 2px solid #dbe5f9;
+  transition: all 0.4s ease;
+  overflow: hidden;
 }
 
-.service-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+.service-card-modern:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(79, 156, 249, 0.15) !important;
+  border-color: var(--primary-color2);
 }
 
-/* Image container inside each card */
 .service-image {
+  width: 280px;
+  height: 280px;
   background-color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid var(--bg-blue);
-  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.05);
+  border-right: 2px solid #dbe5f9;
+  padding: 30px;
+  flex-shrink: 0;
 }
 
-.service-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.service-image img,
+.service-image svg {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.text-primary {
+  color: var(--primary-color) !important;
 }
 
 .text-gray {
   color: var(--text-gray);
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+.btn-outline-primary {
+  border-color: var(--primary-color2);
+  color: var(--white);
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary-color2);
+  color: white;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .service-image {
+    width: 220px;
+    height: 220px;
+  }
 }
 
 @media (max-width: 768px) {
-  .service-card {
+  .service-card-modern {
     flex-direction: column;
     text-align: center;
   }
-
   .service-image {
-    margin-bottom: 1rem;
+    width: 100%;
+    height: 250px;
+    border-right: none;
+    border-bottom: 2px solid #dbe5f9;
+  }
+  .title-center {
+    font-size: 2.2rem;
   }
 }

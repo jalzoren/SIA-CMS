@@ -1,16 +1,18 @@
 // frontend/admin/src/pages/Settings.jsx
-import { useState, useEffect } from "react";
-import GeneralSettings from "../components/settings/General";
+import { useState } from "react";
 import AppearanceSettings from "../components/settings/Appearance";
-import ContentSettings from "../components/settings/Content";
 import UserSettings from "../components/settings/User";
-import SystemSettings from "../components/settings/System";
 
 import "../css/Settings.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function Settings() {
-  const [activeTab, setActiveTab] = useState("general");
+  const [activeTab, setActiveTab] = useState("appearance");
+
+  const tabs = [
+    { id: "appearance", label: "Appearance" },
+    { id: "user", label: "User Role Management" }
+  ];
 
   return (
     <div className="cms-settings-page">
@@ -24,33 +26,21 @@ export default function Settings() {
 
       {/* TAB NAVIGATION */}
       <div className="cms-tabs">
-        {["general", "appearance", "content", "user", "system"].map((tab) => (
+        {tabs.map((tab) => (
           <span
-            key={tab}
-            className={`cms-tab-item ${activeTab === tab ? "active" : ""}`}
-            onClick={() => setActiveTab(tab)}
+            key={tab.id}
+            className={`cms-tab-item ${activeTab === tab.id ? "active" : ""}`}
+            onClick={() => setActiveTab(tab.id)}
           >
-            {tab === "general"
-              ? "General Settings"
-              : tab === "appearance"
-              ? "Appearance"
-              : tab === "content"
-              ? "Content"
-              : tab === "user"
-              ? "User Role Management"
-              : "System Settings"}
+            {tab.label}
           </span>
         ))}
       </div>
 
       {/* TAB CONTENT */}
       <div className="cms-tab-content mt-4">
-        {activeTab === "general" && <GeneralSettings />}
         {activeTab === "appearance" && <AppearanceSettings />}
-        {/* */}
-        {activeTab === "content" && <ContentSettings />}
         {activeTab === "user" && <UserSettings />}
-        {activeTab === "system" && <SystemSettings />}
       </div>
     </div>
   );
