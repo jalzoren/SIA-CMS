@@ -63,13 +63,12 @@
 }
 
 .modern .home-right .carousel-image {
-  width: 100vw;       /* full viewport width */
+  width: 100%;       /* full viewport width */
   height: 100vh;      /* full viewport height */
   object-fit: cover;  /* keep aspect ratio while covering the container */
   filter: brightness(0.85);
   display: flex;
   justify-content: center;
-  border-radius: 20px;   /* remove if you want full coverage without rounded edges */
 }
 
 
@@ -304,6 +303,10 @@
   box-shadow: 0 6px 20px rgba(79, 156, 249, 0.4);
 }
 
+
+.services-section {
+    background-color: white;
+}
 /* ============================================
    SECTION 3: LATEST UPDATES AND ANNOUNCEMENTS
 ============================================ */

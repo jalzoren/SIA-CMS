@@ -1,0 +1,113 @@
+/* frontend/website/src/css/ServicesLayout1.css */
+:root {
+  --primary-color: #043873;
+  --primary-color2: #4f9cf9;
+  --secondary-color: #ffe492;
+  --bg-blue: #f3f7ff;
+  --white: #ffffff;
+  --text-dark: #333;
+  --text-gray: #555;
+  --container-max: 1320px;
+  --radius-large: 16px;
+}
+
+.title-center {
+  font-family: "Inter", sans-serif;
+  font-size: 2.8rem;
+  color: var(--primary-color2);
+  font-weight: 700;
+  text-align: center;
+}
+
+.title-center::after {
+  content: "";
+  display: block;
+  width: 180px;
+  height: 5px;
+  background-color: var(--secondary-color);
+  margin: 1rem auto 0;
+  border-radius: 3px;
+}
+
+.title-primary {
+  color: var(--primary-color);
+}
+
+/* Modern Service Card - Matches Your Screenshot */
+.service-card-modern {
+  height: 100%;
+  border: 2px solid #dbe5f9;
+  transition: all 0.4s ease;
+  overflow: hidden;
+}
+
+.service-card-modern:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(79, 156, 249, 0.15) !important;
+  border-color: var(--primary-color2);
+}
+
+.service-image {
+  width: 280px;
+  height: 280px;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 2px solid #dbe5f9;
+  padding: 30px;
+  flex-shrink: 0;
+}
+
+.service-image img,
+.service-image svg {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.text-primary {
+  color: var(--primary-color) !important;
+}
+
+.text-gray {
+  color: var(--text-gray);
+  line-height: 1.7;
+  font-size: 1rem;
+}
+
+.btn-outline-primary {
+  border-color: var(--primary-color2);
+  color: var(--white);
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary-color2);
+  color: white;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .service-image {
+    width: 220px;
+    height: 220px;
+  }
+}
+
+@media (max-width: 768px) {
+  .service-card-modern {
+    flex-direction: column;
+    text-align: center;
+  }
+  .service-image {
+    width: 100%;
+    height: 250px;
+    border-right: none;
+    border-bottom: 2px solid #dbe5f9;
+  }
+  .title-center {
+    font-size: 2.2rem;
+  }
+}
