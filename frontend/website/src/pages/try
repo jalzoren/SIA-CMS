@@ -789,5 +789,7 @@
   .modern .welcome-text {
     font-size: 0.85rem;
     letter-spacing: 2px;
+    color: #043873;
   }
 }
+
