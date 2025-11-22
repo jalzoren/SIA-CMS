@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 17, 2025 at 10:48 AM
+-- Generation Time: Nov 22, 2025 at 03:31 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -227,18 +227,54 @@ INSERT INTO `news` (`id`, `short_title`, `full_title`, `topic_tags`, `descriptio
 
 CREATE TABLE `page_views` (
   `page_name` varchar(255) NOT NULL,
-  `visit_count` int(11) DEFAULT 1,
-  `view_date` date NOT NULL DEFAULT curdate()
+  `view_date` date NOT NULL DEFAULT curdate(),
+  `visit_count` decimal(32,0) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `page_views`
 --
 
-INSERT INTO `page_views` (`page_name`, `visit_count`, `view_date`) VALUES
-('/', 6, '2025-11-17'),
-('/doctors', 1, '2025-11-17'),
-('/services', 1, '2025-11-17');
+INSERT INTO `page_views` (`page_name`, `view_date`, `visit_count`) VALUES
+('/', '2025-11-17', 19),
+('/', '2025-11-22', 3),
+('/about', '2025-11-22', 4),
+('/announcements', '2025-11-22', 5),
+('/careers', '2025-11-22', 5),
+('/contact', '2025-11-22', 3),
+('/doctors', '2025-11-17', 7),
+('/doctors', '2025-11-22', 3),
+('/health', '2025-11-22', 4),
+('/news', '2025-11-22', 3),
+('/services', '2025-11-17', 12),
+('/services', '2025-11-22', 9);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `page_views_backup`
+--
+
+CREATE TABLE `page_views_backup` (
+  `page_name` varchar(255) NOT NULL,
+  `visit_count` int(11) DEFAULT 1,
+  `view_date` date NOT NULL DEFAULT curdate()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `page_views_backup`
+--
+
+INSERT INTO `page_views_backup` (`page_name`, `visit_count`, `view_date`) VALUES
+('/', 19, '2025-11-17'),
+('/about', 4, '2025-11-22'),
+('/announcements', 5, '2025-11-22'),
+('/careers', 5, '2025-11-22'),
+('/contact', 3, '2025-11-22'),
+('/doctors', 7, '2025-11-17'),
+('/health', 4, '2025-11-22'),
+('/news', 3, '2025-11-22'),
+('/services', 12, '2025-11-17');
 
 -- --------------------------------------------------------
 
@@ -265,7 +301,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `full_name`, `email`, `password`, `created_at`, `role`, `last_login`, `reset_code`, `code_expiry`) VALUES
 (8, 'Lynn', 'lynnzylameczdo@gmail.com', '$2b$10$ADe2OQ01nBT9Udz1/wJZaOc2XXdJ.OyPChMfN/PSD8x3Z2wzHkyOq', '2025-10-17 21:31:06', 'hr_administrator', '2025-11-08 02:03:38', '514594', '2025-10-25 10:41:31'),
 (11, 'Lynn Czyla Alpuerto', 'alpuerto_lynnczyla@plpasig.edu.ph', '$2b$10$ADe2OQ01nBT9Udz1/wJZaOc2XXdJ.OyPChMfN/PSD8x3Z2wzHkyOq', '2025-10-18 03:32:20', 'content_administrator', NULL, NULL, NULL),
-(12, 'James', 'flavierlaurence01@gmail.com', '$2b$10$ADe2OQ01nBT9Udz1/wJZaOc2XXdJ.OyPChMfN/PSD8x3Z2wzHkyOq', '2025-10-18 03:40:35', 'super_administrator', '2025-11-17 17:46:44', NULL, NULL),
+(12, 'James', 'flavierlaurence01@gmail.com', '$2b$10$ADe2OQ01nBT9Udz1/wJZaOc2XXdJ.OyPChMfN/PSD8x3Z2wzHkyOq', '2025-10-18 03:40:35', 'super_administrator', '2025-11-22 01:42:47', NULL, NULL),
 (26, 'Laurence HR', 'dumpblj@gmail.com', '$2b$10$Kx3YJuI3AzNiqMq/88FSUuuowi7bRwEJGU3AnyTzoEVT8QFwZ6VrK', '2025-11-09 11:04:50', 'hr_administrator', '2025-11-09 19:23:47', NULL, NULL);
 
 --
@@ -313,7 +349,6 @@ ALTER TABLE `news`
 -- Indexes for table `page_views`
 --
 ALTER TABLE `page_views`
-  ADD PRIMARY KEY (`page_name`),
   ADD UNIQUE KEY `unique_page_date` (`page_name`,`view_date`);
 
 --
