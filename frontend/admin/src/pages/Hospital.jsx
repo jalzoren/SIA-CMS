@@ -56,7 +56,26 @@ export default function Hospital() {
     }
   }, [activeTab]);
 
-  // File input handler
+  // Fetch About info whenever About tab is active
+  useEffect(() => {
+    if (activeTab === "about") {
+      fetch("http://localhost:5000/api/about")
+        .then((res) => res.json())
+        .then((data) => {
+          setAboutForm({
+            aboutHospital: data.aboutHospital || "",
+            mission: data.mission || "",
+            vision: data.vision || "",
+            qualityPolicy: data.qualityPolicy || "",
+            coreValues: data.coreValues || "",
+            ourHistory: data.ourHistory || "",
+            privacyPolicy: data.privacyPolicy || "",
+          });
+        })
+        .catch((err) => console.error("Error fetching about info:", err));
+    }
+  }, [activeTab]);
+
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -85,13 +104,34 @@ export default function Hospital() {
       if (activeTab === "general") {
         content = "General Settings Updated";
       } else if (activeTab === "about") {
-        content = aboutForm;
+        // Send About form to backend
+        const res = await fetch("http://localhost:5000/api/about", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(aboutForm),
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Save failed");
+
+        // Refetch latest about info to update input fields
+        const latest = await fetch("http://localhost:5000/api/about").then((r) => r.json());
+        setAboutForm({
+          aboutHospital: latest.aboutHospital || "",
+          mission: latest.mission || "",
+          vision: latest.vision || "",
+          qualityPolicy: latest.qualityPolicy || "",
+          coreValues: latest.coreValues || "",
+          ourHistory: latest.ourHistory || "",
+          privacyPolicy: latest.privacyPolicy || "",
+        });
+
+        content = data;
       } else if (activeTab === "contact") {
         content = contactForm;
       } else if (activeTab === "services") {
         const description = quillRef.current?.__quill?.root.innerHTML || "";
 
-        // Prepare FormData for API
         const formData = new FormData();
         formData.append("shortTitle", servicesForm.shortTitle);
         formData.append("fullTitle", servicesForm.fullTitle);
@@ -101,17 +141,14 @@ export default function Hospital() {
         formData.append("author", "Admin");
         if (fileInfo?.preview) formData.append("image", fileInputRef.current.files[0]);
 
-        // Send to backend
         const res = await fetch("http://localhost:5000/api/services", {
           method: "POST",
           body: formData,
         });
-
         const data = await res.json();
         if (!data.success) throw new Error(data.message);
 
         content = data;
-        // Reset form
         setServicesForm({ shortTitle: "", fullTitle: "", topicTags: "" });
         setFileInfo(null);
         quillRef.current.__quill.setContents([]);
@@ -181,7 +218,15 @@ export default function Hospital() {
           {/* ABOUT */}
           {activeTab === "about" && (
             <div className="about-form-container">
-              {["aboutHospital", "mission", "vision"].map((field) => (
+              {[
+                "aboutHospital",
+                "mission",
+                "vision",
+                "qualityPolicy",
+                "coreValues",
+                "ourHistory",
+                "privacyPolicy",
+              ].map((field) => (
                 <div className="about-form-group" key={field}>
                   <label>{field.replace(/([A-Z])/g, " $1")}</label>
                   <input

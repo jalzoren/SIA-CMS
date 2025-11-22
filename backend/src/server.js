@@ -16,6 +16,8 @@ import mediaRoute from "../routes/media.js";
 import pageViewsRoute from "../routes/pageViews.js";
 import layoutRoute from "../routes/layout.js";
 import serviceRoute from "../routes/services.js";
+import aboutRoute from "../routes/about.js";
+
 
 dotenv.config({ path: "../.env" });
 
@@ -40,6 +42,8 @@ app.use("/api/media", mediaRoute);
 app.use("/api/track", pageViewsRoute);
 app.use("/api/layout", layoutRoute);
 app.use("/api/services", serviceRoute);
+app.use("/api/about", aboutRoute);
+
 
 // Test route
 app.get("/api/test", (req, res) => {
