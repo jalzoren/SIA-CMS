@@ -241,8 +241,7 @@ const Analytics = () => {
         chartInstanceRef.current = null;
       }
     };
-  }, [chartType, period, visitLogs]);
-  
+  }, [chartType, period, visitLogs]);  
   
   
 
