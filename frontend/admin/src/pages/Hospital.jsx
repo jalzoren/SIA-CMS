@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import "../css/about.css";
 import "quill/dist/quill.snow.css";
 import { IoMdCreate } from "react-icons/io";
-
+import "../css/News.css";
 import GeneralSettings from "../components/settings/General";
 
 export default function Hospital() {
@@ -228,14 +228,14 @@ export default function Hospital() {
                 "privacyPolicy",
               ].map((field) => (
                 <div className="about-form-group" key={field}>
-                  <label>{field.replace(/([A-Z])/g, " $1")}</label>
-                  <input
-                    type="text"
-                    value={aboutForm[field]}
-                    placeholder={`Enter ${field.replace(/([A-Z])/g, " $1")}`}
-                    onChange={(e) => handleAboutFormChange(field, e.target.value)}
-                  />
-                </div>
+                <label>{field.replace(/([A-Z])/g, " $1")}</label>
+                <textarea
+                  value={aboutForm[field]}
+                  placeholder={`Enter ${field.replace(/([A-Z])/g, " $1")}`}
+                  onChange={(e) => handleAboutFormChange(field, e.target.value)}
+                  rows={4} // you can adjust the number of visible rows
+                />
+              </div>
               ))}
             </div>
           )}
